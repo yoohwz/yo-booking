@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="Yo Booking Incremental">
+	<description>Incremental WordPress coding-standard gate for newly hardened contracts and support code.</description>
+	<file>src/Support/ActionToken.php</file>
+	<file>src/Support/StaffAccess.php</file>
+	<file>src/Payments/PaymentProviderCapabilitiesInterface.php</file>
+	<file>tests/unit</file>
+	<arg name="extensions" value="php"/>
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+</ruleset>

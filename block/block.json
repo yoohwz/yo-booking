@@ -1,0 +1,13 @@
+{
+  "apiVersion": 3,
+  "name": "yo-booking/booking",
+  "title": "Yo Booking",
+  "category": "widgets",
+  "icon": "calendar-alt",
+  "description": "Display the Yo Booking appointment flow.",
+  "textdomain": "yo-booking",
+  "supports": {
+    "html": false
+  },
+  "editorScript": "yo-booking-block-editor"
+}

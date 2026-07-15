@@ -1,0 +1,13 @@
+= 2.0.0 =
+* Rebuild Yo Booking from a clean foundation with versioned database migrations, structured settings, and configurable uninstall cleanup.
+* Add service categories, services, staff assignments, customer profiles, scoped booking roles, and ownership-aware administration.
+* Add global and staff availability, split working hours, date exceptions, lead time, booking windows, slot intervals, caching, and conflict-safe scheduling.
+* Add a responsive frontend booking flow with a Gutenberg block, shortcode, guest booking, signed-in autofill, appearance controls, and desktop/mobile previews.
+* Add appointment lifecycle management, interactive calendar views, drag-and-drop rescheduling, quick and bulk actions, internal notes, operational reports, and CSV exports.
+* Add token-protected cancellation and rescheduling plus a signed-in customer portal for upcoming and past appointments.
+* Add customizable email templates, reminders, ICS attachments, delivery logs, previews, test emails, queue locking, and failed-delivery retries.
+* Add Pay locally and Bank transfer methods, deposit and full-payment modes, currency formatting, immutable totals, payment/refund ledger entries, and an add-on contract for online gateways.
+* Add scoped API keys, integration REST endpoints, signed outbound webhooks, queued retries, and delivery logs.
+* Add privacy exporters and erasers, retention cleanup, audit logs, Site Health checks, encrypted same-site backup and restore, rate limits, and release security hardening.
+* Synchronize plugin timezone, date, and time display with WordPress settings and align the admin interface with each user's WordPress color scheme.
+* Add release gates for migrations, concurrency, security, dependencies, PHP compatibility, notifications, backup round trips, critical booking workflows, Plugin Check compliance, and the current POT translation template.

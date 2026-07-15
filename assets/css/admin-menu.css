@@ -1,0 +1,7 @@
+#toplevel_page_yo-booking .wp-menu-image::before {
+	content: "\f32e";
+	font-family: uicons-regular-rounded !important;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 400 !important;
+}
