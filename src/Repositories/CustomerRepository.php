@@ -9,6 +9,7 @@ namespace YoBooking\Repositories;
 
 use YoBooking\Payments\Currency;
 use YoBooking\Settings\Repository as SettingsRepository;
+use YoBooking\Support\PhoneNumber;
 use WP_Error;
 
 defined( 'ABSPATH' ) || exit;
@@ -177,7 +178,7 @@ final class CustomerRepository extends BaseRepository {
 		global $wpdb;
 
 		$email = sanitize_email( $email );
-		$phone = sanitize_text_field( $phone );
+		$phone = PhoneNumber::normalize( $phone );
 		$table = $this->table();
 
 		if ( $email ) {
@@ -246,20 +247,25 @@ final class CustomerRepository extends BaseRepository {
 			return new WP_Error( 'yo_booking_customer_email_invalid', __( 'Customer email is invalid.', 'yo-booking' ) );
 		}
 
+		if ( ! empty( $data['phone'] ) && ! PhoneNumber::is_valid( $data['phone'] ) ) {
+			return new WP_Error( 'yo_booking_customer_phone_invalid', __( 'Customer phone must be a valid international number.', 'yo-booking' ) );
+		}
+
 		$now = $this->now();
 
 		$record = array(
 			'user_id'           => isset( $data['user_id'] ) ? absint( $data['user_id'] ) : 0,
 			'name'              => $name,
 			'email'             => $email,
-			'phone'             => isset( $data['phone'] ) ? sanitize_text_field( $data['phone'] ) : '',
+			'phone'             => isset( $data['phone'] ) ? PhoneNumber::normalize( $data['phone'] ) : '',
+			'phone_country'     => PhoneNumber::country( isset( $data['phone_country'] ) ? $data['phone_country'] : '' ),
 			'timezone'          => isset( $data['timezone'] ) ? sanitize_text_field( $data['timezone'] ) : '',
 			'notes'             => isset( $data['notes'] ) ? wp_kses_post( $data['notes'] ) : '',
 			'marketing_consent' => ! empty( $data['marketing_consent'] ) ? 1 : 0,
 			'updated_at'        => $now,
 		);
 
-		$formats = array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s' );
+		$formats = array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s' );
 
 		if ( $id ) {
 			$updated = $wpdb->update( $this->table(), $record, array( 'id' => $id ), $formats, array( '%d' ) );
@@ -292,9 +298,9 @@ final class CustomerRepository extends BaseRepository {
 		$anonymous_name = sprintf( __( 'Anonymous customer #%d', 'yo-booking' ), $id );
 		$updated = $wpdb->update(
 			$this->table(),
-			array( 'user_id' => 0, 'name' => $anonymous_name, 'email' => '', 'phone' => '', 'notes' => '', 'marketing_consent' => 0, 'updated_at' => $this->now() ),
+			array( 'user_id' => 0, 'name' => $anonymous_name, 'email' => '', 'phone' => '', 'phone_country' => '', 'notes' => '', 'marketing_consent' => 0, 'updated_at' => $this->now() ),
 			array( 'id' => $id ),
-			array( '%d', '%s', '%s', '%s', '%s', '%d', '%s' ),
+			array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s' ),
 			array( '%d' )
 		);
 		return false !== $updated;

@@ -17,6 +17,7 @@ use YoBooking\Repositories\StaffRepository;
 use YoBooking\Repositories\StaffServiceRepository;
 use YoBooking\Settings\Repository as SettingsRepository;
 use YoBooking\Support\DateTimeFormatter;
+use YoBooking\Support\PhoneNumber;
 use YoBooking\Support\ActionToken;
 use YoBooking\Support\RateLimiter;
 use YoBooking\Payments\PaymentManager;
@@ -229,6 +230,7 @@ final class BookingController {
 					'name'  => $customer ? $customer->name : $name,
 					'email' => $customer ? $customer->email : $user->user_email,
 					'phone' => $customer ? $customer->phone : '',
+					'phone_country' => $customer ? $customer->phone_country : '',
 					'marketing_consent' => $customer ? ! empty( $customer->marketing_consent ) : false,
 				),
 		);
@@ -254,7 +256,7 @@ final class BookingController {
 		}
 
 		$email = isset( $params['customer_email'] ) ? $this->limited_text( sanitize_email( $params['customer_email'] ), 191 ) : '';
-		$phone = isset( $params['customer_phone'] ) ? sanitize_text_field( $params['customer_phone'] ) : '';
+		$phone = isset( $params['customer_phone'] ) ? PhoneNumber::normalize( $params['customer_phone'] ) : '';
 		$service_id = isset( $params['service_id'] ) ? absint( $params['service_id'] ) : 0;
 		$service = ( new ServiceRepository() )->find( $service_id );
 		$payment_method = $service && Money::to_minor( $service->price, $service->currency ) > 0 ? ( new PaymentManager() )->validate_method( isset( $params['payment_method'] ) ? $params['payment_method'] : '', $service->currency, $service->price ) : '';
@@ -275,6 +277,10 @@ final class BookingController {
 			return new WP_Error( 'yo_booking_customer_phone_required', __( 'Customer phone is required.', 'yo-booking' ), array( 'status' => 400 ) );
 		}
 
+		if ( '' !== $phone && ! PhoneNumber::is_valid( $phone ) ) {
+			return new WP_Error( 'yo_booking_customer_phone_invalid', __( 'Customer phone must be a valid international number.', 'yo-booking' ), array( 'status' => 400 ) );
+		}
+
 		$marketing_consent = ! empty( $params['marketing_consent'] );
 		if ( ! empty( $settings['privacy']['marketing_consent_required'] ) && ! $marketing_consent ) {
 			return new WP_Error( 'yo_booking_marketing_consent_required', __( 'Marketing consent is required.', 'yo-booking' ), array( 'status' => 400 ) );
@@ -287,6 +293,7 @@ final class BookingController {
 			'customer_name'    => isset( $params['customer_name'] ) ? $this->limited_text( $params['customer_name'], 191 ) : '',
 			'customer_email'   => $email,
 				'customer_phone'   => $this->limited_text( $phone, 50 ),
+				'customer_phone_country' => PhoneNumber::country( isset( $params['customer_phone_country'] ) ? $params['customer_phone_country'] : '' ),
 				'marketing_consent' => $marketing_consent,
 			'date'             => isset( $params['date'] ) ? sanitize_text_field( $params['date'] ) : '',
 			'start_time'       => isset( $params['start_time'] ) ? sanitize_text_field( $params['start_time'] ) : '',

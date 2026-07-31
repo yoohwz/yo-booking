@@ -98,7 +98,9 @@ try {
 	$payments = Migrator::table_name( 'payments' );
 	$logs     = Migrator::table_name( 'notification_logs' );
 	$wpdb->query( "ALTER TABLE `{$bookings}` DROP INDEX `staff_schedule`, DROP INDEX `service_schedule`, DROP INDEX `customer_schedule`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
-	$wpdb->query( "ALTER TABLE `{$bookings}` DROP COLUMN `customer_name_snapshot`, DROP COLUMN `customer_email_snapshot`, DROP COLUMN `customer_phone_snapshot`, DROP COLUMN `service_name_snapshot`, DROP COLUMN `staff_name_snapshot`, DROP COLUMN `action_token_version`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+	$wpdb->query( "ALTER TABLE `{$customers}` DROP COLUMN `phone_country`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+	$wpdb->query( "ALTER TABLE `{$staff}` DROP COLUMN `phone_country`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+	$wpdb->query( "ALTER TABLE `{$bookings}` DROP COLUMN `customer_name_snapshot`, DROP COLUMN `customer_email_snapshot`, DROP COLUMN `customer_phone_snapshot`, DROP COLUMN `customer_phone_country_snapshot`, DROP COLUMN `service_name_snapshot`, DROP COLUMN `staff_name_snapshot`, DROP COLUMN `action_token_version`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
 	$wpdb->query( "ALTER TABLE `{$payments}` DROP INDEX `provider_transaction_key`, DROP COLUMN `provider_transaction_key`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
 	$wpdb->query( "ALTER TABLE `{$logs}` DROP INDEX `occurrence_key`, DROP COLUMN `occurrence_key`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
 	update_option( 'yo_booking_schema_version', '2026071306', false );
@@ -108,9 +110,11 @@ try {
 	$assert( Migrator::SCHEMA_VERSION === get_option( 'yo_booking_schema_version' ), 'Schema version was not upgraded.' );
 
 	$columns = $wpdb->get_col( "DESCRIBE `{$bookings}`", 0 ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
-	foreach ( array( 'customer_name_snapshot', 'customer_email_snapshot', 'customer_phone_snapshot', 'service_name_snapshot', 'staff_name_snapshot', 'action_token_version' ) as $column ) {
+	foreach ( array( 'customer_name_snapshot', 'customer_email_snapshot', 'customer_phone_snapshot', 'customer_phone_country_snapshot', 'service_name_snapshot', 'staff_name_snapshot', 'action_token_version' ) as $column ) {
 		$assert( in_array( $column, $columns, true ), "Missing migrated appointment column: {$column}." );
 	}
+	$assert( in_array( 'phone_country', $wpdb->get_col( "DESCRIBE `{$customers}`", 0 ), true ), 'Missing migrated customer phone_country column.' ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+	$assert( in_array( 'phone_country', $wpdb->get_col( "DESCRIBE `{$staff}`", 0 ), true ), 'Missing migrated staff phone_country column.' ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
 	$indexes = $wpdb->get_col( "SHOW INDEX FROM `{$bookings}`", 2 ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
 	foreach ( array( 'staff_schedule', 'service_schedule', 'customer_schedule' ) as $index ) {
 		$assert( in_array( $index, $indexes, true ), "Missing migrated appointment index: {$index}." );

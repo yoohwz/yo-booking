@@ -15,6 +15,7 @@ use YoBooking\Repositories\AuditLogRepository;
 use YoBooking\Settings\Repository as SettingsRepository;
 use YoBooking\Support\Capabilities;
 use YoBooking\Support\DateTimeFormatter;
+use YoBooking\Support\PhoneNumber;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -203,7 +204,18 @@ final class AdminMenu {
 								<label for="yo_booking_company_phone"><?php echo esc_html__( 'Company phone', 'yo-booking' ); ?></label>
 							</th>
 							<td>
-								<input name="company_phone" id="yo_booking_company_phone" type="text" class="regular-text" value="<?php echo esc_attr( $settings['company']['phone'] ); ?>" />
+								<input name="company_phone" id="yo_booking_company_phone" type="tel" class="regular-text" value="<?php echo esc_attr( $settings['company']['phone'] ); ?>" data-yo-phone />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<label for="yo_booking_default_phone_country"><?php echo esc_html__( 'Default phone country', 'yo-booking' ); ?></label>
+							</th>
+							<td>
+								<select name="default_phone_country" id="yo_booking_default_phone_country" data-phone-country-setting data-selected-country="<?php echo esc_attr( $settings['booking']['default_phone_country'] ); ?>">
+									<option value=""><?php echo esc_html__( 'Automatic — use WordPress locale', 'yo-booking' ); ?></option>
+								</select>
+								<p class="description"><?php echo esc_html__( 'Used for new phone numbers when no customer, staff, or session country is available.', 'yo-booking' ); ?></p>
 							</td>
 						</tr>
 						<tr>
@@ -561,7 +573,7 @@ final class AdminMenu {
 		} else {
 			$settings['company']['name']     = isset( $_POST['company_name'] ) ? sanitize_text_field( wp_unslash( $_POST['company_name'] ) ) : '';
 			$settings['company']['email']    = isset( $_POST['company_email'] ) ? sanitize_email( wp_unslash( $_POST['company_email'] ) ) : '';
-			$settings['company']['phone']    = isset( $_POST['company_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['company_phone'] ) ) : '';
+			$settings['company']['phone']    = isset( $_POST['company_phone'] ) ? PhoneNumber::normalize( sanitize_text_field( wp_unslash( $_POST['company_phone'] ) ) ) : '';
 			$settings['company']['address']  = isset( $_POST['company_address'] ) ? sanitize_textarea_field( wp_unslash( $_POST['company_address'] ) ) : '';
 			$current_currency   = Currency::normalize( $settings['company']['currency'] );
 			$current_currency   = $current_currency ? $current_currency : 'USD';
@@ -574,6 +586,7 @@ final class AdminMenu {
 			$settings['booking']['lead_time_minutes']     = $this->bounded_absint( 'lead_time_minutes', 0, 43200, 0 );
 			$settings['booking']['booking_window_days']   = $this->bounded_absint( 'booking_window_days', 1, 730, 90 );
 			$settings['booking']['default_status']        = $this->sanitize_choice( 'default_status', array( 'pending', 'confirmed' ), 'pending' );
+			$settings['booking']['default_phone_country'] = PhoneNumber::country( isset( $_POST['default_phone_country'] ) ? sanitize_key( wp_unslash( $_POST['default_phone_country'] ) ) : '' );
 			$settings['booking']['allow_guest_booking']   = ! empty( $_POST['allow_guest_booking'] );
 			$settings['booking']['allow_staff_selection'] = ! empty( $_POST['allow_staff_selection'] );
 			$settings['booking']['require_email']         = ! empty( $_POST['require_email'] );

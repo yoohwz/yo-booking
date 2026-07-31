@@ -7,6 +7,8 @@
 
 namespace YoBooking\Frontend;
 
+use YoBooking\Support\PhoneNumber;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -33,18 +35,58 @@ final class Shortcode {
 	 */
 	public function register_assets() {
 		wp_register_style(
+			'yo-booking-intl-tel-input',
+			YO_BOOKING_URL . 'assets/vendor/intl-tel-input/css/intlTelInput.min.css',
+			array(),
+			'29.0.5'
+		);
+
+		wp_register_style(
+			'yo-booking-phone-input',
+			YO_BOOKING_URL . 'assets/css/phone-input.css',
+			array( 'yo-booking-intl-tel-input' ),
+			YO_BOOKING_VERSION
+		);
+
+		wp_register_style(
 			'yo-booking-frontend',
 			YO_BOOKING_URL . 'assets/css/frontend.css',
-			array(),
+			array( 'yo-booking-phone-input' ),
 			filemtime( YO_BOOKING_PATH . 'assets/css/frontend.css' )
+		);
+
+		wp_register_script(
+			'yo-booking-intl-tel-input',
+			YO_BOOKING_URL . 'assets/vendor/intl-tel-input/js/intlTelInputWithUtils.min.js',
+			array(),
+			'29.0.5',
+			true
+		);
+
+		wp_register_script(
+			'yo-booking-phone-input',
+			YO_BOOKING_URL . 'assets/js/phone-input.js',
+			array( 'yo-booking-intl-tel-input' ),
+			YO_BOOKING_VERSION,
+			true
 		);
 
 		wp_register_script(
 			'yo-booking-frontend',
 			YO_BOOKING_URL . 'assets/js/frontend.js',
-			array(),
+			array( 'yo-booking-phone-input' ),
 			filemtime( YO_BOOKING_PATH . 'assets/js/frontend.js' ),
 			true
+		);
+
+		wp_localize_script(
+			'yo-booking-phone-input',
+			'YoBookingPhoneConfig',
+			array(
+				'defaultCountry' => PhoneNumber::default_country(),
+				'invalidMessage' => __( 'Enter a valid phone number.', 'yo-booking' ),
+				'rememberCountry' => true,
+			)
 		);
 
 		wp_localize_script(
@@ -152,7 +194,7 @@ final class Shortcode {
 			'Choose a time' => __( 'Choose a time', 'yo-booking' ), 'Times shown in %s' => __( 'Times shown in %s', 'yo-booking' ), 'Your details' => __( 'Your details', 'yo-booking' ), 'We will use these details to confirm and manage your appointment.' => __( 'We will use these details to confirm and manage your appointment.', 'yo-booking' ),
 			'Review your booking' => __( 'Review your booking', 'yo-booking' ), 'Confirm the details below before submitting your appointment.' => __( 'Confirm the details below before submitting your appointment.', 'yo-booking' ), 'Booking details' => __( 'Booking details', 'yo-booking' ), 'Customer details' => __( 'Customer details', 'yo-booking' ), 'Total' => __( 'Total', 'yo-booking' ),
 			// translators: 1: current step number, 2: total step count, 3: step label.
-			'This field is required.' => __( 'This field is required.', 'yo-booking' ), 'Enter a valid email address.' => __( 'Enter a valid email address.', 'yo-booking' ), 'Step %1$d of %2$d: %3$s' => __( 'Step %1$d of %2$d: %3$s', 'yo-booking' ),
+			'This field is required.' => __( 'This field is required.', 'yo-booking' ), 'Enter a valid email address.' => __( 'Enter a valid email address.', 'yo-booking' ), 'Enter a valid phone number.' => __( 'Enter a valid phone number.', 'yo-booking' ), 'Step %1$d of %2$d: %3$s' => __( 'Step %1$d of %2$d: %3$s', 'yo-booking' ),
 			'Any available staff' => __( 'Any available staff', 'yo-booking' ), 'First matching appointment slot' => __( 'First matching appointment slot', 'yo-booking' ),
 			'Name, email, and phone are required.' => __( 'Name, email, and phone are required.', 'yo-booking' ), 'Confirming...' => __( 'Confirming...', 'yo-booking' ), 'Confirm booking' => __( 'Confirm booking', 'yo-booking' ),
 			'Appointment received' => __( 'Appointment received', 'yo-booking' ), 'Book another appointment' => __( 'Book another appointment', 'yo-booking' ), 'Appointment updated' => __( 'Appointment updated', 'yo-booking' ),

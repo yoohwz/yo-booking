@@ -12,6 +12,7 @@ use YoBooking\Repositories\PaymentRepository;
 use YoBooking\Repositories\ServiceRepository;
 use YoBooking\Repositories\StaffRepository;
 use YoBooking\Settings\Repository as SettingsRepository;
+use YoBooking\Support\PhoneNumber;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -56,14 +57,54 @@ final class AdminAssets {
 		wp_enqueue_style(
 			'yo-booking-admin',
 			YO_BOOKING_URL . 'assets/css/admin.css',
-			array( 'yo-booking-uicons' ),
+			array( 'yo-booking-uicons', 'yo-booking-intl-tel-input', 'yo-booking-phone-input' ),
 			YO_BOOKING_VERSION
+		);
+
+		wp_enqueue_style(
+			'yo-booking-intl-tel-input',
+			YO_BOOKING_URL . 'assets/vendor/intl-tel-input/css/intlTelInput.min.css',
+			array(),
+			'29.0.5'
+		);
+
+		wp_enqueue_style(
+			'yo-booking-phone-input',
+			YO_BOOKING_URL . 'assets/css/phone-input.css',
+			array( 'yo-booking-intl-tel-input' ),
+			YO_BOOKING_VERSION
+		);
+
+		wp_enqueue_script(
+			'yo-booking-intl-tel-input',
+			YO_BOOKING_URL . 'assets/vendor/intl-tel-input/js/intlTelInputWithUtils.min.js',
+			array(),
+			'29.0.5',
+			true
+		);
+
+		wp_enqueue_script(
+			'yo-booking-phone-input',
+			YO_BOOKING_URL . 'assets/js/phone-input.js',
+			array( 'yo-booking-intl-tel-input' ),
+			YO_BOOKING_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'yo-booking-phone-input',
+			'YoBookingPhoneConfig',
+			array(
+				'defaultCountry' => PhoneNumber::default_country(),
+				'invalidMessage' => __( 'Enter a valid phone number.', 'yo-booking' ),
+				'rememberCountry' => false,
+			)
 		);
 
 		wp_enqueue_script(
 			'yo-booking-admin',
 			YO_BOOKING_URL . 'assets/js/admin.js',
-			array(),
+			array( 'yo-booking-phone-input' ),
 			YO_BOOKING_VERSION,
 			true
 		);

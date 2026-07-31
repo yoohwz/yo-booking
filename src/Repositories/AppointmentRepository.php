@@ -18,6 +18,7 @@ use YoBooking\Payments\Money;
 use YoBooking\Payments\PaymentProviderRegistry;
 use YoBooking\Payments\PaymentSnapshot;
 use YoBooking\Settings\Repository as SettingsRepository;
+use YoBooking\Support\PhoneNumber;
 use YoBooking\Support\StaffAccess;
 use YoBooking\Support\Capabilities;
 use WP_Error;
@@ -78,14 +79,21 @@ final class AppointmentRepository extends BaseRepository {
 		list( $where, $params ) = $this->list_conditions( $args );
 		$limit                  = isset( $args['limit'] ) ? max( 1, min( 500, absint( $args['limit'] ) ) ) : 100;
 		$offset                 = isset( $args['offset'] ) ? max( 0, absint( $args['offset'] ) ) : 0;
+		$order_by               = array(
+			'start_asc'    => 'a.start_at ASC, a.id ASC',
+			'start_desc'   => 'a.start_at DESC, a.id DESC',
+			'created_desc' => 'a.created_at DESC, a.id DESC',
+			'created_asc'  => 'a.created_at ASC, a.id ASC',
+		);
+		$sort                   = isset( $args['sort'] ) && isset( $order_by[ $args['sort'] ] ) ? $args['sort'] : 'start_asc';
 
-		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, s.color AS service_color, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.color AS staff_color, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone
+		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, s.color AS service_color, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.color AS staff_color, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone, COALESCE(NULLIF(a.customer_phone_country_snapshot, ''), c.phone_country, '') AS customer_phone_country
 			FROM {$table} a
 			LEFT JOIN {$services_table} s ON s.id = a.service_id
 			LEFT JOIN {$staff_table} st ON st.id = a.staff_id
 			LEFT JOIN {$customers_table} c ON c.id = a.customer_id
 			WHERE " . implode( ' AND ', $where ) . '
-			ORDER BY a.start_at ASC
+			ORDER BY ' . $order_by[ $sort ] . '
 			LIMIT %d OFFSET %d';
 		$params[] = $limit;
 		$params[] = $offset;
@@ -198,7 +206,7 @@ final class AppointmentRepository extends BaseRepository {
 		$staff_table     = Migrator::table_name( 'staff' );
 		$customers_table = Migrator::table_name( 'customers' );
 
-		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, s.color AS service_color, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.color AS staff_color, st.email AS staff_email, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone
+		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, s.color AS service_color, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.color AS staff_color, st.email AS staff_email, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone, COALESCE(NULLIF(a.customer_phone_country_snapshot, ''), c.phone_country, '') AS customer_phone_country
 			FROM {$table} a
 			LEFT JOIN {$services_table} s ON s.id = a.service_id
 			LEFT JOIN {$staff_table} st ON st.id = a.staff_id
@@ -251,7 +259,7 @@ final class AppointmentRepository extends BaseRepository {
 		$limit           = max( 1, min( 500, absint( $limit ) ) );
 		$offset          = max( 0, absint( $offset ) );
 
-		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.email AS staff_email, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone
+		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.email AS staff_email, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone, COALESCE(NULLIF(a.customer_phone_country_snapshot, ''), c.phone_country, '') AS customer_phone_country
 			FROM {$table} a
 			LEFT JOIN {$services_table} s ON s.id = a.service_id
 			LEFT JOIN {$staff_table} st ON st.id = a.staff_id
@@ -299,7 +307,7 @@ final class AppointmentRepository extends BaseRepository {
 			return array();
 		}
 
-		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.email AS staff_email, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone
+		$sql = "SELECT a.*, COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, '') AS service_name, COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '') AS staff_name, st.email AS staff_email, COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, '') AS customer_name, COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, '') AS customer_email, COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, '') AS customer_phone, COALESCE(NULLIF(a.customer_phone_country_snapshot, ''), c.phone_country, '') AS customer_phone_country
 			FROM {$table} a
 			INNER JOIN {$customers_table} c ON c.id = a.customer_id
 			LEFT JOIN {$services_table} s ON s.id = a.service_id
@@ -449,7 +457,11 @@ final class AppointmentRepository extends BaseRepository {
 		$customer_snapshot = ( new CustomerRepository() )->find( $customer_id );
 		$customer_name     = isset( $data['customer_name'] ) && '' !== trim( (string) $data['customer_name'] ) ? sanitize_text_field( $data['customer_name'] ) : ( $customer_snapshot ? $customer_snapshot->name : '' );
 		$customer_email    = isset( $data['customer_email'] ) && '' !== trim( (string) $data['customer_email'] ) ? sanitize_email( $data['customer_email'] ) : ( $customer_snapshot ? $customer_snapshot->email : '' );
-		$customer_phone    = isset( $data['customer_phone'] ) && '' !== trim( (string) $data['customer_phone'] ) ? sanitize_text_field( $data['customer_phone'] ) : ( $customer_snapshot ? $customer_snapshot->phone : '' );
+		$customer_phone    = isset( $data['customer_phone'] ) && '' !== trim( (string) $data['customer_phone'] ) ? PhoneNumber::normalize( $data['customer_phone'] ) : ( $customer_snapshot ? $customer_snapshot->phone : '' );
+		$customer_phone_country = PhoneNumber::country( isset( $data['customer_phone_country'] ) ? $data['customer_phone_country'] : ( $customer_snapshot ? $customer_snapshot->phone_country : '' ) );
+		if ( isset( $data['customer_phone'] ) && '' !== trim( (string) $data['customer_phone'] ) && ! PhoneNumber::is_valid( $data['customer_phone'] ) ) {
+			return new WP_Error( 'yo_booking_customer_phone_invalid', __( 'Customer phone must be a valid international number.', 'yo-booking' ) );
+		}
 
 		$start_utc = $start_local->setTimezone( new DateTimeZone( 'UTC' ) );
 		$end_utc   = $end_local->setTimezone( new DateTimeZone( 'UTC' ) );
@@ -468,6 +480,7 @@ final class AppointmentRepository extends BaseRepository {
 			'customer_name_snapshot' => $customer_name,
 			'customer_email_snapshot' => $customer_email,
 			'customer_phone_snapshot' => $customer_phone,
+			'customer_phone_country_snapshot' => $customer_phone_country,
 			'service_name_snapshot' => sanitize_text_field( $service->name ),
 			'staff_name_snapshot' => $staff_id ? $this->staff_name( $staff_id ) : '',
 			'location_id'         => isset( $data['location_id'] ) ? absint( $data['location_id'] ) : 0,
@@ -500,7 +513,7 @@ final class AppointmentRepository extends BaseRepository {
 			'updated_at'          => $now,
 		);
 
-		$formats = array( '%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s' );
+		$formats = array( '%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s' );
 
 		$lock_name = $this->acquire_schedule_lock( $service, $staff_id, $start_local );
 		if ( is_wp_error( $lock_name ) ) {
@@ -761,7 +774,8 @@ final class AppointmentRepository extends BaseRepository {
 
 		$name    = isset( $data['customer_name'] ) ? sanitize_text_field( $data['customer_name'] ) : '';
 		$email   = isset( $data['customer_email'] ) ? sanitize_email( $data['customer_email'] ) : '';
-		$phone   = isset( $data['customer_phone'] ) ? sanitize_text_field( $data['customer_phone'] ) : '';
+		$phone   = isset( $data['customer_phone'] ) ? PhoneNumber::normalize( $data['customer_phone'] ) : '';
+		$phone_country = PhoneNumber::country( isset( $data['customer_phone_country'] ) ? $data['customer_phone_country'] : '' );
 		$user_id = isset( $data['customer_user_id'] ) ? absint( $data['customer_user_id'] ) : ( isset( $data['user_id'] ) ? absint( $data['user_id'] ) : 0 );
 
 		$matched_contact = false;
@@ -791,6 +805,7 @@ final class AppointmentRepository extends BaseRepository {
 					'name'     => $name ? $name : ( $customer ? $customer->name : '' ),
 					'email'    => $email ? $email : ( $customer ? $customer->email : '' ),
 					'phone'    => $phone ? $phone : ( $customer ? $customer->phone : '' ),
+					'phone_country' => $phone_country ? $phone_country : ( $customer ? $customer->phone_country : '' ),
 						'timezone' => isset( $data['timezone'] ) ? $data['timezone'] : ( $customer ? $customer->timezone : '' ),
 						'notes'    => $customer ? $customer->notes : '',
 						'marketing_consent' => ! empty( $data['marketing_consent'] ) || ( $customer && ! empty( $customer->marketing_consent ) ),
@@ -804,6 +819,7 @@ final class AppointmentRepository extends BaseRepository {
 				'user_id'  => $user_id,
 				'email'    => $email,
 				'phone'    => $phone,
+				'phone_country' => $phone_country,
 					'timezone' => isset( $data['timezone'] ) ? $data['timezone'] : '',
 					'marketing_consent' => ! empty( $data['marketing_consent'] ),
 			)

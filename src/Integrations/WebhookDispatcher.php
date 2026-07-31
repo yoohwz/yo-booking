@@ -195,7 +195,7 @@ final class WebhookDispatcher {
 			'start_at' => gmdate( 'c', strtotime( $appointment->start_at . ' UTC' ) ), 'end_at' => gmdate( 'c', strtotime( $appointment->end_at . ' UTC' ) ), 'timezone' => $appointment->timezone,
 			'service' => array( 'id' => (int) $appointment->service_id, 'name' => $appointment->service_name ),
 			'staff' => array( 'id' => (int) $appointment->staff_id, 'name' => $appointment->staff_name ),
-			'customer' => array( 'id' => (int) $appointment->customer_id, 'name' => $appointment->customer_name, 'email' => $appointment->customer_email, 'phone' => $appointment->customer_phone ),
+			'customer' => array( 'id' => (int) $appointment->customer_id, 'name' => $appointment->customer_name, 'email' => $appointment->customer_email, 'phone' => $appointment->customer_phone, 'phone_country' => $appointment->customer_phone_country ),
 			'payment' => array(
 				'reference' => isset( $appointment->payment_reference ) ? $appointment->payment_reference : '',
 				'method' => isset( $appointment->payment_method ) ? $appointment->payment_method : '',

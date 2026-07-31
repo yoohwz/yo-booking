@@ -141,8 +141,11 @@ final class NotificationTemplateRepository extends BaseRepository {
 			return new WP_Error( 'yo_booking_notification_not_found', __( 'Notification template not found.', 'yo-booking' ) );
 		}
 
+		$event = $this->event( isset( $data['event'] ) ? $data['event'] : '' );
+		$is_reminder = in_array( $event, array( 'appointment.reminder', 'payment.balance_reminder' ), true );
+
 		$record = array(
-			'event'                 => $this->event( isset( $data['event'] ) ? $data['event'] : '' ),
+			'event'                 => $event,
 			'recipient_type'        => $this->recipient_type( isset( $data['recipient_type'] ) ? $data['recipient_type'] : '' ),
 			'enabled'               => ! empty( $data['enabled'] ) ? 1 : 0,
 			'subject'               => isset( $data['subject'] ) ? sanitize_text_field( $data['subject'] ) : '',
@@ -150,7 +153,7 @@ final class NotificationTemplateRepository extends BaseRepository {
 			'body'                  => isset( $data['body'] ) ? wp_kses_post( $data['body'] ) : '',
 			'email_type'            => $this->email_type( isset( $data['email_type'] ) ? $data['email_type'] : 'html' ),
 			'send_ics'              => ! empty( $data['send_ics'] ) ? 1 : 0,
-			'timing_offset_minutes' => isset( $data['timing_offset_minutes'] ) ? max( 0, min( 43200, absint( $data['timing_offset_minutes'] ) ) ) : 0,
+			'timing_offset_minutes' => $is_reminder && isset( $data['timing_offset_minutes'] ) ? max( 0, min( 43200, absint( $data['timing_offset_minutes'] ) ) ) : 0,
 			'updated_at'            => $this->now(),
 		);
 

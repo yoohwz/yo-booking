@@ -97,6 +97,71 @@
 		} );
 	} );
 
+	var stepSelect = document.querySelector( '[data-preview-step]' );
+	var stepPanels = preview.querySelectorAll( '[data-preview-step-panel]' );
+	var progressSteps = preview.querySelectorAll( '[data-preview-progress-step]' );
+	var compactProgressLabel = preview.querySelector( '[data-preview-progress-label]' );
+	var compactProgressBar = preview.querySelector( '[data-preview-progress-bar]' );
+	var previousButton = preview.querySelector( '[data-preview-prev]' );
+	var nextButton = preview.querySelector( '[data-preview-next]' );
+	var currentStep = 1;
+	var continueLabel = nextButton ? nextButton.textContent : '';
+	var bookingLabel = stepSelect ? stepSelect.getAttribute( 'data-booking-label' ) : 'Book appointment';
+
+	function setPreviewStep( step ) {
+		currentStep = Math.max( 1, Math.min( 6, Number( step ) || 1 ) );
+		stepPanels.forEach( function ( panel ) {
+			panel.hidden = Number( panel.getAttribute( 'data-preview-step-panel' ) ) !== currentStep;
+		} );
+		progressSteps.forEach( function ( item ) {
+			item.classList.toggle( 'is-active', Number( item.getAttribute( 'data-preview-progress-step' ) ) === currentStep );
+		} );
+		if ( stepSelect ) {
+			stepSelect.value = String( currentStep );
+		}
+		var stepLabel = stepSelect && stepSelect.options[ currentStep - 1 ] ? stepSelect.options[ currentStep - 1 ].textContent : '';
+		if ( compactProgressLabel ) {
+			compactProgressLabel.textContent = ( stepSelect?.getAttribute( 'data-step-label' ) || 'Step' ) + ' ' + currentStep + ' ' + ( stepSelect?.getAttribute( 'data-step-of-label' ) || 'of' ) + ' 6: ' + stepLabel;
+		}
+		if ( compactProgressBar ) {
+			compactProgressBar.style.width = ( currentStep / 6 * 100 ) + '%';
+		}
+		if ( previousButton ) {
+			previousButton.disabled = currentStep === 1;
+		}
+		if ( nextButton ) {
+			nextButton.textContent = currentStep === 6 ? bookingLabel : continueLabel;
+		}
+	}
+
+	if ( stepSelect ) {
+		stepSelect.addEventListener( 'change', function () {
+			setPreviewStep( stepSelect.value );
+		} );
+	}
+	if ( previousButton ) {
+		previousButton.addEventListener( 'click', function () {
+			setPreviewStep( currentStep - 1 );
+		} );
+	}
+	if ( nextButton ) {
+		nextButton.addEventListener( 'click', function () {
+			if ( currentStep < 6 ) setPreviewStep( currentStep + 1 );
+		} );
+	}
+
+	preview.querySelectorAll( '.yo-booking-card, .yo-booking-date, .yo-booking-time' ).forEach( function ( option ) {
+		option.addEventListener( 'click', function () {
+			var panel = option.closest( '[data-preview-step-panel]' );
+			if ( ! panel ) return;
+			panel.querySelectorAll( '.yo-booking-card, .yo-booking-date, .yo-booking-time' ).forEach( function ( item ) {
+				item.classList.toggle( 'is-selected', item === option );
+			} );
+		} );
+	} );
+
+	setPreviewStep( 1 );
+
 	function hexRgb( value ) {
 		var hex = String( value || '' ).replace( '#', '' );
 		return [ parseInt( hex.slice( 0, 2 ), 16 ), parseInt( hex.slice( 2, 4 ), 16 ), parseInt( hex.slice( 4, 6 ), 16 ) ];

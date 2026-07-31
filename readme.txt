@@ -4,180 +4,140 @@ Tags: booking, appointment booking, scheduling, booking calendar, availability
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-WordPress appointment booking with service scheduling, staff availability, customer self-service, notifications, and offline payments.
+WordPress appointment booking with staff availability, customer self-service, notifications, offline payments, and integrations.
 
 == Description ==
 
-Yo Booking is a complete WordPress appointment booking plugin for service businesses that need a practical way to manage schedules, customers, payments, and day-to-day booking operations.
+[Product page](https://yoohw.com/product/yo-booking/) | [Documentation](https://docs.yoohw.com/category/yo-booking/) | [Support](https://workspace.yoohw.com/)
 
-Customers can book appointments through a responsive step-by-step form, choose a service and staff member, find an available time, select an offline payment method, and manage an existing booking. Administrators get a focused booking dashboard, interactive calendar, customer records, email notifications, reports, audit logs, and maintenance tools inside WordPress.
+Yo Booking is a standalone WordPress appointment booking plugin for service businesses. It combines a customer booking flow with service and staff scheduling, appointment operations, notifications, offline payments, customer self-service, and developer integrations.
 
-The core plugin works without WooCommerce or an external booking service. Online payment gateways are intentionally handled through separately distributed add-ons, while the core includes Pay locally and Bank transfer methods.
+The core plugin does not require WooCommerce or an external booking service. It includes Pay locally and Bank transfer. Online payment gateways are handled by separately distributed add-ons.
 
-= Appointment booking and calendar management =
+= Services, staff, and availability =
 
-* Create and manage service categories, services, staff members, and customers.
-* Assign staff members to the services they provide.
+* Manage service categories, services, staff assignments, and customer profiles.
+* Configure business hours, individual staff schedules, split working periods, and date exceptions.
+* Set lead time, booking window, slot interval, cancellation deadline, and rescheduling deadline.
+* Prevent overlapping appointments through server-side availability and conflict checks.
+* Follow the timezone, date format, and time format configured in WordPress.
+
+= Booking and customer self-service =
+
+* Add the responsive booking flow with the Yo Booking block or `[yo-booking]` shortcode.
+* Support guest booking and signed-in customer detail prefilling.
+* Let customers select a service, preferred or first-available staff member, date, time, and payment method.
+* Customize colors, layout density, buttons, progress display, prices, and service descriptions.
+* Add `[yo-booking-portal]` for signed-in customers to review upcoming and past appointments.
+* Provide secure token-based cancellation and rescheduling links with configurable deadlines.
+
+= Appointment operations and notifications =
+
 * Manage appointments in list, month, week, day, and agenda views.
 * Drag, drop, or resize calendar events with conflict validation and rollback.
-* Filter appointments and update statuses, payments, notes, and schedules from the admin area.
 * Track pending, confirmed, cancelled, completed, no-show, and rescheduled appointments.
+* Update schedules, status, payment details, notes, and customer records from WordPress admin.
+* Send customizable creation, confirmation, cancellation, rescheduling, completion, reminder, and payment emails.
+* Attach ICS calendar files, preview templates, send tests, retry failures, and review delivery logs.
 * Export authorized appointment, customer, and report data to CSV.
 
-= Staff availability and scheduling =
+= Payments, administration, and recovery =
 
-* Configure global business hours and individual staff schedules.
-* Add multiple working periods to the same day.
-* Create date exceptions for holidays, leave, closures, or special opening hours.
-* Set lead time, booking window, and appointment slot intervals.
-* Prevent overlapping appointments with server-side availability and conflict checks.
-* Use the timezone, date format, and time format configured in WordPress Settings.
-
-= Frontend booking experience =
-
-* Add the booking form with the Yo Booking block or the `[yo-booking]` shortcode.
-* Guide customers through service, staff, date, time, details, and review steps.
-* Allow guest booking or prefill details for signed-in customers.
-* Let customers select a preferred staff member or the first available option.
-* Customize colors, layout density, button styling, progress steps, prices, and service descriptions.
-* Preview desktop and mobile booking styles before publishing changes.
-* Provide clear loading, validation, empty, success, and error states.
-
-= Customer self-service =
-
-* Add a signed-in customer portal with the `[yo-booking-portal]` shortcode.
-* Show upcoming and past appointments with booking and payment details.
-* Give customers secure token-based cancel and reschedule links.
-* Enforce configurable cancellation and rescheduling deadlines.
-* Allow administrators to override customer-facing booking restrictions when needed.
-
-= Email notifications and reminders =
-
-* Send emails for booking creation, confirmation, cancellation, rescheduling, completion, reminders, and payment activity.
-* Customize email subjects, content, recipients, timing, and placeholders.
-* Attach ICS calendar files to supported appointment emails.
-* Preview templates with appointment data, send test emails, and retry failed deliveries.
-* Review notification logs and process queued reminders through WordPress Cron.
-
-= Offline payments and currency formatting =
-
-* Offer Pay locally and Bank transfer during the booking flow.
-* Configure bank details and customer-facing payment instructions.
-* Request no payment, a deposit, or the full appointment amount.
-* Track unpaid, partially paid, paid, and refunded booking balances.
-* Record manual payment and refund entries with references and immutable booking totals.
-* Select from the WooCommerce currency catalog without requiring WooCommerce.
-* Configure currency position, thousand separator, decimal separator, and decimal precision.
-* Extend payment processing through the documented provider contract for gateway add-ons.
-
-= Operations, privacy, and security =
-
-* Monitor today's schedule, upcoming workload, booking status, payment follow-up, recent activity, and popular services from the dashboard.
-* Use Booking Manager and Booking Staff roles with scoped WordPress capabilities.
-* Restrict staff accounts to appointments assigned to their linked staff profile.
-* Review immutable audit records for important booking, payment, customer, service, staff, and settings changes.
-* Use WordPress personal data export and erasure tools for booking customer data.
-* Configure data retention and run scheduled or manual cleanup tasks.
+* Offer Pay locally and Bank transfer with no-payment, deposit, or full-payment modes.
+* Track unpaid, partially paid, paid, and refunded balances.
+* Record manual payments and refunds with references while preserving booking totals.
+* Use Booking Manager and Booking Staff roles with scoped capabilities and staff ownership restrictions.
+* Review audit records for important booking, payment, customer, service, staff, and settings changes.
+* Use WordPress personal data export and erasure tools and configurable retention cleanup.
 * Create password-encrypted same-site backups and restore managed booking data.
-* Check booking tables and scheduled tasks through WordPress Site Health.
+* Check database tables and scheduled tasks through WordPress Site Health.
 
-= Integrations for developers =
+= Developer integrations =
 
 * Create hashed API keys with separate appointment and customer scopes.
-* Use server-to-server REST endpoints for authorized appointment and customer workflows.
+* Use authorized REST endpoints for server-to-server workflows.
 * Send signed outbound webhooks through a retry queue with delivery logs.
-* Register separately distributed payment providers through the gateway add-on contract.
+* Register separately distributed payment gateways through the documented provider contract.
 
-API authentication, webhook signatures, payloads, and examples are documented in `docs/integrations.md`. The payment add-on contract is documented in `docs/payment-addons.md`.
-
-== Shortcodes and Block ==
-
-= Booking form =
-
-Use the **Yo Booking** block in the WordPress block editor, or add `[yo-booking]` to any page.
-
-= Customer portal =
-
-Add `[yo-booking-portal]` to a page that is intended for signed-in customers.
+See `docs/integrations.md` for API and webhook details and `docs/payment-addons.md` for the payment provider contract.
 
 == Installation ==
 
-1. Install Yo Booking from the WordPress Plugins screen, or upload it to the `wp-content/plugins/yo-booking` directory.
-2. Activate the plugin and open **Yo Booking > Dashboard**.
-3. Create service categories and services, then add staff members and assign their services.
-4. Configure business hours, staff schedules, exceptions, lead time, and booking window under **Availability** and **Settings**.
-5. Review offline payment methods, currency display, notifications, and customer policies in **Settings**.
-6. Customize the frontend booking interface under **Yo Booking > Appearance**.
-7. Add the **Yo Booking** block or `[yo-booking]` shortcode to your booking page.
-8. Optionally add `[yo-booking-portal]` to a page for signed-in customer self-service.
-9. Send a test notification and create a test booking before accepting live appointments.
+1. Install the plugin through the WordPress Plugins screen, or upload it to `/wp-content/plugins/yo-booking/`.
+2. Activate Yo Booking and open **Yo Booking > Dashboard**.
+3. Create service categories, services, staff, and service assignments.
+4. Configure business hours, staff schedules, exceptions, booking limits, and customer policies.
+5. Review payment methods, currency display, notifications, and Appearance settings.
+6. Add the Yo Booking block or `[yo-booking]` to the booking page.
+7. Optionally add `[yo-booking-portal]` to a page for signed-in customers.
+8. Send a test notification and complete a test booking before accepting live appointments.
 
 == Frequently Asked Questions ==
 
-= How do I add appointment booking to a page? =
-
-Insert the **Yo Booking** block in the block editor or place `[yo-booking]` in the page content. The same shortcode is displayed with a copy button under **Yo Booking > Appearance**.
-
-= Can customers book without creating an account? =
-
-Yes. Guest booking can be enabled or disabled in Booking settings. Signed-in customers can have their saved contact details prefilled automatically.
-
-= Can customers cancel or reschedule their own appointments? =
-
-Yes. Yo Booking provides secure token-based links and a signed-in customer portal. You can define how many hours before an appointment cancellation or rescheduling remains available.
-
-= Does Yo Booking include online card payments? =
-
-No. The core plugin includes Pay locally and Bank transfer, plus manual payment, deposit, balance, and refund tracking. Online gateways are designed as optional add-ons so payment integrations remain separate from the booking core.
-
 = Does Yo Booking require WooCommerce? =
 
-No. Yo Booking is a standalone appointment scheduling plugin. Its currency selector follows the WooCommerce currency catalog for familiar global coverage, but WooCommerce is not required.
+No. It is a standalone appointment scheduling plugin. The currency list follows the familiar WooCommerce catalog, but WooCommerce is not required.
 
-= Which timezone and date formats does the plugin use? =
+= How do I add the booking form? =
 
-Customer-facing and admin booking dates follow the timezone, date format, and time format in **Settings > General**. Database timestamps remain normalized for reliable scheduling and API use.
+Insert the Yo Booking block in the block editor or add `[yo-booking]` to a page.
 
-= How are appointment emails sent? =
+= Can customers book without an account? =
 
-Yo Booking sends notifications through the standard WordPress email system and processes reminders with WordPress Cron. Reliable site email delivery still depends on the hosting mail setup or an SMTP plugin.
+Yes, when guest booking is enabled. Signed-in customers can have saved contact details prefilled.
 
-= Is customer booking data compatible with WordPress privacy tools? =
+= Can customers cancel or reschedule an appointment? =
 
-Yes. The plugin registers personal data exporters and erasers, provides privacy policy guidance, supports retention cleanup, and records marketing consent when that setting is enabled.
+Yes. Secure token links and the signed-in customer portal support self-service within the deadlines configured by the administrator.
 
-= What happens to booking data when I uninstall the plugin? =
+= Does the core plugin include online card payments? =
 
-Booking data is retained by default. To remove plugin tables, settings, roles, and capabilities during uninstall, first enable **Remove all data on uninstall** in the Maintenance settings. This action cannot be undone without a backup.
+No. The core includes Pay locally, Bank transfer, deposits, balance tracking, and manual payment or refund records. Online gateways use separate add-ons.
 
-= Can developers connect another system to Yo Booking? =
+= How are emails and reminders sent? =
 
-Yes. Scoped API keys, REST endpoints, signed outbound webhooks, and payment provider hooks are available. See `docs/integrations.md` for API and webhook details, and `docs/payment-addons.md` for payment gateway implementation.
+They use the WordPress email system, while reminders are processed by WordPress Cron. Reliable delivery still depends on the site's mail or SMTP configuration.
+
+= Does it support WordPress privacy tools? =
+
+Yes. The plugin registers personal data exporters and erasers, provides retention controls, and includes privacy guidance.
+
+= What happens to data on uninstall? =
+
+Booking data is retained by default. To remove managed tables, settings, roles, and capabilities, enable **Remove all data on uninstall** before uninstalling. Back up first.
+
+= Can another system connect to Yo Booking? =
+
+Yes. The plugin provides scoped API keys, REST endpoints, signed webhooks, and a payment-provider contract for developers.
 
 == Privacy ==
 
-Yo Booking stores booking, customer, staff, service, notification, payment, audit, and integration delivery data in the WordPress database as required by enabled features.
+Yo Booking stores the booking, customer, staff, service, notification, payment, audit, and integration-delivery data needed by enabled features in the WordPress database.
 
-The plugin does not send booking data to an external booking service by default. When an administrator configures an outbound webhook or a third-party add-on, data is sent to the endpoint or provider selected by that administrator. Site owners are responsible for documenting those destinations and their privacy terms.
-
-Use the WordPress **Export Personal Data** and **Erase Personal Data** tools to process customer requests. Review retention settings, notification content, payment instructions, and connected integrations before accepting live bookings.
+It does not send booking data to an external booking service by default. Data is sent externally only when an administrator configures a webhook or third-party add-on. Site owners are responsible for documenting those destinations and reviewing their privacy terms.
 
 == Changelog ==
 
-= 2.0.0 =
-* Rebuild Yo Booking from a clean foundation with versioned database migrations, structured settings, and configurable uninstall cleanup.
-* Add service categories, services, staff assignments, customer profiles, scoped booking roles, and ownership-aware administration.
-* Add global and staff availability, split working hours, date exceptions, lead time, booking windows, slot intervals, caching, and conflict-safe scheduling.
-* Add a responsive frontend booking flow with a Gutenberg block, shortcode, guest booking, signed-in autofill, appearance controls, and desktop/mobile previews.
-* Add appointment lifecycle management, interactive calendar views, drag-and-drop rescheduling, quick and bulk actions, internal notes, operational reports, and CSV exports.
-* Add token-protected cancellation and rescheduling plus a signed-in customer portal for upcoming and past appointments.
-* Add customizable email templates, reminders, ICS attachments, delivery logs, previews, test emails, queue locking, and failed-delivery retries.
-* Add Pay locally and Bank transfer methods, deposit and full-payment modes, currency formatting, immutable totals, payment/refund ledger entries, and an add-on contract for online gateways.
-* Add scoped API keys, integration REST endpoints, signed outbound webhooks, queued retries, and delivery logs.
-* Add privacy exporters and erasers, retention cleanup, audit logs, Site Health checks, encrypted same-site backup and restore, rate limits, and release security hardening.
-* Synchronize plugin timezone, date, and time display with WordPress settings and align the admin interface with each user's WordPress color scheme.
-* Add release gates for migrations, concurrency, security, dependencies, PHP compatibility, notifications, backup round trips, critical booking workflows, Plugin Check compliance, and the current POT translation template.
+= 2.0.1 =
+
+* New: Added appointment list sorting by earliest or latest appointment time and oldest or newest creation time while preserving active filters and pagination.
+* New: Replaced raw WordPress user ID inputs in staff and customer add/edit forms with searchable user selectors.
+* New: Added intl-tel-input to phone fields across the admin and frontend, including international validation, E.164 normalization, and responsive country selection.
+* New: Added persistent ISO-2 phone countries for customers and staff and preserved the customer phone country in immutable appointment snapshots.
+* New: Added a Default phone country setting with resolution from the saved profile, existing E.164 number, the guest's current session, the Yo Booking setting, then the WordPress locale without a WooCommerce dependency or hardcoded US fallback.
+* Improve: Refined Appointment List and Calendar tab spacing, added balanced list/table margins, and vertically centered row selection checkboxes.
+* Improve: Refined spacing around the payment ledger transaction form, Add transaction button, transaction history, filter cards, and adjacent admin cards.
+* Improve: Prevented time, interval, add/remove, and copy actions from changing disabled weekdays in Business Hours and Staff Hours.
+* Improve: Displayed the Exceptions Staff member field only when the selected scope applies to an individual staff member.
+* Improve: Displayed Reminder offset only for notification events that use reminder scheduling.
+* Improve: Standardized form label, control, helper-text, checkbox, and action alignment throughout the plugin and constrained oversized desktop editor forms to more readable widths.
+* Improve: Expanded the Appearance live preview to cover every booking step instead of showing only a partial booking flow.
+* Improve: Corrected spacing between the icon and text in the phone country search field.
+* Update: Extended phone country data to frontend booking requests, admin appointment APIs, integration REST responses, signed webhook payloads, privacy erasure, and database migrations.
+* Update: Upgraded WordPress Coding Standards and related development tooling to patched releases.
+
+See `changelog.txt` for the full 2.0.1 details and complete release history.

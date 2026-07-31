@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Yo Booking
- * Plugin URI: https://yoohw.com
+ * Plugin URI: https://yoohw.com/product/yo-booking/
  * Description: Appointment scheduling, availability, customer, notification, payment, and self-service tools for WordPress.
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: YoOhw.com
  * Author URI: https://yoohw.com
  * Requires at least: 6.3
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'YO_BOOKING_VERSION', '2.0.0' );
+define( 'YO_BOOKING_VERSION', '2.0.1' );
 define( 'YO_BOOKING_MIN_PHP', '7.4' );
 define( 'YO_BOOKING_FILE', __FILE__ );
 define( 'YO_BOOKING_PATH', plugin_dir_path( __FILE__ ) );

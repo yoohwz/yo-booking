@@ -7,6 +7,7 @@
 
 namespace YoBooking\Repositories;
 
+use YoBooking\Support\PhoneNumber;
 use WP_Error;
 
 defined( 'ABSPATH' ) || exit;
@@ -87,6 +88,10 @@ final class StaffRepository extends BaseRepository {
 			return new WP_Error( 'yo_booking_staff_email_invalid', __( 'Staff email is invalid.', 'yo-booking' ) );
 		}
 
+		if ( ! empty( $data['phone'] ) && ! PhoneNumber::is_valid( $data['phone'] ) ) {
+			return new WP_Error( 'yo_booking_staff_phone_invalid', __( 'Staff phone must be a valid international number.', 'yo-booking' ) );
+		}
+
 		$color = isset( $data['color'] ) ? sanitize_hex_color( $data['color'] ) : '';
 		$now   = $this->now();
 
@@ -95,7 +100,8 @@ final class StaffRepository extends BaseRepository {
 			'name'       => $name,
 			'slug'       => $this->unique_slug( ! empty( $data['slug'] ) ? $data['slug'] : $name, $id, 'staff' ),
 			'email'      => $email,
-			'phone'      => isset( $data['phone'] ) ? sanitize_text_field( $data['phone'] ) : '',
+			'phone'      => isset( $data['phone'] ) ? PhoneNumber::normalize( $data['phone'] ) : '',
+			'phone_country' => PhoneNumber::country( isset( $data['phone_country'] ) ? $data['phone_country'] : '' ),
 			'bio'        => isset( $data['bio'] ) ? wp_kses_post( $data['bio'] ) : '',
 			'avatar_id'  => isset( $data['avatar_id'] ) ? absint( $data['avatar_id'] ) : 0,
 			'color'      => $color ? $color : '',
@@ -104,7 +110,7 @@ final class StaffRepository extends BaseRepository {
 			'updated_at' => $now,
 		);
 
-		$formats = array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%d', '%s', '%s' );
+		$formats = array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%d', '%s', '%s' );
 
 		if ( $id ) {
 			$updated = $wpdb->update( $this->table(), $record, array( 'id' => $id ), $formats, array( '%d' ) );

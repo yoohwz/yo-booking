@@ -84,7 +84,7 @@ final class IntegrationController {
 		$limit  = max( 1, min( 100, absint( $request->get_param( 'per_page' ) ) ? absint( $request->get_param( 'per_page' ) ) : 25 ) );
 		$items = array_map(
 			static function ( $customer ) {
-				return array( 'id' => (int) $customer->id, 'name' => $customer->name, 'email' => $customer->email, 'phone' => $customer->phone, 'timezone' => $customer->timezone, 'marketing_consent' => (bool) $customer->marketing_consent );
+				return array( 'id' => (int) $customer->id, 'name' => $customer->name, 'email' => $customer->email, 'phone' => $customer->phone, 'phone_country' => $customer->phone_country, 'timezone' => $customer->timezone, 'marketing_consent' => (bool) $customer->marketing_consent );
 			},
 			( new CustomerRepository() )->search( $search, $limit )
 		);
@@ -103,7 +103,7 @@ final class IntegrationController {
 			'id' => (int) $appointment->id, 'uuid' => $appointment->uuid, 'status' => $appointment->status,
 			'start_at' => gmdate( 'c', strtotime( $appointment->start_at . ' UTC' ) ), 'end_at' => gmdate( 'c', strtotime( $appointment->end_at . ' UTC' ) ), 'timezone' => $appointment->timezone,
 			'service' => array( 'id' => (int) $appointment->service_id, 'name' => $appointment->service_name ), 'staff' => array( 'id' => (int) $appointment->staff_id, 'name' => $appointment->staff_name ),
-			'customer' => array( 'id' => (int) $appointment->customer_id, 'name' => $appointment->customer_name, 'email' => $appointment->customer_email, 'phone' => $appointment->customer_phone ),
+			'customer' => array( 'id' => (int) $appointment->customer_id, 'name' => $appointment->customer_name, 'email' => $appointment->customer_email, 'phone' => $appointment->customer_phone, 'phone_country' => $appointment->customer_phone_country ),
 			'payment' => array(
 				'reference' => isset( $appointment->payment_reference ) ? $appointment->payment_reference : '',
 				'method' => isset( $appointment->payment_method ) ? $appointment->payment_method : '',

@@ -24,7 +24,7 @@ final class Migrator {
 	 *
 	 * @var string
 	 */
-	const SCHEMA_VERSION = '2026071307';
+	const SCHEMA_VERSION = '2026073101';
 
 	/** Maximum age for a stale migration lock. */
 	const MIGRATION_LOCK_TTL = 300;
@@ -182,6 +182,7 @@ final class Migrator {
 				slug varchar(191) NOT NULL,
 				email varchar(191) NOT NULL DEFAULT '',
 				phone varchar(50) NOT NULL DEFAULT '',
+				phone_country char(2) NOT NULL DEFAULT '',
 				bio longtext DEFAULT NULL,
 				avatar_id bigint(20) unsigned NOT NULL DEFAULT 0,
 				color varchar(20) NOT NULL DEFAULT '',
@@ -292,6 +293,7 @@ final class Migrator {
 				name varchar(191) NOT NULL,
 				email varchar(191) NOT NULL DEFAULT '',
 				phone varchar(50) NOT NULL DEFAULT '',
+				phone_country char(2) NOT NULL DEFAULT '',
 				timezone varchar(64) NOT NULL DEFAULT '',
 				notes longtext DEFAULT NULL,
 				marketing_consent tinyint(1) NOT NULL DEFAULT 0,
@@ -312,6 +314,7 @@ final class Migrator {
 					customer_name_snapshot varchar(191) NOT NULL DEFAULT '',
 					customer_email_snapshot varchar(191) NOT NULL DEFAULT '',
 					customer_phone_snapshot varchar(50) NOT NULL DEFAULT '',
+					customer_phone_country_snapshot char(2) NOT NULL DEFAULT '',
 					service_name_snapshot varchar(191) NOT NULL DEFAULT '',
 					staff_name_snapshot varchar(191) NOT NULL DEFAULT '',
 					location_id bigint(20) unsigned NOT NULL DEFAULT 0,
@@ -592,9 +595,10 @@ final class Migrator {
 			SET a.customer_name_snapshot = COALESCE(NULLIF(a.customer_name_snapshot, ''), c.name, ''),
 				a.customer_email_snapshot = COALESCE(NULLIF(a.customer_email_snapshot, ''), c.email, ''),
 				a.customer_phone_snapshot = COALESCE(NULLIF(a.customer_phone_snapshot, ''), c.phone, ''),
+				a.customer_phone_country_snapshot = COALESCE(NULLIF(a.customer_phone_country_snapshot, ''), c.phone_country, ''),
 				a.service_name_snapshot = COALESCE(NULLIF(a.service_name_snapshot, ''), s.name, ''),
 				a.staff_name_snapshot = COALESCE(NULLIF(a.staff_name_snapshot, ''), st.name, '')
-			WHERE a.customer_name_snapshot = '' OR a.service_name_snapshot = '' OR (a.staff_id > 0 AND a.staff_name_snapshot = '')"
+			WHERE a.customer_name_snapshot = '' OR a.customer_phone_country_snapshot = '' OR a.service_name_snapshot = '' OR (a.staff_id > 0 AND a.staff_name_snapshot = '')"
 		);
 	}
 

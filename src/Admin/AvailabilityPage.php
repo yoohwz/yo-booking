@@ -143,7 +143,7 @@ final class AvailabilityPage extends AbstractAdminPage {
 							<td>
 								<div class="yo-form-row">
 									<div class="yo-form-field"><label for="yo_booking_exception_owner_type"><?php echo esc_html__( 'Scope', 'yo-booking' ); ?></label><select id="yo_booking_exception_owner_type" name="owner_type"><option value="global"><?php echo esc_html__( 'Global', 'yo-booking' ); ?></option><option value="staff"><?php echo esc_html__( 'Staff', 'yo-booking' ); ?></option></select></div>
-									<div class="yo-form-field"><label for="yo_booking_exception_owner_id"><?php echo esc_html__( 'Staff member', 'yo-booking' ); ?></label><select id="yo_booking_exception_owner_id" name="owner_id"><option value="0"><?php echo esc_html__( 'No staff selected', 'yo-booking' ); ?></option><?php foreach ( $staff_members as $staff ) : ?><option value="<?php echo esc_attr( (string) $staff->id ); ?>"><?php echo esc_html( $staff->name ); ?></option><?php endforeach; ?></select></div>
+									<div class="yo-form-field" data-exception-staff-field hidden><label for="yo_booking_exception_owner_id"><?php echo esc_html__( 'Staff member', 'yo-booking' ); ?></label><select id="yo_booking_exception_owner_id" name="owner_id" disabled><option value=""><?php echo esc_html__( 'Select staff member', 'yo-booking' ); ?></option><?php foreach ( $staff_members as $staff ) : ?><option value="<?php echo esc_attr( (string) $staff->id ); ?>"><?php echo esc_html( $staff->name ); ?></option><?php endforeach; ?></select></div>
 								</div>
 							</td>
 						</tr>
@@ -267,7 +267,7 @@ final class AvailabilityPage extends AbstractAdminPage {
 
 		$data              = wp_unslash( $_POST );
 		$data['owner_type'] = isset( $data['owner_type'] ) && 'staff' === sanitize_key( $data['owner_type'] ) ? 'staff' : 'global';
-		$data['owner_id']   = 'staff' === $data['owner_type'] ? absint( $data['owner_id'] ) : 0;
+		$data['owner_id']   = 'staff' === $data['owner_type'] && isset( $data['owner_id'] ) ? absint( $data['owner_id'] ) : 0;
 		$data['timezone']   = DateTimeFormatter::timezone_name();
 
 		$result = ( new AvailabilityExceptionRepository() )->save( $data );
@@ -340,20 +340,20 @@ final class AvailabilityPage extends AbstractAdminPage {
 						<div class="yo-time-ranges" data-time-ranges>
 							<?php foreach ( $display_rules as $index => $rule ) : ?>
 								<div class="yo-time-range">
-									<input name="rules[<?php echo esc_attr( (string) $weekday ); ?>][ranges][<?php echo esc_attr( (string) $index ); ?>][start_time]" type="time" value="<?php echo esc_attr( substr( $rule->start_time, 0, 5 ) ); ?>" aria-label="<?php echo esc_attr__( 'Start time', 'yo-booking' ); ?>" />
+									<input name="rules[<?php echo esc_attr( (string) $weekday ); ?>][ranges][<?php echo esc_attr( (string) $index ); ?>][start_time]" type="time" value="<?php echo esc_attr( substr( $rule->start_time, 0, 5 ) ); ?>" aria-label="<?php echo esc_attr__( 'Start time', 'yo-booking' ); ?>" <?php disabled( empty( $day_rules ) ); ?> />
 									<span><?php echo esc_html__( 'to', 'yo-booking' ); ?></span>
-									<input name="rules[<?php echo esc_attr( (string) $weekday ); ?>][ranges][<?php echo esc_attr( (string) $index ); ?>][end_time]" type="time" value="<?php echo esc_attr( substr( $rule->end_time, 0, 5 ) ); ?>" aria-label="<?php echo esc_attr__( 'End time', 'yo-booking' ); ?>" />
-									<button type="button" class="button button-small" data-remove-range aria-label="<?php echo esc_attr__( 'Remove hours', 'yo-booking' ); ?>"><span class="fi fi-rr-cross" aria-hidden="true"></span></button>
+									<input name="rules[<?php echo esc_attr( (string) $weekday ); ?>][ranges][<?php echo esc_attr( (string) $index ); ?>][end_time]" type="time" value="<?php echo esc_attr( substr( $rule->end_time, 0, 5 ) ); ?>" aria-label="<?php echo esc_attr__( 'End time', 'yo-booking' ); ?>" <?php disabled( empty( $day_rules ) ); ?> />
+									<button type="button" class="button button-small" data-remove-range aria-label="<?php echo esc_attr__( 'Remove hours', 'yo-booking' ); ?>" <?php disabled( empty( $day_rules ) ); ?>><span class="fi fi-rr-cross" aria-hidden="true"></span></button>
 								</div>
 							<?php endforeach; ?>
 						</div>
-						<button type="button" class="button button-small" data-add-range><span class="fi fi-rr-plus" aria-hidden="true"></span><?php echo esc_html__( 'Add hours', 'yo-booking' ); ?></button>
+						<button type="button" class="button button-small" data-add-range <?php disabled( empty( $day_rules ) ); ?>><span class="fi fi-rr-plus" aria-hidden="true"></span><?php echo esc_html__( 'Add hours', 'yo-booking' ); ?></button>
 					</td>
 					<td>
-						<input name="rules[<?php echo esc_attr( (string) $weekday ); ?>][slot_interval_minutes]" type="number" min="5" max="240" step="5" value="<?php echo esc_attr( (string) $interval ); ?>" />
+						<input name="rules[<?php echo esc_attr( (string) $weekday ); ?>][slot_interval_minutes]" type="number" min="5" max="240" step="5" value="<?php echo esc_attr( (string) $interval ); ?>" <?php disabled( empty( $day_rules ) ); ?> />
 						<?php echo esc_html__( 'minutes', 'yo-booking' ); ?>
 					</td>
-					<td><button type="button" class="button button-small yo-copy-feedback" data-copy-day aria-label="<?php echo esc_attr__( 'Copy these hours to every day', 'yo-booking' ); ?>" title="<?php echo esc_attr__( 'Copy these hours to every day', 'yo-booking' ); ?>"><span class="fi fi-rr-copy" aria-hidden="true"></span></button></td>
+					<td><button type="button" class="button button-small yo-copy-feedback" data-copy-day aria-label="<?php echo esc_attr__( 'Copy these hours to every open day', 'yo-booking' ); ?>" title="<?php echo esc_attr__( 'Copy these hours to every open day', 'yo-booking' ); ?>" <?php disabled( empty( $day_rules ) ); ?>><span class="fi fi-rr-copy" aria-hidden="true"></span></button></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

@@ -241,6 +241,7 @@ final class AdminAppointmentController {
 				'customer_name'    => (string) $appointment->customer_name,
 				'customer_email'   => (string) $appointment->customer_email,
 				'customer_phone'   => (string) $appointment->customer_phone,
+				'customer_phone_country' => (string) $appointment->customer_phone_country,
 				'date'             => $start_local->format( 'Y-m-d' ),
 				'start_time'       => $start_local->format( 'H:i' ),
 				'duration_minutes' => $duration,
@@ -300,7 +301,7 @@ final class AdminAppointmentController {
 		$customers = array();
 
 		foreach ( ( new CustomerRepository() )->search( $request->get_param( 'search' ), 20 ) as $customer ) {
-			$customers[] = array( 'id' => (int) $customer->id, 'name' => $customer->name, 'email' => $customer->email, 'phone' => $customer->phone, 'timezone' => $customer->timezone );
+			$customers[] = array( 'id' => (int) $customer->id, 'name' => $customer->name, 'email' => $customer->email, 'phone' => $customer->phone, 'phone_country' => $customer->phone_country, 'timezone' => $customer->timezone );
 		}
 
 		return array( 'customers' => $customers );
@@ -336,7 +337,7 @@ final class AdminAppointmentController {
 			'balance_display' => Currency::format( isset( $appointment->balance_amount ) ? $appointment->balance_amount : $appointment->total_amount, $appointment->currency ),
 			'service'        => array( 'id' => (int) $appointment->service_id, 'name' => $appointment->service_name ),
 			'staff'          => array( 'id' => (int) $appointment->staff_id, 'name' => $appointment->staff_name ),
-			'customer'       => array( 'id' => (int) $appointment->customer_id, 'name' => $appointment->customer_name, 'email' => $appointment->customer_email, 'phone' => $appointment->customer_phone ),
+			'customer'       => array( 'id' => (int) $appointment->customer_id, 'name' => $appointment->customer_name, 'email' => $appointment->customer_email, 'phone' => $appointment->customer_phone, 'phone_country' => $appointment->customer_phone_country ),
 			'customer_note'  => (string) $appointment->customer_note,
 			'internal_note'  => (string) $appointment->internal_note,
 		);

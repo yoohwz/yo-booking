@@ -345,7 +345,9 @@
 			hidden.value = customer.id;
 			document.getElementById('yo_booking_appointment_customer_name').value = customer.name || '';
 			document.getElementById('yo_booking_appointment_customer_email').value = customer.email || '';
-			document.getElementById('yo_booking_appointment_customer_phone').value = customer.phone || '';
+			var phoneInput = document.getElementById('yo_booking_appointment_customer_phone');
+			if (window.YoBookingPhone) window.YoBookingPhone.setNumber(phoneInput, customer.phone || '');
+			else phoneInput.value = customer.phone || '';
 		});
 	}
 

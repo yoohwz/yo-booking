@@ -184,6 +184,7 @@
 				name: '',
 				email: '',
 				phone: '',
+				phone_country: '',
 				note: '',
 			},
 			selectedService: null,
@@ -267,6 +268,7 @@
 							name: customer.name || '',
 							email: customer.email || '',
 							phone: customer.phone || '',
+							phone_country: customer.phone_country || '',
 							note: '',
 						},
 					} );
@@ -397,12 +399,17 @@
 		function submitBooking() {
 			var service = selectedService();
 			var slotStaffId = state.selectedStaffId || ( state.selectedSlot.staff_ids && state.selectedSlot.staff_ids[0] ? state.selectedSlot.staff_ids[0] : 0 );
+			var phoneInput = root.querySelector( 'input[name="phone"]' );
+			if ( phoneInput && window.YoBookingPhone ) {
+				state.customer.phone = window.YoBookingPhone.getNumber( phoneInput );
+			}
 			var payload = {
 				service_id: state.selectedService,
 				staff_id: slotStaffId,
 				customer_name: state.customer.name,
 				customer_email: state.customer.email,
 				customer_phone: state.customer.phone,
+				customer_phone_country: state.customer.phone_country,
 					customer_note: state.customer.note,
 					marketing_consent: state.marketingConsent,
 				payment_method: state.paymentMethod,
@@ -1189,6 +1196,10 @@
 			input.value = value || '';
 			input.required = !! required;
 			input.autocomplete = { name: 'name', email: 'email', phone: 'tel' }[ key ] || '';
+			if ( key === 'phone' ) {
+				input.setAttribute( 'data-yo-phone', '' );
+				input.setAttribute( 'data-phone-country', state.customer.phone_country || '' );
+			}
 			if ( error ) {
 				input.setAttribute( 'aria-invalid', 'true' );
 				input.setAttribute( 'aria-describedby', errorId );
@@ -1205,6 +1216,12 @@
 					if ( message ) message.remove();
 				}
 			} );
+			if ( key === 'phone' ) {
+				input.addEventListener( 'yo-phone-change', function ( event ) {
+					state.customer.phone = event.detail?.number || input.value;
+					state.customer.phone_country = event.detail?.country || '';
+				} );
+			}
 			wrap.appendChild( text );
 			wrap.appendChild( input );
 			if ( error ) {
@@ -1224,6 +1241,10 @@
 				errors.email = t( 'Enter a valid email address.' );
 			}
 			if ( state.bookingConfig.require_phone !== false && ! state.customer.phone.trim() ) errors.phone = t( 'This field is required.' );
+			var phoneInput = root.querySelector( 'input[name="phone"]' );
+			if ( state.customer.phone.trim() && phoneInput && window.YoBookingPhone && ! window.YoBookingPhone.isValid( phoneInput ) ) {
+				errors.phone = t( 'Enter a valid phone number.' );
+			}
 			if ( state.bookingConfig.marketing_consent_required && ! state.marketingConsent ) errors.marketing_consent = t( 'Marketing consent is required.' );
 			if ( paymentRequired() && ! selectedPaymentMethod() ) errors.payment_method = t( 'Select a payment method.' );
 			return errors;

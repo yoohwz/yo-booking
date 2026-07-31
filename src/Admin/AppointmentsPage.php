@@ -84,7 +84,7 @@ final class AppointmentsPage extends AbstractAdminPage {
 		<div class="wrap yo-booking-admin">
 			<?php $this->render_page_header( __( 'Appointments', 'yo-booking' ), __( 'Manage bookings, customer details, status, and payments.', 'yo-booking' ), $actions ); ?>
 			<?php $this->render_notice(); ?>
-			<div class="yo-segmented" aria-label="<?php echo esc_attr__( 'Appointment view', 'yo-booking' ); ?>">
+			<div class="yo-segmented yo-appointment-views" aria-label="<?php echo esc_attr__( 'Appointment view', 'yo-booking' ); ?>">
 				<a class="button <?php echo 'list' === $view ? 'is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=yo-booking-appointments&view=list' ) ); ?>"><span class="fi fi-rr-list" aria-hidden="true"></span><?php echo esc_html__( 'List', 'yo-booking' ); ?></a>
 				<a class="button <?php echo 'calendar' === $view ? 'is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=yo-booking-appointments&view=calendar' ) ); ?>"><span class="fi fi-rr-calendar-days" aria-hidden="true"></span><?php echo esc_html__( 'Calendar', 'yo-booking' ); ?></a>
 			</div>
@@ -120,6 +120,14 @@ final class AppointmentsPage extends AbstractAdminPage {
 		$search                  = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$date_from               = isset( $_GET['date_from'] ) ? sanitize_text_field( wp_unslash( $_GET['date_from'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$date_to                 = isset( $_GET['date_to'] ) ? sanitize_text_field( wp_unslash( $_GET['date_to'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$sort_options            = array(
+			'start_asc'    => __( 'Appointment time: earliest first', 'yo-booking' ),
+			'start_desc'   => __( 'Appointment time: latest first', 'yo-booking' ),
+			'created_desc' => __( 'Created: newest first', 'yo-booking' ),
+			'created_asc'  => __( 'Created: oldest first', 'yo-booking' ),
+		);
+		$sort                    = isset( $_GET['sort'] ) ? sanitize_key( wp_unslash( $_GET['sort'] ) ) : 'start_asc'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$sort                    = array_key_exists( $sort, $sort_options ) ? $sort : 'start_asc';
 		$paged                   = isset( $_GET['paged'] ) ? max( 1, absint( $_GET['paged'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$per_page                = 25;
 		$filter_timezone          = $this->timezone( $settings['company']['timezone'] );
@@ -133,9 +141,11 @@ final class AppointmentsPage extends AbstractAdminPage {
 			'search'         => $search,
 			'from'           => $filter_from,
 			'to'             => $filter_to,
+			'sort'           => $sort,
 		);
 		$total                   = $appointments_repository->count_matching( $query_args );
 		$appointments            = $appointments_repository->all( array_merge( $query_args, array( 'limit' => $per_page, 'offset' => ( $paged - 1 ) * $per_page ) ) );
+		$has_active_filters      = array_filter( array_diff_key( $query_args, array( 'sort' => true ) ) ) || 'start_asc' !== $sort;
 
 		?>
 		<?php if ( $editing || $is_new ) : ?>
@@ -160,8 +170,9 @@ final class AppointmentsPage extends AbstractAdminPage {
 			<label><?php echo esc_html__( 'Payment', 'yo-booking' ); ?><select name="payment_status"><option value=""><?php echo esc_html__( 'All payments', 'yo-booking' ); ?></option><?php foreach ( PaymentRepository::appointment_statuses() as $payment_status => $payment_label ) : ?><option value="<?php echo esc_attr( $payment_status ); ?>" <?php selected( $payment_filter, $payment_status ); ?>><?php echo esc_html( $payment_label ); ?></option><?php endforeach; ?></select></label>
 			<label><?php echo esc_html__( 'Service', 'yo-booking' ); ?><select name="service_id"><option value="0"><?php echo esc_html__( 'All services', 'yo-booking' ); ?></option><?php foreach ( $services as $service ) : ?><option value="<?php echo esc_attr( (string) $service->id ); ?>" <?php selected( $service_filter, (int) $service->id ); ?>><?php echo esc_html( $service->name ); ?></option><?php endforeach; ?></select></label>
 			<label><?php echo esc_html__( 'Staff', 'yo-booking' ); ?><select name="staff_id"><option value="0"><?php echo esc_html__( 'All staff', 'yo-booking' ); ?></option><?php foreach ( $staff_members as $staff ) : ?><option value="<?php echo esc_attr( (string) $staff->id ); ?>" <?php selected( $staff_filter, (int) $staff->id ); ?>><?php echo esc_html( $staff->name ); ?></option><?php endforeach; ?></select></label>
+			<label><?php echo esc_html__( 'Sort by', 'yo-booking' ); ?><select name="sort"><?php foreach ( $sort_options as $sort_key => $sort_label ) : ?><option value="<?php echo esc_attr( $sort_key ); ?>" <?php selected( $sort, $sort_key ); ?>><?php echo esc_html( $sort_label ); ?></option><?php endforeach; ?></select></label>
 			<button class="button" type="submit"><?php echo esc_html__( 'Apply filters', 'yo-booking' ); ?></button>
-			<?php if ( array_filter( $query_args ) ) : ?><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=yo-booking-appointments' ) ); ?>"><?php echo esc_html__( 'Reset', 'yo-booking' ); ?></a><?php endif; ?>
+			<?php if ( $has_active_filters ) : ?><a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=yo-booking-appointments' ) ); ?>"><?php echo esc_html__( 'Reset', 'yo-booking' ); ?></a><?php endif; ?>
 		</form>
 		<form id="yo-booking-bulk-status-form" class="yo-bulk-bar" data-yo-async>
 			<label for="yo-booking-bulk-status"><?php echo esc_html__( 'Bulk status', 'yo-booking' ); ?></label>
@@ -296,7 +307,10 @@ final class AppointmentsPage extends AbstractAdminPage {
 				</tr>
 				<tr>
 					<th scope="row"><label for="yo_booking_appointment_customer_phone"><?php echo esc_html__( 'Customer phone', 'yo-booking' ); ?></label></th>
-					<td><input id="yo_booking_appointment_customer_phone" name="customer_phone" type="text" class="regular-text" value="<?php echo esc_attr( $customer ? $customer->phone : '' ); ?>" /></td>
+					<td>
+						<input id="yo_booking_appointment_customer_phone" name="customer_phone" type="tel" class="regular-text" value="<?php echo esc_attr( $customer ? $customer->phone : ( $appointment ? $appointment->customer_phone : '' ) ); ?>" data-yo-phone data-phone-country="<?php echo esc_attr( $customer ? $customer->phone_country : ( $appointment ? $appointment->customer_phone_country_snapshot : '' ) ); ?>" data-phone-country-field="yo_booking_appointment_customer_phone_country" />
+						<input id="yo_booking_appointment_customer_phone_country" name="customer_phone_country" type="hidden" value="<?php echo esc_attr( $customer ? $customer->phone_country : ( $appointment ? $appointment->customer_phone_country_snapshot : '' ) ); ?>" />
+					</td>
 				</tr>
 				<tr>
 					<th scope="row"><?php echo esc_html__( 'Date and time', 'yo-booking' ); ?></th>

@@ -139,9 +139,9 @@ final class PrivacyManager {
 			$anonymous_name = sprintf( __( 'Anonymous customer #%d', 'yo-booking' ), $customer_id );
 			$wpdb->update(
 				$customers,
-				array( 'user_id' => 0, 'name' => $anonymous_name, 'email' => '', 'phone' => '', 'notes' => '', 'marketing_consent' => 0, 'updated_at' => current_time( 'mysql', true ) ),
+				array( 'user_id' => 0, 'name' => $anonymous_name, 'email' => '', 'phone' => '', 'phone_country' => '', 'notes' => '', 'marketing_consent' => 0, 'updated_at' => current_time( 'mysql', true ) ),
 				array( 'id' => $customer_id ),
-				array( '%d', '%s', '%s', '%s', '%s', '%d', '%s' ),
+				array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s' ),
 				array( '%d' )
 			);
 			// translators: %d: customer database ID.

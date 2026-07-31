@@ -1,0 +1,52 @@
+.yo-booking-admin .iti,
+.yo-booking-app .iti {
+	width: 100%;
+	max-width: 100%;
+}
+
+.yo-booking-admin .iti__tel-input,
+.yo-booking-app .iti__tel-input {
+	width: 100%;
+}
+
+.yo-booking-admin .iti__country-container,
+.yo-booking-app .iti__country-container {
+	z-index: 5;
+}
+
+.yo-booking-admin .iti__dropdown-content,
+.yo-booking-app .iti__dropdown-content {
+	z-index: 1000;
+}
+
+.yo-booking-admin .iti input.iti__search-input,
+.yo-booking-app .iti input.iti__search-input {
+	width: 100%;
+	padding-right: calc(var(--iti-spacer-horizontal) + var(--iti-clear-icon-size) + var(--iti-spacer-horizontal)) !important;
+	padding-left: calc(var(--iti-spacer-horizontal) + var(--iti-globe-icon-size) + var(--iti-spacer-horizontal)) !important;
+}
+
+.yo-booking-admin .iti__search-icon,
+.yo-booking-app .iti__search-icon,
+.yo-booking-admin .iti__search-clear,
+.yo-booking-app .iti__search-clear {
+	z-index: 1;
+}
+
+.yo-booking-admin .form-table .iti {
+	width: var(--yo-editor-field-width, min(100%, 520px));
+}
+
+.yo-booking-app .yo-booking-field .iti input {
+	border: 1px solid var(--yo-booking-border);
+	border-radius: var(--yo-booking-radius);
+	font: inherit;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.yo-booking-app .yo-booking-field .iti input:focus {
+	border-color: var(--yo-booking-primary);
+	box-shadow: 0 0 0 3px rgba(var(--yo-booking-primary-rgb), 0.16);
+	outline: none;
+}

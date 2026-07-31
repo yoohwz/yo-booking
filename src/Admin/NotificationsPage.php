@@ -136,10 +136,10 @@ final class NotificationsPage extends AbstractAdminPage {
 									</label>
 								</td>
 							</tr>
-							<tr>
+							<tr data-reminder-offset-row <?php echo in_array( $editing->event, array( 'appointment.reminder', 'payment.balance_reminder' ), true ) ? '' : 'hidden'; ?>>
 								<th scope="row"><label for="yo_booking_notification_offset"><?php echo esc_html__( 'Reminder offset', 'yo-booking' ); ?></label></th>
 								<td>
-									<input id="yo_booking_notification_offset" name="timing_offset_minutes" type="number" min="0" max="43200" step="5" value="<?php echo esc_attr( (string) $editing->timing_offset_minutes ); ?>" />
+									<input id="yo_booking_notification_offset" name="timing_offset_minutes" type="number" min="0" max="43200" step="5" value="<?php echo esc_attr( (string) $editing->timing_offset_minutes ); ?>" <?php disabled( ! in_array( $editing->event, array( 'appointment.reminder', 'payment.balance_reminder' ), true ) ); ?> />
 									<span><?php echo esc_html__( 'minutes before appointment. Used by reminder templates.', 'yo-booking' ); ?></span>
 								</td>
 							</tr>

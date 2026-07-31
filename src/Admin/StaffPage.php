@@ -62,6 +62,13 @@ final class StaffPage extends AbstractAdminPage {
 		$is_new                  = isset( $_GET['action'] ) && 'new' === sanitize_key( wp_unslash( $_GET['action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$staff_members           = $staff_repository->all();
 		$services                = $service_repository->all();
+		$wordpress_users         = get_users(
+			array(
+				'fields'  => array( 'ID', 'display_name', 'user_email' ),
+				'orderby' => 'display_name',
+				'order'   => 'ASC',
+			)
+		);
 		$assigned_service_ids    = $editing ? $staff_service_repository->service_ids_for_staff( (int) $editing->id ) : array();
 		$service_counts          = $staff_service_repository->counts_by_staff();
 
@@ -88,8 +95,16 @@ final class StaffPage extends AbstractAdminPage {
 							<td><input id="yo_booking_staff_slug" name="slug" type="text" class="regular-text" value="<?php echo esc_attr( $editing ? $editing->slug : '' ); ?>" /></td>
 						</tr>
 						<tr>
-							<th scope="row"><label for="yo_booking_staff_user_id"><?php echo esc_html__( 'WordPress user ID', 'yo-booking' ); ?></label></th>
-							<td><input id="yo_booking_staff_user_id" name="user_id" type="number" min="0" value="<?php echo esc_attr( $editing ? (string) $editing->user_id : '0' ); ?>" /></td>
+							<th scope="row"><label for="yo_booking_staff_user_id"><?php echo esc_html__( 'WordPress user', 'yo-booking' ); ?></label></th>
+							<td>
+								<select id="yo_booking_staff_user_id" name="user_id" class="regular-text" data-searchable-select data-search-placeholder="<?php echo esc_attr__( 'Search users by name or email...', 'yo-booking' ); ?>" data-no-results="<?php echo esc_attr__( 'No users found', 'yo-booking' ); ?>">
+									<option value="0"><?php echo esc_html__( 'No linked user', 'yo-booking' ); ?></option>
+									<?php foreach ( $wordpress_users as $wordpress_user ) : ?>
+										<option value="<?php echo esc_attr( (string) $wordpress_user->ID ); ?>" <?php selected( $editing ? (int) $editing->user_id : 0, (int) $wordpress_user->ID ); ?>><?php echo esc_html( $wordpress_user->display_name . ' — ' . $wordpress_user->user_email ); ?></option>
+									<?php endforeach; ?>
+								</select>
+								<p class="description"><?php echo esc_html__( 'Search and select the WordPress account linked to this staff member.', 'yo-booking' ); ?></p>
+							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_staff_email"><?php echo esc_html__( 'Email', 'yo-booking' ); ?></label></th>
@@ -97,7 +112,10 @@ final class StaffPage extends AbstractAdminPage {
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_staff_phone"><?php echo esc_html__( 'Phone', 'yo-booking' ); ?></label></th>
-							<td><input id="yo_booking_staff_phone" name="phone" type="text" class="regular-text" value="<?php echo esc_attr( $editing ? $editing->phone : '' ); ?>" /></td>
+							<td>
+								<input id="yo_booking_staff_phone" name="phone" type="tel" class="regular-text" value="<?php echo esc_attr( $editing ? $editing->phone : '' ); ?>" data-yo-phone data-phone-country="<?php echo esc_attr( $editing ? $editing->phone_country : '' ); ?>" data-phone-country-field="yo_booking_staff_phone_country" />
+								<input id="yo_booking_staff_phone_country" name="phone_country" type="hidden" value="<?php echo esc_attr( $editing ? $editing->phone_country : '' ); ?>" />
+							</td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_staff_color"><?php echo esc_html__( 'Color', 'yo-booking' ); ?></label></th>

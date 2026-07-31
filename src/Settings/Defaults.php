@@ -35,6 +35,7 @@ final class Defaults {
 				'lead_time_minutes'         => 0,
 				'booking_window_days'       => 90,
 				'default_status'            => 'pending',
+				'default_phone_country'     => '',
 				'allow_guest_booking'       => true,
 				'allow_staff_selection'     => true,
 				'cancellation_window_hours' => 24,
