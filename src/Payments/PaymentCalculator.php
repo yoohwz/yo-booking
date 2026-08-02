@@ -29,6 +29,7 @@ final class PaymentCalculator {
 		$snapshot_due  = Money::to_minor( isset( $appointment->payment_due_amount ) ? $appointment->payment_due_amount : 0, $currency );
 		$net_paid      = max( 0, $paid_minor - $refund_minor );
 		$due_minor     = min( $balance_minor, max( 0, $snapshot_due - $net_paid ) );
+		$remaining_minor = max( 0, $balance_minor - $due_minor );
 		$mode          = isset( $appointment->payment_collection_mode ) ? sanitize_key( $appointment->payment_collection_mode ) : 'none';
 		$method_id     = isset( $appointment->payment_method ) ? sanitize_key( $appointment->payment_method ) : '';
 		$provider      = ( new PaymentProviderRegistry() )->get( $method_id, false );
@@ -46,12 +47,14 @@ final class PaymentCalculator {
 			'total_amount'        => Money::from_minor( $total_minor, $currency ),
 			'payment_due_amount'  => Money::from_minor( $snapshot_due, $currency ),
 			'amount_due'          => Money::from_minor( $due_minor, $currency ),
+			'remaining_amount'    => Money::from_minor( $remaining_minor, $currency ),
 			'paid_amount'         => Money::from_minor( $paid_minor, $currency ),
 			'refunded_amount'     => Money::from_minor( $refund_minor, $currency ),
 			'balance_amount'      => Money::from_minor( $balance_minor, $currency ),
 			'currency'            => $currency,
 			'total_display'       => Currency::format( Money::from_minor( $total_minor, $currency ), $currency ),
 			'amount_due_display'  => Currency::format( Money::from_minor( $due_minor, $currency ), $currency ),
+			'remaining_display'   => Currency::format( Money::from_minor( $remaining_minor, $currency ), $currency ),
 			'paid_display'        => Currency::format( Money::from_minor( $paid_minor, $currency ), $currency ),
 			'refunded_display'    => Currency::format( Money::from_minor( $refund_minor, $currency ), $currency ),
 			'balance_display'     => Currency::format( Money::from_minor( $balance_minor, $currency ), $currency ),

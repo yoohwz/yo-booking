@@ -126,10 +126,27 @@ final class Currency {
 	 * @return string
 	 */
 	public static function format( $amount, $code ) {
-		global $wp_locale;
 		$code             = self::normalize( $code );
 		$all              = self::all();
 		$currency         = $code && isset( $all[ $code ] ) ? $all[ $code ] : array();
+		$options          = self::formatting_options();
+		$number           = self::format_number( $amount, $code );
+		$symbol           = isset( $currency['symbol'] ) ? $currency['symbol'] : $code;
+		$position         = $options['currency_position'];
+		$after            = 'currency' === $position ? isset( $currency['position'] ) && 'after' === $currency['position'] : in_array( $position, array( 'right', 'right_space' ), true );
+		$spacing          = 'currency' === $position ? ( isset( $currency['separator'] ) ? $currency['separator'] : ' ' ) : ( in_array( $position, array( 'left_space', 'right_space' ), true ) ? ' ' : '' );
+
+		return $after ? $number . $spacing . $symbol : $symbol . $spacing . $number;
+	}
+
+	/**
+	 * Format only the editable numeric portion of a monetary amount.
+	 *
+	 * @param string $amount Decimal amount.
+	 * @param string $code Currency code.
+	 * @return string
+	 */
+	public static function format_number( $amount, $code ) {
 		$options          = self::formatting_options();
 		$storage_decimals = self::decimals( $code );
 		$decimals         = 'currency' === $options['number_of_decimals'] ? $storage_decimals : (int) $options['number_of_decimals'];
@@ -138,18 +155,50 @@ final class Currency {
 		$factor           = 10 ** $decimals;
 		$integer          = (string) intdiv( $display_minor, $factor );
 		$fraction         = $decimals ? str_pad( (string) ( $display_minor % $factor ), $decimals, '0', STR_PAD_LEFT ) : '';
-		$locale_thousand  = $wp_locale && isset( $wp_locale->number_format['thousands_sep'] ) ? $wp_locale->number_format['thousands_sep'] : ',';
-		$locale_decimal   = $wp_locale && isset( $wp_locale->number_format['decimal_point'] ) ? $wp_locale->number_format['decimal_point'] : '.';
-		$thousand         = self::separator( $options['thousand_separator'], $locale_thousand );
-		$separator        = self::separator( $options['decimal_separator'], $locale_decimal );
-		$integer          = $thousand ? preg_replace( '/\B(?=(\d{3})+(?!\d))/', $thousand, $integer ) : $integer;
-		$number           = $integer . ( $decimals ? $separator . $fraction : '' );
-		$symbol           = isset( $currency['symbol'] ) ? $currency['symbol'] : $code;
-		$position         = $options['currency_position'];
-		$after            = 'currency' === $position ? isset( $currency['position'] ) && 'after' === $currency['position'] : in_array( $position, array( 'right', 'right_space' ), true );
-		$spacing          = 'currency' === $position ? ( isset( $currency['separator'] ) ? $currency['separator'] : ' ' ) : ( in_array( $position, array( 'left_space', 'right_space' ), true ) ? ' ' : '' );
+		$separators       = self::resolved_separators( $options );
+		$thousand         = $separators['thousand'];
+		$decimal          = $separators['decimal'];
 
-		return $after ? $number . $spacing . $symbol : $symbol . $spacing . $number;
+		// An identical grouping and decimal separator is ambiguous in an input.
+		if ( $thousand === $decimal ) {
+			$thousand = '';
+		}
+
+		$integer = $thousand ? preg_replace( '/\B(?=(\d{3})+(?!\d))/', $thousand, $integer ) : $integer;
+
+		return $integer . ( $decimals ? $decimal . $fraction : '' );
+	}
+
+	/**
+	 * Parse a number formatted with the configured money separators.
+	 *
+	 * @param mixed  $value Submitted formatted value.
+	 * @param string $code Currency code.
+	 * @return string Normalized storage amount.
+	 */
+	public static function parse_number( $value, $code ) {
+		$raw_prefix = '__yo_booking_raw__:';
+		$value      = trim( (string) $value );
+
+		if ( 0 === strpos( $value, $raw_prefix ) ) {
+			return Money::normalize( substr( $value, strlen( $raw_prefix ) ), $code );
+		}
+
+		$options    = self::formatting_options();
+		$separators = self::resolved_separators( $options );
+		$thousand   = $separators['thousand'];
+		$decimal    = $separators['decimal'];
+		$value      = str_replace( array( "\xc2\xa0", "\xe2\x80\xaf" ), ' ', $value );
+
+		if ( $thousand && $thousand !== $decimal ) {
+			$value = str_replace( $thousand, '', $value );
+		}
+
+		if ( '.' !== $decimal ) {
+			$value = str_replace( $decimal, '.', $value );
+		}
+
+		return Money::normalize( $value, $code );
 	}
 
 	/**
@@ -179,6 +228,19 @@ final class Currency {
 		$options['number_of_decimals'] = in_array( (string) $options['number_of_decimals'], array( 'currency', '0', '1', '2', '3', '4' ), true ) ? (string) $options['number_of_decimals'] : $defaults['number_of_decimals'];
 
 		return $options;
+	}
+
+	/** @param array $options Validated options. @return array */
+	private static function resolved_separators( array $options ) {
+		global $wp_locale;
+
+		$locale_thousand = $wp_locale && isset( $wp_locale->number_format['thousands_sep'] ) ? $wp_locale->number_format['thousands_sep'] : ',';
+		$locale_decimal  = $wp_locale && isset( $wp_locale->number_format['decimal_point'] ) ? $wp_locale->number_format['decimal_point'] : '.';
+
+		return array(
+			'thousand' => self::separator( $options['thousand_separator'], $locale_thousand ),
+			'decimal'  => self::separator( $options['decimal_separator'], $locale_decimal ),
+		);
 	}
 
 	/** @param int $minor Minor units. @param int $from Source precision. @param int $to Display precision. @return int */

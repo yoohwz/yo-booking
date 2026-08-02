@@ -13,6 +13,8 @@ use YoBooking\Admin\AppearancePage;
 use YoBooking\Admin\AvailabilityPage;
 use YoBooking\Admin\DashboardPage;
 use YoBooking\Admin\NotificationsPage;
+use YoBooking\Admin\ServicesPage;
+use YoBooking\Admin\StaffPage;
 
 defined( 'ABSPATH' ) || exit;
 defined( 'YO_BOOKING_RUNNING_TESTS' ) || define( 'YO_BOOKING_RUNNING_TESTS', true );
@@ -72,6 +74,16 @@ $appointment_editor = $render( array( new AppointmentsPage(), 'render' ), array(
 $assert_contains( 'class="yo-editor"', $appointment_editor, 'Appointment editor' );
 $assert_contains( 'yo_booking_save_appointment', $appointment_editor, 'Appointment editor' );
 $assert_contains( 'data-customer-autocomplete', $appointment_editor, 'Customer autocomplete' );
+$assert_contains( 'id="yo_booking_total_amount" name="total_amount" type="text" inputmode="decimal"', $appointment_editor, 'Formatted appointment amount input' );
+$assert_contains( 'data-yo-money-input', $appointment_editor, 'Formatted appointment amount input' );
+
+$service_editor = $render( array( new ServicesPage(), 'render_services' ), array( 'action' => 'new' ) );
+$assert_contains( 'id="yo_booking_service_price" name="price" type="text" inputmode="decimal"', $service_editor, 'Formatted service price input' );
+$assert_contains( 'data-yo-money-raw', $service_editor, 'Service price precision preservation' );
+$assert_contains( 'id="yo_booking_service_color_hex"', $service_editor, 'Service HEX color input' );
+
+$staff_editor = $render( array( new StaffPage(), 'render' ), array( 'action' => 'new' ) );
+$assert_contains( 'id="yo_booking_staff_color_hex"', $staff_editor, 'Staff HEX color input' );
 
 $appointment_calendar = $render( array( new AppointmentsPage(), 'render' ), array( 'view' => 'calendar' ) );
 $assert_contains( 'id="yo-booking-calendar"', $appointment_calendar, 'Interactive calendar' );
@@ -81,6 +93,8 @@ $appearance = $render( array( new AppearancePage(), 'render' ) );
 $assert_contains( 'yo_booking_save_appearance', $appearance, 'Appearance settings' );
 $assert_contains( 'data-appearance-preview', $appearance, 'Appearance live preview' );
 $assert_contains( 'name="primary_color"', $appearance, 'Appearance colors' );
+$assert_contains( 'id="yo_booking_appearance_primary_color_hex"', $appearance, 'Appearance HEX color input' );
+$assert_contains( 'data-yo-color-control', $appearance, 'Appearance synchronized color control' );
 $assert_contains( 'name="show_progress"', $appearance, 'Appearance experience controls' );
 $assert_contains( 'data-appearance-preset="clean"', $appearance, 'Appearance presets' );
 $assert_contains( 'data-preview-device="mobile"', $appearance, 'Appearance device preview' );
@@ -100,22 +114,48 @@ $assert_contains( 'button-small yo-copy-feedback', $availability, 'Availability 
 $notifications = $render( array( new NotificationsPage(), 'render' ) );
 $assert_contains( 'data-yo-tab="templates"', $notifications, 'Notification tabs' );
 $assert_contains( 'data-yo-panel="logs"', $notifications, 'Notification tabs' );
+$assert_contains( 'data-yo-tab="settings"', $notifications, 'Notification settings tab' );
+$assert_contains( 'data-yo-panel="settings"', $notifications, 'Notification settings panel' );
 $assert_contains( 'yo-email-preview', $notifications, 'Notification preview' );
 $assert_contains( 'yo_booking_send_test_notification', $notifications, 'Test notification form' );
+$assert_contains( 'yo_booking_save_notification_settings', $notifications, 'Notification settings form' );
+$assert_not_contains( 'name="notifications_enabled"', $notifications, 'Notification settings form' );
+$assert_contains( 'name="email_primary_color"', $notifications, 'Email template colors' );
+$assert_contains( 'id="yo_booking_email_primary_color_hex"', $notifications, 'Email HEX color input' );
+$assert_contains( 'name="email_footer_text"', $notifications, 'Email footer text setting' );
+$assert_contains( 'href="https://yoohw.com"', $notifications, 'Email footer link' );
+$assert_contains( 'data-yo-email-style-preview', $notifications, 'Email design preview' );
+$assert_contains( 'yo-email-style-preview__brand', $notifications, 'Email design preview' );
+$assert_contains( 'yo-email-style-preview__header', $notifications, 'Email design preview' );
 
 $settings = $render( array( new AdminMenu(), 'render_page' ) );
 $assert_contains( 'System status', $settings, 'Settings' );
+$assert_not_contains( 'Admin icons', $settings, 'System status' );
 $assert_contains( 'yo-settings-layout', $settings, 'Settings' );
 $assert_contains( 'settings_tab=payments', $settings, 'Settings navigation' );
 $assert_not_contains( 'data-payment-field="deposit"', $settings, 'General settings' );
 $assert_contains( 'settings_tab=integrations', $settings, 'Settings navigation' );
 $assert_contains( 'settings_tab=audit', $settings, 'Settings navigation' );
 $assert_contains( 'settings_tab=maintenance', $settings, 'Settings navigation' );
-$assert_contains( '<option value="BTC"', $settings, 'WooCommerce-compatible currency choices' );
-$assert_not_contains( '<option value="XAU"', $settings, 'WooCommerce-compatible currency choices' );
+$assert_contains( 'data-settings-section="company"', $settings, 'Company settings section' );
+$assert_contains( 'data-settings-section="regional"', $settings, 'Regional settings section' );
+$assert_contains( 'data-settings-section="booking-rules"', $settings, 'Booking rules section' );
+$assert_contains( 'data-settings-section="customer-booking"', $settings, 'Customer booking section' );
+$assert_not_contains( 'data-settings-section="notifications"', $settings, 'General settings' );
+$assert_not_contains( 'name="notification_from_email"', $settings, 'General settings' );
+$assert_contains( 'data-settings-section="data-management"', $settings, 'Data management section' );
+$assert_not_contains( 'name="company_currency"', $settings, 'General settings' );
+$assert_not_contains( 'Core settings', $settings, 'General settings' );
+$assert_contains( 'name="company_logo_id"', $settings, 'Company logo setting' );
+$assert_contains( 'data-yo-media-field', $settings, 'Company logo media picker' );
+$assert_contains( 'data-yo-media-image', $settings, 'Company logo preview' );
 
 $payment_settings = $render( array( new AdminMenu(), 'render_page' ), array( 'settings_tab' => 'payments' ) );
 $assert_contains( 'name="settings_tab" value="payments"', $payment_settings, 'Payment settings form' );
+$assert_contains( 'data-settings-section="currency"', $payment_settings, 'Currency settings section' );
+$assert_contains( 'name="company_currency"', $payment_settings, 'Default currency setting' );
+$assert_contains( '<option value="BTC"', $payment_settings, 'WooCommerce-compatible currency choices' );
+$assert_not_contains( '<option value="XAU"', $payment_settings, 'WooCommerce-compatible currency choices' );
 $assert_contains( 'name="payment_currency_position"', $payment_settings, 'Currency position settings' );
 $assert_contains( 'name="payment_thousand_separator"', $payment_settings, 'Currency separator settings' );
 $assert_contains( 'name="payment_decimal_separator"', $payment_settings, 'Currency separator settings' );

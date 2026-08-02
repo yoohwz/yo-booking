@@ -234,7 +234,8 @@ final class AppearancePage extends AbstractAdminPage {
 
 	/** @param string $name Field name. @param string $label Label. @param string $value Value. @param string $variable CSS variable. @return void */
 	private function color_field( $name, $label, $value, $variable ) {
-		?><label class="yo-color-field" for="yo_booking_appearance_<?php echo esc_attr( $name ); ?>"><span><?php echo esc_html( $label ); ?></span><span class="yo-color-control"><input id="yo_booking_appearance_<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>" type="color" value="<?php echo esc_attr( $value ); ?>" data-appearance-variable="<?php echo esc_attr( $variable ); ?>" /><code data-color-value><?php echo esc_html( $value ); ?></code></span></label><?php
+		$id = 'yo_booking_appearance_' . $name;
+		?><label class="yo-color-field" for="<?php echo esc_attr( $id ); ?>"><span><?php echo esc_html( $label ); ?></span><?php $this->render_color_control( $id, $name, $value, $label, 'data-appearance-variable', $variable ); ?></label><?php
 	}
 
 	/** @param array $data Posted data. @param string $key Key. @param array $allowed Allowed values. @param string $default Default. @return string */

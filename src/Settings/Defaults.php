@@ -24,6 +24,7 @@ final class Defaults {
 		return array(
 			'company'       => array(
 				'name'     => get_bloginfo( 'name' ),
+				'logo_id'  => 0,
 				'email'    => get_option( 'admin_email' ),
 				'phone'    => '',
 				'address'  => '',
@@ -44,10 +45,15 @@ final class Defaults {
 				'require_phone'             => true,
 			),
 			'notifications' => array(
-				'enabled'    => true,
-				'from_name'  => get_bloginfo( 'name' ),
-				'from_email' => get_option( 'admin_email' ),
-				'admin_to'   => get_option( 'admin_email' ),
+				'from_name'              => get_bloginfo( 'name' ),
+				'from_email'             => get_option( 'admin_email' ),
+				'admin_to'               => get_option( 'admin_email' ),
+				'email_background_color' => '#f3f4f6',
+				'email_surface_color'    => '#ffffff',
+				'email_primary_color'    => '#2563eb',
+				'email_text_color'       => '#1f2937',
+				'email_muted_color'      => '#64748b',
+				'email_footer_text'      => __( 'Power by Yo Booking', 'yo-booking' ),
 			),
 			'payments'      => array(
 				'enabled'                 => false,

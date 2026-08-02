@@ -99,6 +99,10 @@ if ( '$1,234.50' !== YoBooking\Payments\Currency::format( '1234.5', 'USD' ) || '
 	$fail( 'currency symbol spacing or placement failed' );
 }
 
+if ( '1,234.50' !== YoBooking\Payments\Currency::format_number( '1234.5', 'USD' ) || '1234.50' !== YoBooking\Payments\Currency::parse_number( '1,234.50', 'USD' ) ) {
+	$fail( 'default editable currency number formatting failed' );
+}
+
 $GLOBALS['yo_booking_test_options']['yo_booking_settings'] = array(
 	'payments' => array(
 		'currency_position'  => 'right_space',
@@ -110,6 +114,14 @@ $GLOBALS['yo_booking_test_options']['yo_booking_settings'] = array(
 
 if ( '1.234,500 $' !== YoBooking\Payments\Currency::format( '1234.5', 'USD' ) ) {
 	$fail( 'custom currency display settings failed' );
+}
+
+if ( '1.234,500' !== YoBooking\Payments\Currency::format_number( '1234.5', 'USD' ) || '1234.50' !== YoBooking\Payments\Currency::parse_number( '1.234,500', 'USD' ) ) {
+	$fail( 'custom editable currency number formatting failed' );
+}
+
+if ( '25.00' !== YoBooking\Payments\Currency::parse_number( '__yo_booking_raw__:25.0000', 'USD' ) ) {
+	$fail( 'unchanged raw editable currency value was parsed as localized display text' );
 }
 
 $GLOBALS['yo_booking_test_options']['yo_booking_settings']['payments']['number_of_decimals'] = '2';

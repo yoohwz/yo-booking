@@ -24,8 +24,16 @@
 		return id ? document.getElementById( id ) : null;
 	}
 
+	function selectedCountry( input ) {
+		var instance = instances.get( input );
+		if ( ! instance ) return {};
+		if ( typeof instance.getSelectedCountry === 'function' ) return instance.getSelectedCountry() || {};
+		if ( typeof instance.getSelectedCountryData === 'function' ) return instance.getSelectedCountryData() || {};
+		return {};
+	}
+
 	function syncCountry( input ) {
-		var country = cleanCountry( instances.get( input )?.getSelectedCountryData()?.iso2 );
+		var country = cleanCountry( selectedCountry( input ).iso2 );
 		var field = countryField( input );
 		if ( field ) field.value = country;
 		if ( config.rememberCountry && country ) {
@@ -54,7 +62,7 @@
 			detail: {
 				number: canonicalNumber( input ),
 				valid: isValid( input ),
-				country: instances.get( input )?.getSelectedCountryData()?.iso2 || '',
+				country: selectedCountry( input ).iso2 || '',
 			},
 		} ) );
 	}

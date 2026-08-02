@@ -56,6 +56,16 @@ final class PaymentManager {
 	}
 
 	/**
+	 * Return authoritative payment terms for a service before booking.
+	 *
+	 * @param object $service Service row.
+	 * @return array
+	 */
+	public function quote_for_service( $service ) {
+		return ( new PaymentSnapshot() )->quote( $service );
+	}
+
+	/**
 	 * Validate a payment method submitted by a customer.
 	 *
 	 * @param string $method_id Submitted method ID.

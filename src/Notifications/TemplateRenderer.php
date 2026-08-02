@@ -88,10 +88,63 @@ final class TemplateRenderer {
 			return trim( $rendered['heading'] . "\n\n" . wp_strip_all_tags( $rendered['body'] ) );
 		}
 
-		$heading = '' !== $rendered['heading'] ? '<h1 style="font-size:20px;line-height:1.35;margin:0 0 16px;">' . esc_html( $rendered['heading'] ) . '</h1>' : '';
-		$body    = wpautop( wp_kses_post( $rendered['body'] ) );
+		$settings      = ( new SettingsRepository() )->all();
+		$notifications = isset( $settings['notifications'] ) && is_array( $settings['notifications'] ) ? $settings['notifications'] : array();
+		$company       = isset( $settings['company'] ) && is_array( $settings['company'] ) ? $settings['company'] : array();
+		$background    = $this->color( isset( $notifications['email_background_color'] ) ? $notifications['email_background_color'] : '', '#f3f4f6' );
+		$surface       = $this->color( isset( $notifications['email_surface_color'] ) ? $notifications['email_surface_color'] : '', '#ffffff' );
+		$primary       = $this->color( isset( $notifications['email_primary_color'] ) ? $notifications['email_primary_color'] : '', '#2563eb' );
+		$text          = $this->color( isset( $notifications['email_text_color'] ) ? $notifications['email_text_color'] : '', '#1f2937' );
+		$muted         = $this->color( isset( $notifications['email_muted_color'] ) ? $notifications['email_muted_color'] : '', '#64748b' );
+		$company_name  = ! empty( $company['name'] ) ? (string) $company['name'] : get_bloginfo( 'name' );
+		$logo_id       = ! empty( $company['logo_id'] ) ? absint( $company['logo_id'] ) : 0;
+		$logo_url      = $logo_id && wp_attachment_is_image( $logo_id ) ? wp_get_attachment_image_url( $logo_id, 'medium' ) : '';
+		$heading       = '' !== $rendered['heading'] ? '<h1 style="color:#ffffff;font-size:24px;line-height:1.3;margin:0;font-weight:700;">' . esc_html( $rendered['heading'] ) . '</h1>' : '';
+		$body          = wpautop( make_clickable( wp_kses_post( $rendered['body'] ) ) );
+		$body          = preg_replace( '/<a\s+(?![^>]*style=)/i', '<a style="color:' . esc_attr( $primary ) . ';font-weight:600;" ', $body );
+		$logo          = $logo_url ? '<img src="' . esc_url( $logo_url ) . '" alt="' . esc_attr( $company_name ) . '" style="display:block;max-width:180px;max-height:52px;width:auto;height:auto;margin:0 auto;border:0;" />' : '';
+		$brand         = $logo ? $logo : '<span style="color:' . esc_attr( $primary ) . ';font-size:20px;line-height:1.3;font-weight:700;">' . esc_html( $company_name ) . '</span>';
+		$footer_text   = isset( $notifications['email_footer_text'] ) ? (string) $notifications['email_footer_text'] : __( 'Power by Yo Booking', 'yo-booking' );
+		$footer        = self::footer_html( $footer_text, $primary );
+		$footer_row    = '' !== trim( $footer_text ) ? '<tr><td align="center" style="padding:20px 24px 0;color:' . esc_attr( $muted ) . ';font-size:12px;line-height:1.6;">' . $footer . '</td></tr>' : '';
+		$heading_row   = $heading ? '<tr><td class="yo-booking-email-heading" bgcolor="' . esc_attr( $primary ) . '" style="padding:24px 32px;background:' . esc_attr( $primary ) . ';border-radius:12px 12px 0 0;">' . $heading . '</td></tr>' : '';
+		$body_radius   = $heading ? '0 0 12px 12px' : '12px';
 
-		return '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.55;color:#1f2937;">' . $heading . $body . '</div>';
+		return '<table id="outer_wrapper" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="' . esc_attr( $background ) . '" style="width:100%;margin:0;padding:0;background:' . esc_attr( $background ) . ';font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;">'
+			. '<tr><td align="center" style="padding:32px 16px;">'
+			. '<table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:600px;border-collapse:separate;">'
+			. '<tr><td class="yo-booking-email-brand" align="center" style="padding:0 4px 18px;text-align:center;">' . $brand . '</td></tr>'
+			. $heading_row
+			. '<tr><td class="yo-booking-email-body" bgcolor="' . esc_attr( $surface ) . '" style="padding:36px 32px;color:' . esc_attr( $text ) . ';background:' . esc_attr( $surface ) . ';font-size:15px;line-height:1.65;border-radius:' . esc_attr( $body_radius ) . ';"><div style="color:' . esc_attr( $text ) . ';">' . $body . '</div></td></tr>'
+			. $footer_row
+			. '</table></td></tr></table>';
+	}
+
+	/**
+	 * Render configurable footer text and link the plugin name.
+	 *
+	 * @param string $text Footer text.
+	 * @param string $link_color Link color.
+	 * @return string
+	 */
+	public static function footer_html( $text, $link_color = '#2563eb' ) {
+		$link = '<a href="https://yoohw.com" style="color:' . esc_attr( $link_color ) . ';font-weight:600;text-decoration:underline;">Yo Booking</a>';
+		$html = str_replace( 'Yo Booking', $link, esc_html( $text ) );
+
+		return nl2br( $html );
+	}
+
+	/**
+	 * Return a validated email color.
+	 *
+	 * @param string $value Raw color.
+	 * @param string $fallback Default color.
+	 * @return string
+	 */
+	private function color( $value, $fallback ) {
+		$color = sanitize_hex_color( $value );
+
+		return $color ? $color : $fallback;
 	}
 
 	/**

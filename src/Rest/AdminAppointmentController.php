@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 use YoBooking\Payments\Currency;
+use YoBooking\Payments\Money;
 use YoBooking\Payments\PaymentManager;
 use YoBooking\Repositories\AppointmentRepository;
 use YoBooking\Repositories\CustomerRepository;
@@ -171,7 +172,9 @@ final class AdminAppointmentController {
 
 		$params = $this->params( $request );
 		$status = isset( $params['status'] ) ? sanitize_key( $params['status'] ) : 'pending';
-		$amount = isset( $params['amount'] ) ? $params['amount'] : $appointment->total_amount;
+		$amount = isset( $params['amount'] ) && isset( $params['amount_format'] ) && 'localized' === $params['amount_format']
+			? Currency::parse_number( $params['amount'], $appointment->currency )
+			: Money::normalize( isset( $params['amount'] ) ? $params['amount'] : $appointment->total_amount, $appointment->currency );
 		$note   = isset( $params['note'] ) ? sanitize_textarea_field( $params['note'] ) : __( 'Updated from appointment details.', 'yo-booking' );
 		$result = ( new PaymentRepository() )->mark_appointment(
 			(int) $appointment->id,
@@ -330,6 +333,8 @@ final class AdminAppointmentController {
 			'paid_amount'    => isset( $appointment->paid_amount ) ? (string) $appointment->paid_amount : '0',
 			'refunded_amount' => isset( $appointment->refunded_amount ) ? (string) $appointment->refunded_amount : '0',
 			'balance_amount' => isset( $appointment->balance_amount ) ? (string) $appointment->balance_amount : (string) $appointment->total_amount,
+			'total_input'    => Currency::format_number( $appointment->total_amount, $appointment->currency ),
+			'balance_input'  => Currency::format_number( isset( $appointment->balance_amount ) ? $appointment->balance_amount : $appointment->total_amount, $appointment->currency ),
 			'currency'       => $appointment->currency,
 			'total_display'  => Currency::format( $appointment->total_amount, $appointment->currency ),
 			'paid_display'   => Currency::format( isset( $appointment->paid_amount ) ? $appointment->paid_amount : 0, $appointment->currency ),
@@ -345,7 +350,7 @@ final class AdminAppointmentController {
 
 	/** @param object $payment Payment row. @return array */
 	private function payment_payload( $payment ) {
-		return array( 'id' => (int) $payment->id, 'kind' => $payment->kind, 'status' => $payment->status, 'amount' => (string) $payment->amount, 'currency' => $payment->currency, 'method' => $payment->method_title, 'transaction_id' => $payment->transaction_id, 'note' => wp_strip_all_tags( (string) $payment->note ), 'created_at' => DateTimeFormatter::utc( $payment->created_at ) );
+		return array( 'id' => (int) $payment->id, 'kind' => $payment->kind, 'status' => $payment->status, 'amount' => (string) $payment->amount, 'amount_display' => Currency::format( $payment->amount, $payment->currency ), 'currency' => $payment->currency, 'method' => $payment->method_title, 'transaction_id' => $payment->transaction_id, 'note' => wp_strip_all_tags( (string) $payment->note ), 'created_at' => DateTimeFormatter::utc( $payment->created_at ) );
 	}
 
 	/** @param object $log Notification log row. @return array */

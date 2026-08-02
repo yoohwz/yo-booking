@@ -296,9 +296,15 @@
 			} );
 		}
 
+		function selectedPaymentQuote() {
+			var service = selectedService();
+			return service && service.payment ? service.payment : null;
+		}
+
 		function paymentRequired() {
 			var service = selectedService();
-			return !! ( state.paymentConfig.enabled && service && parseFloat( service.price || '0' ) > 0 );
+			var quote = selectedPaymentQuote();
+			return !! ( state.paymentConfig.enabled && service && ( quote ? quote.enabled : parseFloat( service.price || '0' ) > 0 ) );
 		}
 
 		function loadStaff( serviceId ) {
@@ -717,12 +723,16 @@
 				var name = create( 'span', 'yo-booking-card-title', service.name );
 				var price = appearance.showServicePrices !== false && service.price ? ' · ' + ( service.price_display || ( service.currency + ' ' + service.price ) ) : '';
 				var meta = create( 'span', 'yo-booking-card-meta', formatText( '%d min', service.duration_minutes ) + price );
+				var payment = service.payment || {};
 				var desc = create( 'span', 'yo-booking-card-desc', service.description || '' );
 
 				button.type = 'button';
 				markSelected( button, service.id === state.selectedService );
 				button.appendChild( name );
 				button.appendChild( meta );
+				if ( payment.enabled && payment.collection_mode === 'deposit' ) {
+					button.appendChild( create( 'span', 'yo-booking-card-payment', t( 'Deposit due' ) + ': ' + ( payment.amount_due_display || payment.amount_due ) ) );
+				}
 				if ( appearance.showServiceDetails !== false && service.description ) {
 					button.appendChild( desc );
 				}
@@ -836,6 +846,9 @@
 				form.appendChild( marketingConsentField() );
 			}
 			if ( paymentRequired() ) {
+				if ( selectedPaymentQuote()?.collection_mode === 'deposit' ) {
+					form.appendChild( paymentBox( selectedPaymentQuote() ) );
+				}
 				form.appendChild( paymentMethodField() );
 			}
 
@@ -869,6 +882,7 @@
 			var service = selectedService();
 			var staff = selectedStaff();
 			var paymentMethod = selectedPaymentMethod();
+			var paymentQuote = selectedPaymentQuote();
 			stepHeading( body, t( 'Review your booking' ), t( 'Confirm the details below before submitting your appointment.' ) );
 			body.appendChild( summaryGroup( t( 'Booking details' ), [
 				[ t( 'Service' ), service ? service.name : '' ],
@@ -883,7 +897,13 @@
 			] ) );
 			if ( service && ( ( appearance.showServicePrices !== false && service.price ) || paymentRequired() ) ) {
 				var paymentRows = [];
-				if ( appearance.showServicePrices !== false && service.price ) paymentRows.push( [ t( 'Total' ), service.price_display || ( ( service.currency ? service.currency + ' ' : '' ) + service.price ) ] );
+				if ( appearance.showServicePrices !== false && service.price ) paymentRows.push( [ t( 'Total' ), paymentQuote && paymentQuote.total_display ? paymentQuote.total_display : ( service.price_display || ( ( service.currency ? service.currency + ' ' : '' ) + service.price ) ) ] );
+				if ( paymentRequired() && paymentQuote?.collection_mode === 'deposit' ) {
+					paymentRows.push( [ t( 'Deposit due' ), paymentQuote.amount_due_display || paymentQuote.amount_due ] );
+					if ( parseFloat( paymentQuote.remaining_amount || '0' ) > 0 ) {
+						paymentRows.push( [ t( 'Remaining balance' ), paymentQuote.remaining_display || paymentQuote.remaining_amount ] );
+					}
+				}
 				if ( paymentRequired() && paymentMethod ) paymentRows.push( [ t( 'Payment method' ), paymentMethod.title ] );
 				body.appendChild( summaryGroup( t( 'Payment' ), paymentRows ) );
 				if ( paymentRequired() && paymentMethod && paymentMethod.description ) {
@@ -923,7 +943,7 @@
 					[ t( 'Status' ), statusLabel( appointment.status ) ],
 				] ) );
 			}
-			if ( payment ) {
+			if ( payment?.collection_mode === 'deposit' ) {
 				body.appendChild( paymentBox( payment ) );
 			}
 			if ( state.confirmation && state.confirmation.payment_error ) {
@@ -1000,6 +1020,13 @@
 			meta.appendChild( create( 'span', '', appointment.staff_name || t( 'Any available staff' ) ) );
 			meta.appendChild( create( 'span', '', statusLabel( appointment.status ) ) );
 			meta.appendChild( create( 'span', '', formatText( 'Payment: %s', statusLabel( appointment.payment_status || 'pending' ) ) ) );
+			var payment = appointment.payment || {};
+			if ( payment.enabled && payment.collection_mode === 'deposit' && parseFloat( payment.amount_due || '0' ) > 0 ) {
+				meta.appendChild( create( 'span', '', t( 'Deposit due' ) + ': ' + ( payment.amount_due_display || payment.amount_due ) ) );
+			}
+			if ( payment.enabled && payment.collection_mode === 'deposit' && parseFloat( payment.remaining_amount || '0' ) > 0 ) {
+				meta.appendChild( create( 'span', '', formatText( 'Remaining balance: %s', payment.remaining_display || payment.remaining_amount ) ) );
+			}
 
 			if ( appointment.can_reschedule && appointment.reschedule_url ) {
 				actions.appendChild( portalLink( appointment.reschedule_url, t( 'Reschedule' ), 'yo-booking-secondary' ) );
@@ -1026,7 +1053,8 @@
 
 		function paymentBox( payment ) {
 			var box = create( 'div', 'yo-booking-payment-box' );
-			var title = payment.collection_mode === 'deposit' ? t( 'Deposit due' ) : t( 'Payment due' );
+			payment = payment || {};
+			var title = t( 'Deposit due' );
 			var amount = payment.amount_due_display || ( payment.amount_due + ( payment.currency ? ' ' + payment.currency : '' ) );
 
 			if ( ! payment.enabled || ! parseFloat( payment.amount_due || '0' ) ) {
@@ -1034,6 +1062,9 @@
 			}
 
 			box.appendChild( create( 'strong', '', title + ': ' + amount ) );
+			if ( parseFloat( payment.remaining_amount || '0' ) > 0 ) {
+				box.appendChild( create( 'span', '', formatText( 'Remaining balance: %s', payment.remaining_display || payment.remaining_amount ) ) );
+			}
 			if ( payment.provider_title ) {
 				box.appendChild( create( 'span', '', payment.provider_title ) );
 			}
@@ -1182,6 +1213,13 @@
 			addSummary( summary, t( 'Time' ), ( appointment.start_time_display || appointment.start_time ) + ' - ' + ( appointment.end_time_display || appointment.end_time ) );
 			addSummary( summary, t( 'Status' ), statusLabel( appointment.status ) );
 			addSummary( summary, t( 'Payment' ), statusLabel( appointment.payment_status || 'pending' ) );
+			var payment = appointment.payment || {};
+			if ( payment.enabled && payment.collection_mode === 'deposit' && parseFloat( payment.amount_due || '0' ) > 0 ) {
+				addSummary( summary, t( 'Deposit due' ), payment.amount_due_display || payment.amount_due );
+			}
+			if ( payment.enabled && payment.collection_mode === 'deposit' && parseFloat( payment.remaining_amount || '0' ) > 0 ) {
+				addSummary( summary, t( 'Remaining balance' ), payment.remaining_display || payment.remaining_amount );
+			}
 			return summary;
 		}
 

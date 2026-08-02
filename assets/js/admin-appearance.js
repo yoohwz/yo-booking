@@ -18,10 +18,6 @@
 				preview.style.setProperty( '--yo-booking-primary-rgb', hexRgb( input.value ).join( ',' ) );
 			}
 
-			var output = input.parentElement.querySelector( '[data-color-value]' );
-			if ( output ) {
-				output.textContent = input.value.toUpperCase();
-			}
 			updateContrast();
 		} );
 	} );

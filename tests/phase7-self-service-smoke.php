@@ -75,9 +75,9 @@ $rest_request = static function ( $method, $route, $params = array() ) {
 	return rest_do_request( $request );
 };
 
+add_filter( 'pre_wp_mail', '__return_true' );
+
 try {
-	$settings['notifications']['enabled'] = false;
-	$settings_repository->save( $settings );
 
 	$date = $next_weekday();
 
@@ -234,6 +234,7 @@ try {
 } finally {
 	global $wpdb;
 
+	remove_filter( 'pre_wp_mail', '__return_true' );
 	$settings_repository->save( $original_settings );
 
 	if ( $appointment_id ) {

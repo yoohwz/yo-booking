@@ -1,9 +1,9 @@
 {
   "apiVersion": 3,
-  "name": "yo-booking/booking",
-  "title": "Yo Booking",
+  "name": "yo-booking/portal",
+  "title": "Customer Portal",
   "category": "yo-booking",
-  "description": "Display the Yo Booking appointment flow.",
+  "description": "Display the Yo Booking customer portal.",
   "textdomain": "yo-booking",
   "supports": {
     "html": false

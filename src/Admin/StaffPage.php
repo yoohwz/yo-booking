@@ -119,7 +119,7 @@ final class StaffPage extends AbstractAdminPage {
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_staff_color"><?php echo esc_html__( 'Color', 'yo-booking' ); ?></label></th>
-							<td><input id="yo_booking_staff_color" name="color" type="color" value="<?php echo esc_attr( $editing && $editing->color ? $editing->color : '#16a34a' ); ?>" /></td>
+							<td><?php $this->render_color_control( 'yo_booking_staff_color', 'color', $editing && $editing->color ? $editing->color : '#16a34a', __( 'Color', 'yo-booking' ) ); ?></td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_staff_sort_order"><?php echo esc_html__( 'Sort order', 'yo-booking' ); ?></label></th>

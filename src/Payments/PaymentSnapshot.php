@@ -26,6 +26,40 @@ final class PaymentSnapshot {
 	 * @return array
 	 */
 	public function build( $service, $method_id ) {
+		$quote    = $this->quote( $service );
+		$registry = new PaymentProviderRegistry();
+		$provider = $registry->get( $method_id );
+
+		if ( ! $provider ) {
+			$provider = $registry->get( $registry->default_id() );
+		}
+
+		return array(
+			'subtotal_amount'        => $quote['subtotal_amount'],
+			'discount_amount'        => $quote['discount_amount'],
+			'tax_amount'             => $quote['tax_amount'],
+			'total_amount'           => $quote['total_amount'],
+			'currency'               => $quote['currency'],
+			'payment_method'         => $provider ? $provider->id() : '',
+			'payment_method_title'   => $provider ? $provider->title() : '',
+			'payment_collection_mode' => $quote['collection_mode'],
+			'payment_instructions'   => $provider ? $provider->instructions() : '',
+			'payment_reference'      => $this->reference(),
+			'payment_due_amount'     => $quote['amount_due'],
+			'paid_amount'            => Money::from_minor( 0, $quote['currency'] ),
+			'refunded_amount'        => Money::from_minor( 0, $quote['currency'] ),
+			'balance_amount'         => $quote['total_amount'],
+			'payment_status'         => 'pending',
+		);
+	}
+
+	/**
+	 * Calculate customer-facing payment terms before an appointment is created.
+	 *
+	 * @param object $service Service row.
+	 * @return array
+	 */
+	public function quote( $service ) {
 		$settings = ( new SettingsRepository() )->all();
 		$currency = Currency::normalize( isset( $service->currency ) ? $service->currency : '' );
 		$currency = $currency ? $currency : Currency::normalize( $settings['company']['currency'] );
@@ -47,14 +81,8 @@ final class PaymentSnapshot {
 		$total    = max( 0, $subtotal - $discount + $tax );
 		$mode     = ! empty( $settings['payments']['enabled'] ) ? sanitize_key( $settings['payments']['collection_mode'] ) : 'none';
 		$mode     = $total && in_array( $mode, array( 'full', 'deposit' ), true ) ? $mode : 'none';
-		$registry = new PaymentProviderRegistry();
-		$provider = $registry->get( $method_id );
+		$due      = 'full' === $mode ? $total : 0;
 
-		if ( ! $provider ) {
-			$provider = $registry->get( $registry->default_id() );
-		}
-
-		$due = 'full' === $mode ? $total : 0;
 		if ( 'deposit' === $mode ) {
 			if ( 'fixed' === sanitize_key( $settings['payments']['deposit_type'] ) ) {
 				$due = min( $total, Money::to_minor( $settings['payments']['deposit_amount'], $currency ) );
@@ -63,22 +91,21 @@ final class PaymentSnapshot {
 			}
 		}
 
+		$remaining = max( 0, $total - $due );
+
 		return array(
-			'subtotal_amount'        => Money::from_minor( $subtotal, $currency ),
-			'discount_amount'        => Money::from_minor( $discount, $currency ),
-			'tax_amount'             => Money::from_minor( $tax, $currency ),
-			'total_amount'           => Money::from_minor( $total, $currency ),
-			'currency'               => $currency,
-			'payment_method'         => $provider ? $provider->id() : '',
-			'payment_method_title'   => $provider ? $provider->title() : '',
-			'payment_collection_mode' => $mode,
-			'payment_instructions'   => $provider ? $provider->instructions() : '',
-			'payment_reference'      => $this->reference(),
-			'payment_due_amount'     => Money::from_minor( $due, $currency ),
-			'paid_amount'            => Money::from_minor( 0, $currency ),
-			'refunded_amount'        => Money::from_minor( 0, $currency ),
-			'balance_amount'         => Money::from_minor( $total, $currency ),
-			'payment_status'         => 'pending',
+			'enabled'             => in_array( $mode, array( 'full', 'deposit' ), true ) && $due > 0,
+			'collection_mode'     => $mode,
+			'subtotal_amount'     => Money::from_minor( $subtotal, $currency ),
+			'discount_amount'     => Money::from_minor( $discount, $currency ),
+			'tax_amount'          => Money::from_minor( $tax, $currency ),
+			'total_amount'        => Money::from_minor( $total, $currency ),
+			'amount_due'          => Money::from_minor( $due, $currency ),
+			'remaining_amount'    => Money::from_minor( $remaining, $currency ),
+			'currency'            => $currency,
+			'total_display'       => Currency::format( Money::from_minor( $total, $currency ), $currency ),
+			'amount_due_display'  => Currency::format( Money::from_minor( $due, $currency ), $currency ),
+			'remaining_display'   => Currency::format( Money::from_minor( $remaining, $currency ), $currency ),
 		);
 	}
 

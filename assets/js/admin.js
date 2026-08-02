@@ -58,6 +58,174 @@
 		document.querySelector('[name="payment_collection_mode"]')?.addEventListener('change', syncPaymentFields);
 		syncPaymentFields();
 
+		document.addEventListener('input', function (event) {
+			if (event.target.matches?.('[data-yo-money-input]')) {
+				event.target.dataset.yoMoneyDirty = '1';
+			}
+		});
+
+		function syncDepositAmountField() {
+			var type = document.getElementById('yo_booking_deposit_type');
+			var amount = document.getElementById('yo_booking_deposit_amount');
+			if (!type || !amount) return;
+
+			if (type.value === 'fixed') {
+				if (amount.dataset.yoMoneyRaw === undefined) {
+					amount.dataset.yoMoneyRaw = amount.value;
+					delete amount.dataset.yoMoneyDirty;
+				}
+				amount.type = 'text';
+				amount.inputMode = 'decimal';
+				amount.setAttribute('data-yo-money-input', '');
+				amount.removeAttribute('min');
+				amount.removeAttribute('max');
+				amount.removeAttribute('step');
+				return;
+			}
+
+			if (amount.dataset.yoMoneyRaw !== undefined) {
+				amount.value = amount.dataset.yoMoneyRaw;
+			}
+			amount.type = 'number';
+			amount.min = '0';
+			amount.max = '100';
+			amount.step = 'any';
+			amount.removeAttribute('inputmode');
+			amount.removeAttribute('data-yo-money-input');
+			delete amount.dataset.yoMoneyRaw;
+			delete amount.dataset.yoMoneyDirty;
+		}
+
+		document.getElementById('yo_booking_deposit_type')?.addEventListener('change', syncDepositAmountField);
+
+		document.querySelectorAll('[data-yo-media-field]').forEach(function (field) {
+			var input = field.querySelector('[data-yo-media-id]');
+			var image = field.querySelector('[data-yo-media-image]');
+			var placeholder = field.querySelector('[data-yo-media-placeholder]');
+			var selectButton = field.querySelector('[data-yo-media-select]');
+			var removeButton = field.querySelector('[data-yo-media-remove]');
+			var frame;
+
+			function updatePreview(url, alt) {
+				var hasImage = Boolean(url);
+				if (image) {
+					image.hidden = !hasImage;
+					if (hasImage) {
+						image.src = url;
+						image.alt = alt || field.dataset.previewAlt || '';
+					} else {
+						image.removeAttribute('src');
+					}
+				}
+				if (placeholder) placeholder.hidden = hasImage;
+				if (removeButton) removeButton.hidden = !hasImage;
+			}
+
+			selectButton?.addEventListener('click', function () {
+				if (!window.wp?.media) return;
+				if (!frame) {
+					frame = window.wp.media({
+						title: field.dataset.frameTitle || 'Choose an image',
+						button: { text: field.dataset.frameButton || 'Use this image' },
+						library: { type: 'image' },
+						multiple: false,
+					});
+					frame.on('select', function () {
+						var attachment = frame.state().get('selection').first()?.toJSON();
+						if (!attachment || !input) return;
+						var preview = attachment.sizes?.thumbnail || attachment.sizes?.medium;
+						input.value = String(attachment.id);
+						updatePreview(preview?.url || attachment.url, attachment.alt || attachment.title);
+					});
+					frame.on('open', function () {
+						var attachmentId = Number(input?.value || 0);
+						var selection = frame.state().get('selection');
+						selection.reset();
+						if (attachmentId) {
+							var attachment = window.wp.media.attachment(attachmentId);
+							attachment.fetch();
+							selection.add(attachment);
+						}
+					});
+				}
+				frame.open();
+			});
+
+			removeButton?.addEventListener('click', function () {
+				if (input) input.value = '';
+				updatePreview('', '');
+			});
+		});
+
+		document.querySelectorAll('[data-yo-color-control]').forEach(function (control) {
+			var picker = control.querySelector('[data-yo-color-picker]');
+			var hex = control.querySelector('[data-yo-color-hex]');
+			if (!picker || !hex) return;
+
+			function normalizeHex(value) {
+				var match = String(value || '').trim().match(/^#?([0-9a-f]{6})$/i);
+				return match ? '#' + match[1].toUpperCase() : '';
+			}
+
+			function setValidity(valid) {
+				hex.classList.toggle('is-invalid', !valid);
+				hex.setCustomValidity(valid ? '' : (window.YoBookingAdmin?.invalidHex || 'Enter a 6-digit HEX color, for example #2563EB.'));
+			}
+
+			picker.addEventListener('input', function () {
+				hex.value = picker.value.toUpperCase();
+				setValidity(true);
+			});
+
+			hex.addEventListener('input', function () {
+				var normalized = normalizeHex(hex.value);
+				if (!normalized) {
+					setValidity(false);
+					return;
+				}
+
+				hex.value = normalized;
+				setValidity(true);
+				if (picker.value.toUpperCase() !== normalized) {
+					picker.value = normalized;
+					picker.dispatchEvent(new Event('input', { bubbles: true }));
+				}
+			});
+
+			hex.addEventListener('blur', function () {
+				if (!normalizeHex(hex.value)) {
+					hex.value = picker.value.toUpperCase();
+					setValidity(true);
+				}
+			});
+		});
+
+		document.querySelectorAll('[data-yo-email-color]').forEach(function (input) {
+			var preview = document.querySelector('[data-yo-email-style-preview]');
+
+			input.addEventListener('input', function () {
+				if (preview) preview.style.setProperty(input.dataset.yoEmailColor, input.value);
+			});
+		});
+
+		document.querySelectorAll('[data-yo-email-footer-text]').forEach(function (input) {
+			var preview = document.querySelector('[data-yo-email-footer-preview]');
+
+			input.addEventListener('input', function () {
+				if (!preview) return;
+				preview.replaceChildren();
+				input.value.split('Yo Booking').forEach(function (part, index) {
+					if (index) {
+						var link = document.createElement('a');
+						link.href = 'https://yoohw.com';
+						link.textContent = 'Yo Booking';
+						preview.append(link);
+					}
+					preview.append(document.createTextNode(part));
+				});
+			});
+		});
+
 		function syncExceptionStaffField() {
 			var scope = document.getElementById('yo_booking_exception_owner_type');
 			var field = document.querySelector('[data-exception-staff-field]');
@@ -358,6 +526,11 @@
 		document.querySelectorAll('.yo-booking-admin form').forEach(function (form) {
 			form.addEventListener('submit', function () {
 				if (form.hasAttribute('data-yo-async')) return;
+				form.querySelectorAll('[data-yo-money-input]').forEach(function (input) {
+					if (input.dataset.yoMoneyDirty !== '1' && input.dataset.yoMoneyRaw !== undefined) {
+						input.value = '__yo_booking_raw__:' + input.dataset.yoMoneyRaw;
+					}
+				});
 				var submit = form.querySelector('button[type="submit"], input[type="submit"]');
 				if (submit) {
 					submit.classList.add('is-busy');

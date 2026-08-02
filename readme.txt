@@ -4,7 +4,7 @@ Tags: booking, appointment booking, scheduling, booking calendar, availability
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,22 +122,20 @@ It does not send booking data to an external booking service by default. Data is
 
 == Changelog ==
 
-= 2.0.1 =
+= 2.0.2 (Aug 2, 2026) =
 
-* New: Added appointment list sorting by earliest or latest appointment time and oldest or newest creation time while preserving active filters and pagination.
-* New: Replaced raw WordPress user ID inputs in staff and customer add/edit forms with searchable user selectors.
-* New: Added intl-tel-input to phone fields across the admin and frontend, including international validation, E.164 normalization, and responsive country selection.
-* New: Added persistent ISO-2 phone countries for customers and staff and preserved the customer phone country in immutable appointment snapshots.
-* New: Added a Default phone country setting with resolution from the saved profile, existing E.164 number, the guest's current session, the Yo Booking setting, then the WordPress locale without a WooCommerce dependency or hardcoded US fallback.
-* Improve: Refined Appointment List and Calendar tab spacing, added balanced list/table margins, and vertically centered row selection checkboxes.
-* Improve: Refined spacing around the payment ledger transaction form, Add transaction button, transaction history, filter cards, and adjacent admin cards.
-* Improve: Prevented time, interval, add/remove, and copy actions from changing disabled weekdays in Business Hours and Staff Hours.
-* Improve: Displayed the Exceptions Staff member field only when the selected scope applies to an individual staff member.
-* Improve: Displayed Reminder offset only for notification events that use reminder scheduling.
-* Improve: Standardized form label, control, helper-text, checkbox, and action alignment throughout the plugin and constrained oversized desktop editor forms to more readable widths.
-* Improve: Expanded the Appearance live preview to cover every booking step instead of showing only a partial booking flow.
-* Improve: Corrected spacing between the icon and text in the phone country search field.
-* Update: Extended phone country data to frontend booking requests, admin appointment APIs, integration REST responses, signed webhook payloads, privacy erasure, and database migrations.
-* Update: Upgraded WordPress Coding Standards and related development tooling to patched releases.
+* New: Added a Customer Portal Gutenberg block alongside the booking block and grouped both blocks in a dedicated Yo Booking inserter category.
+* New: Added a Company logo setting with WordPress Media Library selection, upload support, removal controls, and an inline image preview.
+* New: Added per-service frontend payment quotes so full-payment, deposit, and no-collection modes are applied consistently before and after booking.
+* New: Added a Notifications Settings tab for sender details, configurable email colors, editable footer text, and a live HTML design preview.
+* Improve: Updated the Yo Booking block icon to use the matching UIcons calendar and normalized its visual size in the block inserter.
+* Improve: Reorganized General settings into Company information, Regional settings, Booking rules, and Customer booking sections; moved Default currency to Payments and widened settings table labels.
+* Improve: Formatted editable monetary values throughout the admin with the configured currency precision and decimal and thousands separators while preserving normalized values for calculations.
+* Improve: Added synchronized editable HEX inputs to every color picker and normalized their typography and validation feedback.
+* Improve: Redesigned HTML notification emails with the event title in the card header, the centered company logo or brand-colored company name above the card, configurable surfaces and text colors, and a customizable linked footer.
+* Improve: Displayed deposit due and remaining balance details on the frontend only when collection mode is Deposit, while keeping full-payment collection active without the deposit summary.
+* Improve: Renamed Booking Portal to Customer Portal, moved Appearance above Reports, and removed the Admin icons row from System Status.
+* Update: Removed the redundant global notifications_enabled option so notification delivery is controlled by individual templates and event settings.
+* Update: Extended localized money formatting and parsing to services, appointments, payment transactions, calendar actions, REST payloads, and payment snapshots.
 
-See `changelog.txt` for the full 2.0.1 details and complete release history.
+See `changelog.txt` for the complete release history.

@@ -201,7 +201,7 @@ final class NotificationService {
 		);
 		$sent      = 0;
 
-		if ( empty( $templates ) || ! $this->enabled() ) {
+		if ( empty( $templates ) ) {
 			return 0;
 		}
 
@@ -239,10 +239,6 @@ final class NotificationService {
 	 * @return int
 	 */
 	public function send_event( $event, $appointment_id, $dedupe = false ) {
-		if ( ! $this->enabled() ) {
-			return 0;
-		}
-
 		$appointment = ( new AppointmentRepository() )->find_with_details( $appointment_id );
 
 		if ( ! $appointment ) {
@@ -527,12 +523,4 @@ final class NotificationService {
 		return sprintf( '%s <%s>', wp_specialchars_decode( $from_name, ENT_QUOTES ), $from_email );
 	}
 
-	/**
-	 * Check whether notifications are globally enabled.
-	 *
-	 * @return bool
-	 */
-	private function enabled() {
-		return (bool) ( new SettingsRepository() )->get( 'notifications.enabled', true );
-	}
 }

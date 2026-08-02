@@ -10,8 +10,10 @@ namespace YoBooking\Admin;
 use YoBooking\Notifications\TemplateRenderer;
 use YoBooking\Notifications\NotificationService;
 use YoBooking\Repositories\AppointmentRepository;
+use YoBooking\Repositories\AuditLogRepository;
 use YoBooking\Repositories\NotificationLogRepository;
 use YoBooking\Repositories\NotificationTemplateRepository;
+use YoBooking\Settings\Repository as SettingsRepository;
 use YoBooking\Support\Capabilities;
 use YoBooking\Support\DateTimeFormatter;
 
@@ -29,6 +31,7 @@ final class NotificationsPage extends AbstractAdminPage {
 	public function boot() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_post_yo_booking_save_notification', array( $this, 'save_notification' ) );
+		add_action( 'admin_post_yo_booking_save_notification_settings', array( $this, 'save_notification_settings' ) );
 		add_action( 'admin_post_yo_booking_send_test_notification', array( $this, 'send_test_notification' ) );
 		add_action( 'admin_post_yo_booking_retry_notification', array( $this, 'retry_notification' ) );
 	}
@@ -57,22 +60,27 @@ final class NotificationsPage extends AbstractAdminPage {
 	public function render() {
 		$this->ensure_capability();
 
-		$templates_repository = new NotificationTemplateRepository();
-		$templates            = $templates_repository->all();
-		$edit_id              = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$editing              = $edit_id ? $templates_repository->find( $edit_id ) : ( ! empty( $templates ) ? $templates[0] : null );
-		$logs                 = ( new NotificationLogRepository() )->recent( 100 );
-		$appointments         = ( new AppointmentRepository() )->all( array( 'limit' => 50 ) );
-		$preview_appointment  = isset( $_GET['preview_appointment'] ) ? absint( $_GET['preview_appointment'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$active_tab           = isset( $_GET['notification_tab'] ) ? sanitize_key( wp_unslash( $_GET['notification_tab'] ) ) : 'templates'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$active_tab           = in_array( $active_tab, array( 'templates', 'logs' ), true ) ? $active_tab : 'templates';
-		$preview              = $editing ? ( new NotificationService() )->preview( (int) $editing->id, $preview_appointment ) : null;
+		$templates_repository  = new NotificationTemplateRepository();
+		$templates             = $templates_repository->all();
+		$edit_id               = isset( $_GET['edit'] ) ? absint( $_GET['edit'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$editing               = $edit_id ? $templates_repository->find( $edit_id ) : ( ! empty( $templates ) ? $templates[0] : null );
+		$logs                  = ( new NotificationLogRepository() )->recent( 100 );
+		$appointments          = ( new AppointmentRepository() )->all( array( 'limit' => 50 ) );
+		$preview_appointment   = isset( $_GET['preview_appointment'] ) ? absint( $_GET['preview_appointment'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$active_tab            = isset( $_GET['notification_tab'] ) ? sanitize_key( wp_unslash( $_GET['notification_tab'] ) ) : 'templates'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$can_manage_settings   = current_user_can( Capabilities::settings() );
+		$allowed_tabs          = $can_manage_settings ? array( 'templates', 'logs', 'settings' ) : array( 'templates', 'logs' );
+		$active_tab            = in_array( $active_tab, $allowed_tabs, true ) ? $active_tab : 'templates';
+		$settings              = ( new SettingsRepository() )->all();
+		$notification_settings = $settings['notifications'];
+		$company               = $settings['company'];
+		$preview               = $editing ? ( new NotificationService() )->preview( (int) $editing->id, $preview_appointment ) : null;
 
 		?>
 		<div class="wrap yo-booking-admin">
 			<?php $this->render_page_header( __( 'Notifications', 'yo-booking' ), __( 'Customize lifecycle emails and review delivery history.', 'yo-booking' ) ); ?>
 			<?php $this->render_notice(); ?>
-			<div class="yo-tabs" data-yo-tabs data-default-tab="<?php echo esc_attr( $active_tab ); ?>" role="tablist"><button type="button" data-yo-tab="templates" role="tab"><?php echo esc_html__( 'Email templates', 'yo-booking' ); ?></button><button type="button" data-yo-tab="logs" role="tab"><?php echo esc_html__( 'Delivery logs', 'yo-booking' ); ?></button></div>
+			<div class="yo-tabs" data-yo-tabs data-default-tab="<?php echo esc_attr( $active_tab ); ?>" role="tablist"><button type="button" data-yo-tab="templates" role="tab"><?php echo esc_html__( 'Email templates', 'yo-booking' ); ?></button><button type="button" data-yo-tab="logs" role="tab"><?php echo esc_html__( 'Delivery logs', 'yo-booking' ); ?></button><?php if ( $can_manage_settings ) : ?><button type="button" data-yo-tab="settings" role="tab"><?php echo esc_html__( 'Settings', 'yo-booking' ); ?></button><?php endif; ?></div>
 			<section data-yo-panel="templates">
 
 			<?php if ( $editing ) : ?>
@@ -239,6 +247,56 @@ final class NotificationsPage extends AbstractAdminPage {
 				</tbody>
 			</table>
 			</section>
+
+			<?php if ( $can_manage_settings ) : ?>
+			<section data-yo-panel="settings" hidden>
+				<div class="yo-notification-settings-workspace">
+					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="yo-settings-groups yo-notification-settings-form">
+						<input type="hidden" name="action" value="yo_booking_save_notification_settings" />
+						<?php wp_nonce_field( 'yo_booking_save_notification_settings' ); ?>
+
+						<section class="yo-card yo-settings-panel">
+							<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Email delivery', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Configure the sender identity and recipients for booking emails.', 'yo-booking' ); ?></p></div>
+							<table class="form-table" role="presentation"><tbody>
+								<tr><th scope="row"><label for="yo_booking_from_name"><?php echo esc_html__( 'From name', 'yo-booking' ); ?></label></th><td><input name="notification_from_name" id="yo_booking_from_name" type="text" class="regular-text" value="<?php echo esc_attr( $notification_settings['from_name'] ); ?>" /></td></tr>
+								<tr><th scope="row"><label for="yo_booking_from_email"><?php echo esc_html__( 'From email', 'yo-booking' ); ?></label></th><td><input name="notification_from_email" id="yo_booking_from_email" type="email" class="regular-text" value="<?php echo esc_attr( $notification_settings['from_email'] ); ?>" /></td></tr>
+								<tr><th scope="row"><label for="yo_booking_admin_to"><?php echo esc_html__( 'Admin recipients', 'yo-booking' ); ?></label></th><td><input name="notification_admin_to" id="yo_booking_admin_to" type="text" class="large-text" value="<?php echo esc_attr( $notification_settings['admin_to'] ); ?>" /><p class="description"><?php echo esc_html__( 'Separate multiple email addresses with commas.', 'yo-booking' ); ?></p></td></tr>
+							</tbody></table>
+						</section>
+
+						<section class="yo-card yo-settings-panel">
+							<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Email design', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Set the core colors used by every HTML email template.', 'yo-booking' ); ?></p></div>
+							<div class="yo-email-color-grid">
+								<?php $this->color_field( 'yo_booking_email_background_color', 'email_background_color', __( 'Email background', 'yo-booking' ), $notification_settings['email_background_color'], '--yo-email-background' ); ?>
+								<?php $this->color_field( 'yo_booking_email_surface_color', 'email_surface_color', __( 'Content background', 'yo-booking' ), $notification_settings['email_surface_color'], '--yo-email-surface' ); ?>
+								<?php $this->color_field( 'yo_booking_email_primary_color', 'email_primary_color', __( 'Brand color', 'yo-booking' ), $notification_settings['email_primary_color'], '--yo-email-primary' ); ?>
+								<?php $this->color_field( 'yo_booking_email_text_color', 'email_text_color', __( 'Text color', 'yo-booking' ), $notification_settings['email_text_color'], '--yo-email-text' ); ?>
+								<?php $this->color_field( 'yo_booking_email_muted_color', 'email_muted_color', __( 'Muted text', 'yo-booking' ), $notification_settings['email_muted_color'], '--yo-email-muted' ); ?>
+							</div>
+							<div class="yo-email-footer-field">
+								<label for="yo_booking_email_footer_text"><?php echo esc_html__( 'Footer text', 'yo-booking' ); ?></label>
+								<textarea id="yo_booking_email_footer_text" name="email_footer_text" class="large-text" rows="3" data-yo-email-footer-text><?php echo esc_textarea( $notification_settings['email_footer_text'] ); ?></textarea>
+								<p class="description"><?php echo esc_html__( 'The words “Yo Booking” are automatically linked to yoohw.com.', 'yo-booking' ); ?></p>
+							</div>
+						</section>
+
+						<?php submit_button( __( 'Save email settings', 'yo-booking' ) ); ?>
+					</form>
+
+					<aside class="yo-email-style-preview-panel">
+						<div class="yo-section-header"><h2><?php echo esc_html__( 'Design preview', 'yo-booking' ); ?></h2><span class="yo-status yo-status--active">HTML</span></div>
+						<div class="yo-email-style-preview" data-yo-email-style-preview style="--yo-email-background:<?php echo esc_attr( $notification_settings['email_background_color'] ); ?>;--yo-email-surface:<?php echo esc_attr( $notification_settings['email_surface_color'] ); ?>;--yo-email-primary:<?php echo esc_attr( $notification_settings['email_primary_color'] ); ?>;--yo-email-text:<?php echo esc_attr( $notification_settings['email_text_color'] ); ?>;--yo-email-muted:<?php echo esc_attr( $notification_settings['email_muted_color'] ); ?>;">
+							<div class="yo-email-style-preview__brand"><?php if ( ! empty( $company['logo_id'] ) && wp_attachment_is_image( $company['logo_id'] ) ) : ?><img src="<?php echo esc_url( wp_get_attachment_image_url( $company['logo_id'], 'medium' ) ); ?>" alt="<?php echo esc_attr( $company['name'] ); ?>" /><?php else : ?><strong><?php echo esc_html( $company['name'] ); ?></strong><?php endif; ?></div>
+							<div class="yo-email-style-preview__card">
+								<div class="yo-email-style-preview__header"><h3><?php echo esc_html__( 'Your appointment is confirmed', 'yo-booking' ); ?></h3></div>
+								<div class="yo-email-style-preview__content"><p><?php echo esc_html__( 'Hello Sample Customer, your booking details are ready.', 'yo-booking' ); ?></p><p><a href="#"><?php echo esc_html__( 'Manage appointment', 'yo-booking' ); ?></a></p></div>
+							</div>
+							<div class="yo-email-style-preview__footer" data-yo-email-footer-preview><?php echo wp_kses_post( TemplateRenderer::footer_html( $notification_settings['email_footer_text'], 'var(--yo-email-primary)' ) ); ?></div>
+						</div>
+					</aside>
+				</div>
+			</section>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -261,6 +319,40 @@ final class NotificationsPage extends AbstractAdminPage {
 			$result,
 			array( 'edit' => $id )
 		);
+	}
+
+	/**
+	 * Save global email delivery and design settings.
+	 *
+	 * @return void
+	 */
+	public function save_notification_settings() {
+		$this->ensure_capability( Capabilities::settings() );
+		check_admin_referer( 'yo_booking_save_notification_settings' );
+
+		$repository = new SettingsRepository();
+		$settings   = $repository->all();
+		$colors     = array(
+			'email_background_color' => '#f3f4f6',
+			'email_surface_color'    => '#ffffff',
+			'email_primary_color'    => '#2563eb',
+			'email_text_color'       => '#1f2937',
+			'email_muted_color'      => '#64748b',
+		);
+
+		$settings['notifications']['from_name']  = isset( $_POST['notification_from_name'] ) ? sanitize_text_field( wp_unslash( $_POST['notification_from_name'] ) ) : get_bloginfo( 'name' );
+		$settings['notifications']['from_email'] = isset( $_POST['notification_from_email'] ) ? sanitize_email( wp_unslash( $_POST['notification_from_email'] ) ) : get_option( 'admin_email' );
+		$settings['notifications']['admin_to']   = isset( $_POST['notification_admin_to'] ) ? sanitize_text_field( wp_unslash( $_POST['notification_admin_to'] ) ) : get_option( 'admin_email' );
+		$settings['notifications']['email_footer_text'] = isset( $_POST['email_footer_text'] ) ? sanitize_textarea_field( wp_unslash( $_POST['email_footer_text'] ) ) : __( 'Power by Yo Booking', 'yo-booking' );
+
+		foreach ( $colors as $key => $fallback ) {
+			$value = isset( $_POST[ $key ] ) ? sanitize_hex_color( wp_unslash( $_POST[ $key ] ) ) : '';
+			$settings['notifications'][ $key ] = $value ? $value : $fallback;
+		}
+
+		$repository->save( $settings );
+		( new AuditLogRepository() )->record( 'notification.settings_updated', 'settings', 0, __( 'Email notification settings updated', 'yo-booking' ) );
+		$this->redirect( 'yo-booking-notifications', 'saved', array( 'notification_tab' => 'settings' ) );
 	}
 
 	/**
@@ -330,6 +422,25 @@ final class NotificationsPage extends AbstractAdminPage {
 				<option value="<?php echo esc_attr( $type ); ?>" <?php selected( $selected, $type ); ?>><?php echo esc_html( $label ); ?></option>
 			<?php endforeach; ?>
 		</select>
+		<?php
+	}
+
+	/**
+	 * Render one email color setting.
+	 *
+	 * @param string $id Field ID.
+	 * @param string $name Field name.
+	 * @param string $label Field label.
+	 * @param string $value Current color.
+	 * @param string $property Preview CSS custom property.
+	 * @return void
+	 */
+	private function color_field( $id, $name, $label, $value, $property ) {
+		?>
+		<label class="yo-email-color-field" for="<?php echo esc_attr( $id ); ?>">
+			<span><?php echo esc_html( $label ); ?></span>
+			<?php $this->render_color_control( $id, $name, $value, $label, 'data-yo-email-color', $property ); ?>
+		</label>
 		<?php
 	}
 }

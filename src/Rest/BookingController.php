@@ -144,7 +144,8 @@ final class BookingController {
 	 * @return array
 	 */
 	public function services() {
-		$services = array();
+		$services        = array();
+		$payment_manager = new PaymentManager();
 
 		foreach ( ( new ServiceRepository() )->active() as $service ) {
 			$services[] = array(
@@ -159,12 +160,13 @@ final class BookingController {
 				'currency'               => $service->currency,
 				'capacity'               => (int) $service->capacity,
 				'color'                  => $service->color,
+				'payment'                => $payment_manager->quote_for_service( $service ),
 			);
 		}
 
 		return array(
 			'services' => $services,
-			'payment'  => ( new PaymentManager() )->frontend_config(),
+			'payment'  => $payment_manager->frontend_config(),
 			'booking'  => array(
 				'allow_guest_booking'   => ! empty( ( new SettingsRepository() )->get( 'booking.allow_guest_booking', true ) ),
 				'allow_staff_selection' => ! empty( ( new SettingsRepository() )->get( 'booking.allow_staff_selection', true ) ),

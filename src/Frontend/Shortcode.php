@@ -24,8 +24,31 @@ final class Shortcode {
 		add_action( 'init', array( $this, 'register_block' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
+		add_filter( 'block_categories_all', array( $this, 'register_block_category' ) );
 		add_shortcode( 'yo-booking', array( $this, 'render' ) );
 		add_shortcode( 'yo-booking-portal', array( $this, 'render_portal' ) );
+	}
+
+	/**
+	 * Add a dedicated category for Yo Booking blocks.
+	 *
+	 * @param array $categories Registered block categories.
+	 * @return array
+	 */
+	public function register_block_category( $categories ) {
+		if ( in_array( 'yo-booking', wp_list_pluck( $categories, 'slug' ), true ) ) {
+			return $categories;
+		}
+
+		array_unshift(
+			$categories,
+			array(
+				'slug'  => 'yo-booking',
+				'title' => __( 'Yo Booking', 'yo-booking' ),
+			)
+		);
+
+		return $categories;
 	}
 
 	/**
@@ -117,6 +140,13 @@ final class Shortcode {
 				'render_callback' => array( $this, 'render' ),
 			)
 		);
+
+		register_block_type(
+			YO_BOOKING_PATH . 'block/portal',
+			array(
+				'render_callback' => array( $this, 'render_portal' ),
+			)
+		);
 	}
 
 	/**
@@ -201,7 +231,8 @@ final class Shortcode {
 			'Your appointment has been received.' => __( 'Your appointment has been received.', 'yo-booking' ),
 			'Upcoming' => __( 'Upcoming', 'yo-booking' ), 'Past' => __( 'Past', 'yo-booking' ), 'No upcoming appointments.' => __( 'No upcoming appointments.', 'yo-booking' ), 'No past appointments.' => __( 'No past appointments.', 'yo-booking' ),
 			'Payment' => __( 'Payment', 'yo-booking' ), 'Payment method' => __( 'Payment method', 'yo-booking' ), 'Select a payment method.' => __( 'Select a payment method.', 'yo-booking' ), 'Status' => __( 'Status', 'yo-booking' ), 'Reschedule' => __( 'Reschedule', 'yo-booking' ), 'Cancel' => __( 'Cancel', 'yo-booking' ), 'Back' => __( 'Back', 'yo-booking' ),
-			'Deposit due' => __( 'Deposit due', 'yo-booking' ), 'Payment due' => __( 'Payment due', 'yo-booking' ), 'No payment is due at booking.' => __( 'No payment is due at booking.', 'yo-booking' ),
+			// translators: %s: formatted remaining payment balance.
+			'Deposit due' => __( 'Deposit due', 'yo-booking' ), 'Remaining balance' => __( 'Remaining balance', 'yo-booking' ), 'Remaining balance: %s' => __( 'Remaining balance: %s', 'yo-booking' ), 'No payment is due at booking.' => __( 'No payment is due at booking.', 'yo-booking' ),
 			'Cancelling...' => __( 'Cancelling...', 'yo-booking' ), 'Cancel appointment' => __( 'Cancel appointment', 'yo-booking' ), 'This appointment can no longer be cancelled online.' => __( 'This appointment can no longer be cancelled online.', 'yo-booking' ), 'Reason' => __( 'Reason', 'yo-booking' ),
 			'Review the appointment and optionally tell us why you are cancelling.' => __( 'Review the appointment and optionally tell us why you are cancelling.', 'yo-booking' ),
 			'This appointment can no longer be rescheduled online.' => __( 'This appointment can no longer be rescheduled online.', 'yo-booking' ), 'Choose a new date' => __( 'Choose a new date', 'yo-booking' ), 'Choose a new time' => __( 'Choose a new time', 'yo-booking' ),

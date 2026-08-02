@@ -110,7 +110,7 @@ final class AdminMenu {
 
 		?>
 		<div class="wrap yo-booking-admin">
-			<div class="yo-page-header"><div><h1><?php echo esc_html__( 'Settings', 'yo-booking' ); ?></h1><p><?php echo esc_html__( 'Configure booking rules, payments, notifications, and data handling.', 'yo-booking' ); ?></p></div></div>
+			<div class="yo-page-header"><div><h1><?php echo esc_html__( 'Settings', 'yo-booking' ); ?></h1><p><?php echo esc_html__( 'Configure booking rules, payments, integrations, and data handling.', 'yo-booking' ); ?></p></div></div>
 			<nav class="yo-settings-tabs" aria-label="<?php echo esc_attr__( 'Settings sections', 'yo-booking' ); ?>">
 				<?php foreach ( array( 'general' => __( 'General', 'yo-booking' ), 'payments' => __( 'Payments', 'yo-booking' ), 'integrations' => __( 'Integrations', 'yo-booking' ), 'audit' => __( 'Audit log', 'yo-booking' ), 'maintenance' => __( 'Maintenance', 'yo-booking' ) ) as $tab => $label ) : ?>
 					<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'yo-booking-settings', 'settings_tab' => $tab ), admin_url( 'admin.php' ) ) ); ?>" class="<?php echo esc_attr( $active_tab === $tab ? 'is-active' : '' ); ?>" <?php echo $active_tab === $tab ? 'aria-current="page"' : ''; ?>><?php echo esc_html( $label ); ?></a>
@@ -139,6 +139,8 @@ final class AdminMenu {
 			<?php
 			$settings          = ( new SettingsRepository() )->all();
 			$payment_providers = ( new PaymentProviderRegistry() )->all();
+			$company_logo_id   = absint( $settings['company']['logo_id'] );
+			$company_logo_url  = $company_logo_id && wp_attachment_is_image( $company_logo_id ) ? wp_get_attachment_image_url( $company_logo_id, 'thumbnail' ) : '';
 			?>
 
 			<?php if ( 'general' === $active_tab ) : ?>
@@ -162,10 +164,6 @@ final class AdminMenu {
 						<th scope="row"><?php echo esc_html__( 'Shortcode', 'yo-booking' ); ?></th>
 						<td><code>[yo-booking]</code></td>
 					</tr>
-					<tr>
-						<th scope="row"><?php echo esc_html__( 'Admin icons', 'yo-booking' ); ?></th>
-						<td><a href="https://www.flaticon.com/uicons" target="_blank" rel="noopener noreferrer"><?php echo esc_html__( 'UIcons by Flaticon', 'yo-booking' ); ?></a></td>
-					</tr>
 				</tbody>
 			</table></details>
 			<?php endif; ?>
@@ -175,20 +173,34 @@ final class AdminMenu {
 				<input type="hidden" name="settings_tab" value="<?php echo esc_attr( $active_tab ); ?>" />
 				<?php wp_nonce_field( 'yo_booking_save_settings' ); ?>
 
-				<h2><?php echo esc_html( 'payments' === $active_tab ? __( 'Payment settings', 'yo-booking' ) : __( 'Core settings', 'yo-booking' ) ); ?></h2>
-				<table class="form-table" role="presentation">
-					<tbody>
-						<?php if ( 'general' === $active_tab ) : ?>
-						<tr>
-							<th scope="row"><label for="yo_booking_company_currency"><?php echo esc_html__( 'Default currency', 'yo-booking' ); ?></label></th>
-							<td><select name="company_currency" id="yo_booking_company_currency"><?php foreach ( Currency::choices( $settings['company']['currency'] ) as $currency_code => $currency_data ) : ?><option value="<?php echo esc_attr( $currency_code ); ?>" <?php selected( $settings['company']['currency'], $currency_code ); ?>><?php echo esc_html( $currency_code . ' - ' . $currency_data['name'] ); ?></option><?php endforeach; ?></select><p class="description"><?php echo esc_html__( 'Used as the default for new services. Existing services keep their currency.', 'yo-booking' ); ?></p></td>
-						</tr>
+				<div class="yo-settings-groups">
+					<?php if ( 'general' === $active_tab ) : ?>
+					<section class="yo-card yo-settings-panel" data-settings-section="company">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Company information', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Business details shown across booking and customer communications.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
 						<tr>
 							<th scope="row">
 								<label for="yo_booking_company_name"><?php echo esc_html__( 'Company name', 'yo-booking' ); ?></label>
 							</th>
 							<td>
 								<input name="company_name" id="yo_booking_company_name" type="text" class="regular-text" value="<?php echo esc_attr( $settings['company']['name'] ); ?>" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><?php echo esc_html__( 'Company logo', 'yo-booking' ); ?></th>
+							<td>
+								<div class="yo-media-field" data-yo-media-field data-frame-title="<?php echo esc_attr__( 'Choose a company logo', 'yo-booking' ); ?>" data-frame-button="<?php echo esc_attr__( 'Use this logo', 'yo-booking' ); ?>" data-preview-alt="<?php echo esc_attr__( 'Company logo preview', 'yo-booking' ); ?>">
+									<input name="company_logo_id" id="yo_booking_company_logo_id" type="hidden" value="<?php echo esc_attr( (string) $company_logo_id ); ?>" data-yo-media-id />
+									<div class="yo-media-preview" aria-live="polite">
+										<img data-yo-media-image alt="<?php echo esc_attr__( 'Company logo preview', 'yo-booking' ); ?>" <?php if ( $company_logo_url ) : ?>src="<?php echo esc_url( $company_logo_url ); ?>"<?php else : ?>hidden<?php endif; ?> />
+										<span data-yo-media-placeholder <?php if ( $company_logo_url ) : ?>hidden<?php endif; ?>><?php echo esc_html__( 'No logo selected', 'yo-booking' ); ?></span>
+									</div>
+									<div class="yo-media-actions">
+										<button type="button" class="button" data-yo-media-select><span class="fi fi-rr-picture" aria-hidden="true"></span><?php echo esc_html__( 'Choose logo', 'yo-booking' ); ?></button>
+										<button type="button" class="button-link yo-media-remove" data-yo-media-remove <?php if ( ! $company_logo_url ) : ?>hidden<?php endif; ?>><?php echo esc_html__( 'Remove logo', 'yo-booking' ); ?></button>
+									</div>
+								</div>
+								<p class="description yo-media-description"><?php echo esc_html__( 'Choose an existing image or upload a new one from the WordPress Media Library.', 'yo-booking' ); ?></p>
 							</td>
 						</tr>
 						<tr>
@@ -209,6 +221,20 @@ final class AdminMenu {
 						</tr>
 						<tr>
 							<th scope="row">
+								<label for="yo_booking_company_address"><?php echo esc_html__( 'Company address', 'yo-booking' ); ?></label>
+							</th>
+							<td>
+								<textarea name="company_address" id="yo_booking_company_address" class="large-text" rows="3"><?php echo esc_textarea( $settings['company']['address'] ); ?></textarea>
+							</td>
+						</tr>
+						</tbody></table>
+					</section>
+
+					<section class="yo-card yo-settings-panel" data-settings-section="regional">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Regional settings', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Phone, timezone, date, and time defaults inherited by bookings.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
+						<tr>
+							<th scope="row">
 								<label for="yo_booking_default_phone_country"><?php echo esc_html__( 'Default phone country', 'yo-booking' ); ?></label>
 							</th>
 							<td>
@@ -216,14 +242,6 @@ final class AdminMenu {
 									<option value=""><?php echo esc_html__( 'Automatic — use WordPress locale', 'yo-booking' ); ?></option>
 								</select>
 								<p class="description"><?php echo esc_html__( 'Used for new phone numbers when no customer, staff, or session country is available.', 'yo-booking' ); ?></p>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="yo_booking_company_address"><?php echo esc_html__( 'Company address', 'yo-booking' ); ?></label>
-							</th>
-							<td>
-								<textarea name="company_address" id="yo_booking_company_address" class="large-text" rows="3"><?php echo esc_textarea( $settings['company']['address'] ); ?></textarea>
 							</td>
 						</tr>
 						<tr>
@@ -236,6 +254,12 @@ final class AdminMenu {
 								<p class="description"><?php echo esc_html__( 'Yo Booking follows the site timezone, date format, and time format.', 'yo-booking' ); ?> <a href="<?php echo esc_url( admin_url( 'options-general.php' ) ); ?>"><?php echo esc_html__( 'Change in WordPress Settings', 'yo-booking' ); ?></a></p>
 							</td>
 						</tr>
+						</tbody></table>
+					</section>
+
+					<section class="yo-card yo-settings-panel" data-settings-section="booking-rules">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Booking rules', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Default timing, availability window, and appointment status.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
 						<tr>
 							<th scope="row">
 								<label for="yo_booking_slot_interval"><?php echo esc_html__( 'Slot interval', 'yo-booking' ); ?></label>
@@ -274,6 +298,12 @@ final class AdminMenu {
 								</select>
 							</td>
 						</tr>
+						</tbody></table>
+					</section>
+
+					<section class="yo-card yo-settings-panel" data-settings-section="customer-booking">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Customer booking', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Control booking access, required details, and self-service deadlines.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
 						<tr>
 							<th scope="row"><?php echo esc_html__( 'Booking access', 'yo-booking' ); ?></th>
 							<td>
@@ -302,8 +332,17 @@ final class AdminMenu {
 								</div>
 							</td>
 						</tr>
-							<?php endif; ?>
-							<?php if ( 'payments' === $active_tab ) : ?>
+						</tbody></table>
+					</section>
+					<?php endif; ?>
+					<?php if ( 'payments' === $active_tab ) : ?>
+					<section class="yo-card yo-settings-panel" data-settings-section="currency">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Currency & display', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Choose the default currency and how monetary values appear.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
+						<tr>
+							<th scope="row"><label for="yo_booking_company_currency"><?php echo esc_html__( 'Default currency', 'yo-booking' ); ?></label></th>
+							<td><select name="company_currency" id="yo_booking_company_currency"><?php foreach ( Currency::choices( $settings['company']['currency'] ) as $currency_code => $currency_data ) : ?><option value="<?php echo esc_attr( $currency_code ); ?>" <?php selected( $settings['company']['currency'], $currency_code ); ?>><?php echo esc_html( $currency_code . ' - ' . $currency_data['name'] ); ?></option><?php endforeach; ?></select><p class="description"><?php echo esc_html__( 'Used as the default for new services. Existing services keep their currency.', 'yo-booking' ); ?></p></td>
+						</tr>
 							<tr>
 								<th scope="row"><?php echo esc_html__( 'Currency display', 'yo-booking' ); ?></th>
 								<td>
@@ -351,6 +390,12 @@ final class AdminMenu {
 										<p class="description"><?php echo esc_html( sprintf( __( 'Preview: %s. These options change display formatting only; calculations retain each currency\'s ISO precision.', 'yo-booking' ), Currency::format( '1234.5', $settings['company']['currency'] ) ) ); ?></p>
 								</td>
 							</tr>
+						</tbody></table>
+					</section>
+
+					<section class="yo-card yo-settings-panel" data-settings-section="payment-collection">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Payment collection', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Enable payments and configure when customers are charged.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
 							<tr>
 							<th scope="row"><?php echo esc_html__( 'Payment layer', 'yo-booking' ); ?></th>
 							<td>
@@ -380,11 +425,18 @@ final class AdminMenu {
 							<td>
 								<div class="yo-form-row">
 									<div class="yo-form-field"><span class="yo-form-label"><?php echo esc_html__( 'Calculation', 'yo-booking' ); ?></span><select name="payment_deposit_type" id="yo_booking_deposit_type"><option value="percent" <?php selected( $settings['payments']['deposit_type'], 'percent' ); ?>><?php echo esc_html__( 'Percent', 'yo-booking' ); ?></option><option value="fixed" <?php selected( $settings['payments']['deposit_type'], 'fixed' ); ?>><?php echo esc_html__( 'Fixed amount', 'yo-booking' ); ?></option></select></div>
-									<div class="yo-form-field"><label for="yo_booking_deposit_amount"><?php echo esc_html__( 'Amount', 'yo-booking' ); ?></label><input id="yo_booking_deposit_amount" name="payment_deposit_amount" type="number" min="0" step="any" value="<?php echo esc_attr( (string) $settings['payments']['deposit_amount'] ); ?>" /></div>
+									<?php $fixed_deposit = 'fixed' === $settings['payments']['deposit_type']; ?>
+									<div class="yo-form-field"><label for="yo_booking_deposit_amount"><?php echo esc_html__( 'Amount', 'yo-booking' ); ?></label><input id="yo_booking_deposit_amount" name="payment_deposit_amount" type="<?php echo esc_attr( $fixed_deposit ? 'text' : 'number' ); ?>" <?php if ( $fixed_deposit ) : ?>inputmode="decimal" data-yo-money-input data-yo-money-raw="<?php echo esc_attr( (string) $settings['payments']['deposit_amount'] ); ?>"<?php else : ?>min="0" max="100" step="any"<?php endif; ?> value="<?php echo esc_attr( $fixed_deposit ? Currency::format_number( $settings['payments']['deposit_amount'], $settings['company']['currency'] ) : (string) $settings['payments']['deposit_amount'] ); ?>" /></div>
 								</div>
 								<p class="description"><?php echo esc_html__( 'Fixed deposits use the default currency and require matching service currencies. Use a percentage deposit when services use multiple currencies.', 'yo-booking' ); ?></p>
 							</td>
 						</tr>
+						</tbody></table>
+					</section>
+
+					<section class="yo-card yo-settings-panel" data-settings-section="payment-methods">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Payment methods', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Select available methods and provide offline payment details.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
 						<tr data-payment-field="enabled">
 							<th scope="row"><?php echo esc_html__( 'Payment methods', 'yo-booking' ); ?></th>
 							<td>
@@ -420,42 +472,13 @@ final class AdminMenu {
 								</div>
 							</td>
 						</tr>
-						<?php endif; ?>
-						<?php if ( 'general' === $active_tab ) : ?>
-						<tr>
-							<th scope="row"><?php echo esc_html__( 'Email notifications', 'yo-booking' ); ?></th>
-							<td>
-								<label>
-									<input name="notifications_enabled" type="checkbox" value="1" <?php checked( ! empty( $settings['notifications']['enabled'] ) ); ?> />
-									<?php echo esc_html__( 'Send booking emails from configured templates.', 'yo-booking' ); ?>
-								</label>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="yo_booking_from_name"><?php echo esc_html__( 'From name', 'yo-booking' ); ?></label>
-							</th>
-							<td>
-								<input name="notification_from_name" id="yo_booking_from_name" type="text" class="regular-text" value="<?php echo esc_attr( $settings['notifications']['from_name'] ); ?>" />
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="yo_booking_from_email"><?php echo esc_html__( 'From email', 'yo-booking' ); ?></label>
-							</th>
-							<td>
-								<input name="notification_from_email" id="yo_booking_from_email" type="email" class="regular-text" value="<?php echo esc_attr( $settings['notifications']['from_email'] ); ?>" />
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">
-								<label for="yo_booking_admin_to"><?php echo esc_html__( 'Admin recipients', 'yo-booking' ); ?></label>
-							</th>
-							<td>
-								<input name="notification_admin_to" id="yo_booking_admin_to" type="text" class="large-text" value="<?php echo esc_attr( $settings['notifications']['admin_to'] ); ?>" />
-								<p class="description"><?php echo esc_html__( 'Separate multiple email addresses with commas.', 'yo-booking' ); ?></p>
-							</td>
-						</tr>
+						</tbody></table>
+					</section>
+					<?php endif; ?>
+					<?php if ( 'general' === $active_tab ) : ?>
+					<section class="yo-card yo-settings-panel" data-settings-section="data-management">
+						<div class="yo-settings-panel__header"><h2><?php echo esc_html__( 'Data management', 'yo-booking' ); ?></h2><p><?php echo esc_html__( 'Set log retention periods and what happens when the plugin is deleted.', 'yo-booking' ); ?></p></div>
+						<table class="form-table" role="presentation"><tbody>
 						<tr>
 							<th scope="row"><?php echo esc_html__( 'Data retention', 'yo-booking' ); ?></th>
 							<td>
@@ -477,9 +500,10 @@ final class AdminMenu {
 								<p class="description"><?php echo esc_html__( 'Disabled by default. When disabled, booking data remains in the database after uninstall.', 'yo-booking' ); ?></p>
 							</td>
 						</tr>
-						<?php endif; ?>
-					</tbody>
-				</table>
+						</tbody></table>
+					</section>
+					<?php endif; ?>
+				</div>
 
 				<?php submit_button( __( 'Save Settings', 'yo-booking' ) ); ?>
 			</form>
@@ -546,6 +570,12 @@ final class AdminMenu {
 				$default_payment_method = $payment_methods[0];
 			}
 
+			$current_currency   = Currency::normalize( $settings['company']['currency'] );
+			$current_currency   = $current_currency ? $current_currency : 'USD';
+			$submitted_currency = isset( $_POST['company_currency'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_POST['company_currency'] ) ) ) : '';
+			$currency_choices   = Currency::choices( $current_currency );
+			$settings['company']['currency'] = isset( $currency_choices[ $submitted_currency ] ) ? $submitted_currency : $current_currency;
+
 			$settings['payments']['enabled']                 = ! empty( $_POST['payments_enabled'] );
 				$settings['payments']['provider']                = $default_payment_method;
 				$settings['payments']['methods']                 = $payment_methods;
@@ -558,7 +588,7 @@ final class AdminMenu {
 			$settings['payments']['deposit_type']            = $this->sanitize_choice( 'payment_deposit_type', array( 'percent', 'fixed' ), 'percent' );
 			$deposit_amount                                  = isset( $_POST['payment_deposit_amount'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_deposit_amount'] ) ) : '0';
 			$settings['payments']['deposit_amount']          = 'fixed' === $settings['payments']['deposit_type']
-				? Money::normalize( $deposit_amount, $settings['company']['currency'] )
+				? Currency::parse_number( $deposit_amount, $settings['company']['currency'] )
 				: $this->bounded_float( 'payment_deposit_amount', 0, 100, 0 );
 			$settings['payments']['local_title']             = isset( $_POST['payment_local_title'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_local_title'] ) ) : __( 'Pay locally', 'yo-booking' );
 			$settings['payments']['local_instructions']      = isset( $_POST['payment_local_instructions'] ) ? sanitize_textarea_field( wp_unslash( $_POST['payment_local_instructions'] ) ) : '';
@@ -571,15 +601,12 @@ final class AdminMenu {
 			$settings['payments']['bank_iban']               = isset( $_POST['payment_bank_iban'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_bank_iban'] ) ) : '';
 			$settings['payments']['bank_swift']              = isset( $_POST['payment_bank_swift'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_bank_swift'] ) ) : '';
 		} else {
-			$settings['company']['name']     = isset( $_POST['company_name'] ) ? sanitize_text_field( wp_unslash( $_POST['company_name'] ) ) : '';
-			$settings['company']['email']    = isset( $_POST['company_email'] ) ? sanitize_email( wp_unslash( $_POST['company_email'] ) ) : '';
-			$settings['company']['phone']    = isset( $_POST['company_phone'] ) ? PhoneNumber::normalize( sanitize_text_field( wp_unslash( $_POST['company_phone'] ) ) ) : '';
-			$settings['company']['address']  = isset( $_POST['company_address'] ) ? sanitize_textarea_field( wp_unslash( $_POST['company_address'] ) ) : '';
-			$current_currency   = Currency::normalize( $settings['company']['currency'] );
-			$current_currency   = $current_currency ? $current_currency : 'USD';
-			$submitted_currency = isset( $_POST['company_currency'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_POST['company_currency'] ) ) ) : '';
-			$currency_choices   = Currency::choices( $current_currency );
-			$settings['company']['currency'] = isset( $currency_choices[ $submitted_currency ] ) ? $submitted_currency : $current_currency;
+			$company_logo_id = isset( $_POST['company_logo_id'] ) ? absint( wp_unslash( $_POST['company_logo_id'] ) ) : 0;
+			$settings['company']['name']    = isset( $_POST['company_name'] ) ? sanitize_text_field( wp_unslash( $_POST['company_name'] ) ) : '';
+			$settings['company']['logo_id'] = $company_logo_id && wp_attachment_is_image( $company_logo_id ) ? $company_logo_id : 0;
+			$settings['company']['email']   = isset( $_POST['company_email'] ) ? sanitize_email( wp_unslash( $_POST['company_email'] ) ) : '';
+			$settings['company']['phone']   = isset( $_POST['company_phone'] ) ? PhoneNumber::normalize( sanitize_text_field( wp_unslash( $_POST['company_phone'] ) ) ) : '';
+			$settings['company']['address'] = isset( $_POST['company_address'] ) ? sanitize_textarea_field( wp_unslash( $_POST['company_address'] ) ) : '';
 			$settings['company']['timezone'] = DateTimeFormatter::timezone_name();
 
 			$settings['booking']['slot_interval_minutes'] = $this->bounded_absint( 'slot_interval_minutes', 5, 240, 15 );
@@ -594,11 +621,6 @@ final class AdminMenu {
 			$settings['booking']['cancellation_window_hours'] = $this->bounded_absint( 'cancellation_window_hours', 0, 8760, 24 );
 			$settings['booking']['reschedule_window_hours']   = $this->bounded_absint( 'reschedule_window_hours', 0, 8760, 24 );
 			$settings['privacy']['marketing_consent_required'] = ! empty( $_POST['marketing_consent_required'] );
-
-			$settings['notifications']['enabled']    = ! empty( $_POST['notifications_enabled'] );
-			$settings['notifications']['from_name']  = isset( $_POST['notification_from_name'] ) ? sanitize_text_field( wp_unslash( $_POST['notification_from_name'] ) ) : get_bloginfo( 'name' );
-			$settings['notifications']['from_email'] = isset( $_POST['notification_from_email'] ) ? sanitize_email( wp_unslash( $_POST['notification_from_email'] ) ) : get_option( 'admin_email' );
-			$settings['notifications']['admin_to']   = isset( $_POST['notification_admin_to'] ) ? sanitize_text_field( wp_unslash( $_POST['notification_admin_to'] ) ) : get_option( 'admin_email' );
 
 			$settings['advanced']['remove_data_on_uninstall']       = ! empty( $_POST['remove_data_on_uninstall'] );
 			$settings['advanced']['notification_log_retention_days'] = $this->bounded_absint( 'notification_log_retention_days', 0, 3650, 90 );

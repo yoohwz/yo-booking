@@ -1,4 +1,19 @@
-= 2.0.1 =
+= 2.0.2 (Aug 2, 2026) =
+* New: Added a Customer Portal Gutenberg block alongside the booking block and grouped both blocks in a dedicated Yo Booking inserter category.
+* New: Added a Company logo setting with WordPress Media Library selection, upload support, removal controls, and an inline image preview.
+* New: Added per-service frontend payment quotes so full-payment, deposit, and no-collection modes are applied consistently before and after booking.
+* New: Added a Notifications Settings tab for sender details, configurable email colors, editable footer text, and a live HTML design preview.
+* Improve: Updated the Yo Booking block icon to use the matching UIcons calendar and normalized its visual size in the block inserter.
+* Improve: Reorganized General settings into Company information, Regional settings, Booking rules, and Customer booking sections; moved Default currency to Payments and widened settings table labels.
+* Improve: Formatted editable monetary values throughout the admin with the configured currency precision and decimal and thousands separators while preserving normalized values for calculations.
+* Improve: Added synchronized editable HEX inputs to every color picker and normalized their typography and validation feedback.
+* Improve: Redesigned HTML notification emails with the event title in the card header, the centered company logo or brand-colored company name above the card, configurable surfaces and text colors, and a customizable linked footer.
+* Improve: Displayed deposit due and remaining balance details on the frontend only when collection mode is Deposit, while keeping full-payment collection active without the deposit summary.
+* Improve: Renamed Booking Portal to Customer Portal, moved Appearance above Reports, and removed the Admin icons row from System Status.
+* Update: Removed the redundant global notifications_enabled option so notification delivery is controlled by individual templates and event settings.
+* Update: Extended localized money formatting and parsing to services, appointments, payment transactions, calendar actions, REST payloads, and payment snapshots.
+
+= 2.0.1 (Jul 31, 2026) =
 * New: Added appointment list sorting by earliest or latest appointment time and oldest or newest creation time while preserving active filters and pagination.
 * New: Replaced raw WordPress user ID inputs in staff and customer add/edit forms with searchable user selectors.
 * New: Added intl-tel-input to phone fields across the admin and frontend, including international validation, E.164 normalization, and responsive country selection.
@@ -15,7 +30,7 @@
 * Update: Extended phone country data to frontend booking requests, admin appointment APIs, integration REST responses, signed webhook payloads, privacy erasure, and database migrations.
 * Update: Upgraded WordPress Coding Standards and related development tooling to patched releases.
 
-= 2.0.0 =
+= 2.0.0 (Jul 13, 2026) =
 * New: Rebuilt Yo Booking from a clean foundation with versioned database migrations, structured settings, and configurable uninstall cleanup.
 * New: Added service categories, services, staff assignments, customer profiles, scoped booking roles, and ownership-aware administration.
 * New: Added global and staff availability, split working hours, date exceptions, lead time, booking windows, slot intervals, caching, and conflict-safe scheduling.

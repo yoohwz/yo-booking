@@ -258,6 +258,8 @@ final class AppointmentsPage extends AbstractAdminPage {
 		$requested_time = preg_match( '/^(?:[01]\d|2[0-3]):[0-5]\d$/', $requested_time_input ) ? $requested_time_input : '09:00';
 		$payment_methods = ( new PaymentProviderRegistry() )->all();
 		$selected_payment_method = $appointment && isset( $appointment->payment_method ) ? $appointment->payment_method : $settings['payments']['default_method'];
+		$appointment_currency = $appointment && isset( $appointment->currency ) ? $appointment->currency : $settings['company']['currency'];
+		$appointment_total    = $appointment ? $appointment->total_amount : '0';
 
 		?>
 		<table class="form-table" role="presentation">
@@ -340,7 +342,7 @@ final class AppointmentsPage extends AbstractAdminPage {
 				</tr>
 				<tr>
 					<th scope="row"><label for="yo_booking_total_amount"><?php echo esc_html__( 'Total amount', 'yo-booking' ); ?></label></th>
-					<td><input id="yo_booking_total_amount" name="total_amount" type="number" min="0" step="0.01" value="<?php echo esc_attr( $appointment ? (string) $appointment->total_amount : '0.00' ); ?>" /></td>
+					<td><input id="yo_booking_total_amount" name="total_amount" type="text" inputmode="decimal" value="<?php echo esc_attr( Currency::format_number( $appointment_total, $appointment_currency ) ); ?>" data-yo-money-input data-yo-money-raw="<?php echo esc_attr( (string) $appointment_total ); ?>" /></td>
 				</tr>
 				<tr>
 					<th scope="row"><label for="yo_booking_customer_note"><?php echo esc_html__( 'Customer note', 'yo-booking' ); ?></label></th>
@@ -394,7 +396,7 @@ final class AppointmentsPage extends AbstractAdminPage {
 				<?php wp_nonce_field( 'yo_booking_update_appointment_payment_' . (int) $appointment->id ); ?>
 				<div class="yo-form-row">
 					<div class="yo-form-field"><label for="yo_booking_payment_action"><?php echo esc_html__( 'Action', 'yo-booking' ); ?></label><select id="yo_booking_payment_action" name="payment_status"><?php foreach ( $actions as $status => $label ) : ?><option value="<?php echo esc_attr( $status ); ?>"><?php echo esc_html( $label ); ?></option><?php endforeach; ?></select></div>
-					<div class="yo-form-field"><label for="yo_booking_payment_amount"><?php echo esc_html__( 'Amount', 'yo-booking' ); ?></label><input id="yo_booking_payment_amount" name="amount" type="number" min="0" step="any" value="<?php echo esc_attr( (string) $default_amount ); ?>" /></div>
+					<div class="yo-form-field"><label for="yo_booking_payment_amount"><?php echo esc_html__( 'Amount', 'yo-booking' ); ?></label><input id="yo_booking_payment_amount" name="amount" type="text" inputmode="decimal" value="<?php echo esc_attr( Currency::format_number( $default_amount, $appointment->currency ) ); ?>" data-yo-money-input data-yo-money-raw="<?php echo esc_attr( (string) $default_amount ); ?>" /></div>
 					<div class="yo-form-field"><label for="yo_booking_transaction_id"><?php echo esc_html__( 'Transaction/reference ID', 'yo-booking' ); ?></label><input id="yo_booking_transaction_id" name="transaction_id" type="text" /></div>
 				</div>
 				<div class="yo-form-field"><label for="yo_booking_payment_note"><?php echo esc_html__( 'Reconciliation note', 'yo-booking' ); ?></label><textarea id="yo_booking_payment_note" name="note" rows="2"></textarea></div>
@@ -457,6 +459,11 @@ final class AppointmentsPage extends AbstractAdminPage {
 		check_admin_referer( 'yo_booking_save_appointment' );
 
 		$data             = wp_unslash( $_POST );
+		$existing         = ! empty( $data['id'] ) ? ( new AppointmentRepository() )->find( absint( $data['id'] ) ) : null;
+		$currency         = $existing && isset( $existing->currency ) ? $existing->currency : ( new SettingsRepository() )->get( 'company.currency', 'USD' );
+		if ( isset( $data['total_amount'] ) ) {
+			$data['total_amount'] = Currency::parse_number( $data['total_amount'], $currency );
+		}
 		$data['timezone'] = DateTimeFormatter::timezone_name();
 		$result           = ( new AppointmentRepository() )->save( $data );
 
@@ -502,7 +509,7 @@ final class AppointmentsPage extends AbstractAdminPage {
 		}
 
 		$status   = isset( $_POST['payment_status'] ) ? sanitize_key( wp_unslash( $_POST['payment_status'] ) ) : 'pending';
-		$amount   = isset( $_POST['amount'] ) ? sanitize_text_field( wp_unslash( $_POST['amount'] ) ) : $appointment->total_amount;
+		$amount   = isset( $_POST['amount'] ) ? Currency::parse_number( sanitize_text_field( wp_unslash( $_POST['amount'] ) ), $appointment->currency ) : $appointment->total_amount;
 		$note     = isset( $_POST['note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['note'] ) ) : '';
 		$result   = ( new PaymentRepository() )->mark_appointment(
 			$id,
@@ -591,7 +598,7 @@ final class AppointmentsPage extends AbstractAdminPage {
 		<?php // translators: %s: formatted amount due at booking. ?>
 		<span class="description"><?php echo esc_html( sprintf( __( 'Due now: %s', 'yo-booking' ), Currency::format( $amount_due, $appointment->currency ) ) ); ?></span>
 		<?php if ( $latest ) : ?>
-			<br /><span class="description"><?php echo esc_html( $latest->method_title . ' ' . $latest->status . ' ' . $latest->amount ); ?></span>
+			<br /><span class="description"><?php echo esc_html( $latest->method_title . ' ' . $latest->status . ' ' . Currency::format( $latest->amount, $latest->currency ) ); ?></span>
 		<?php endif; ?>
 		<?php
 	}

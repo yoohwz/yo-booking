@@ -77,6 +77,8 @@ $rest_request = static function ( $method, $route, $params = array(), $nonce = '
 	return rest_do_request( $request );
 };
 
+add_filter( 'pre_wp_mail', '__return_true' );
+
 try {
 	if ( 1999 !== YoBooking\Payments\Money::to_minor( '19.99', 'USD' ) || '19.99' !== YoBooking\Payments\Money::from_minor( 1999, 'USD' ) ) {
 		$fail( 'USD minor-unit conversion is not exact' );
@@ -85,7 +87,6 @@ try {
 		$fail( 'zero-decimal currency conversion is not exact' );
 	}
 
-	$settings['notifications']['enabled']            = false;
 	$settings['payments']['enabled']                 = true;
 	$settings['payments']['provider']                = 'bank_transfer';
 	$settings['payments']['methods']                 = array( 'local', 'bank_transfer' );
@@ -144,12 +145,25 @@ try {
 	do_action( 'rest_api_init' );
 
 	$methods_response = $rest_request( 'GET', '/yo-booking/v1/booking/services' );
-	$payment_config   = $methods_response->get_data()['payment'];
+	$services_data    = $methods_response->get_data();
+	$payment_config   = $services_data['payment'];
 	if ( empty( $payment_config['enabled'] ) || 2 !== count( $payment_config['methods'] ) || 'local' !== $payment_config['default_method'] ) {
 		$fail( 'frontend payment method configuration is incomplete' );
 	}
 	if ( isset( $payment_config['methods'][1]['instructions'] ) || false !== strpos( wp_json_encode( $payment_config ), 'GB82WEST' ) ) {
 		$fail( 'public payment method configuration exposed bank account details before booking' );
+	}
+	$service_payload = array_values(
+		array_filter(
+			$services_data['services'],
+			static function ( $item ) use ( $service_id ) {
+				return (int) $item['id'] === $service_id;
+			}
+		)
+	);
+	$quote = ! empty( $service_payload[0]['payment'] ) ? $service_payload[0]['payment'] : array();
+	if ( empty( $quote['enabled'] ) || 'deposit' !== $quote['collection_mode'] || '50.00' !== $quote['amount_due'] || '150.00' !== $quote['remaining_amount'] || YoBooking\Payments\Currency::format( '50.00', 'USD' ) !== $quote['amount_due_display'] ) {
+		$fail( 'frontend service payment quote is incomplete' );
 	}
 
 	$booking_response = $rest_request(
@@ -184,8 +198,11 @@ try {
 		$fail( 'booking did not persist appointment' );
 	}
 
-	if ( empty( $payment['enabled'] ) || 'deposit' !== $payment['collection_mode'] || '50.00' !== $payment['amount_due'] || 'USD' !== $payment['currency'] ) {
+	if ( empty( $payment['enabled'] ) || 'deposit' !== $payment['collection_mode'] || '50.00' !== $payment['amount_due'] || '150.00' !== $payment['remaining_amount'] || 'USD' !== $payment['currency'] ) {
 		$fail( 'booking response returned an unexpected payment summary' );
+	}
+	if ( empty( $booking_data['appointment']['payment'] ) || '50.00' !== $booking_data['appointment']['payment']['amount_due'] ) {
+		$fail( 'appointment payload omitted customer-facing payment terms' );
 	}
 
 	if ( 'bank_transfer' !== $appointment->payment_method || 'Bank transfer' !== $payment['provider_title'] || false === strpos( $payment['instructions'], 'GB82WEST' ) ) {
@@ -205,6 +222,10 @@ try {
 	$changed_settings['payments']['collection_mode'] = 'full';
 	$changed_settings['payments']['deposit_amount'] = 75;
 	$settings_repository->save( $changed_settings );
+	$updated_quote = $payment_manager->quote_for_service( $service_repository->find( $service_id ) );
+	if ( 'full' !== $updated_quote['collection_mode'] || '200.00' !== $updated_quote['amount_due'] || '0.00' !== $updated_quote['remaining_amount'] ) {
+		$fail( 'service payment quote did not follow current collection settings' );
+	}
 	$unchanged_summary = $payment_manager->summary_for_appointment( $appointment_id );
 	if ( 'deposit' !== $unchanged_summary['collection_mode'] || '50.00' !== $unchanged_summary['payment_due_amount'] ) {
 		$fail( 'payment snapshot changed after global settings changed' );
@@ -266,6 +287,7 @@ try {
 } finally {
 	global $wpdb;
 
+	remove_filter( 'pre_wp_mail', '__return_true' );
 	$settings_repository->save( $original_settings );
 
 	if ( $appointment_id ) {

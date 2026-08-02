@@ -467,12 +467,24 @@
 .yo-checkbox-list label { display: flex; align-items: flex-start; gap: 7px; line-height: 1.45; }
 .yo-checkbox-list input[type="checkbox"] { flex: 0 0 auto; margin-top: 1px; }
 
-.yo-settings-layout { max-width: 1080px; }
-.yo-settings-panel { max-width: 850px; }
-.yo-settings-panel h2 { margin: 0 0 4px; }
-.yo-settings-panel > p { color: var(--yo-muted); }
-.yo-settings-panel .form-table { margin-top: 14px; }
+.yo-settings-layout { max-width: 1080px; padding: 0; background: transparent; border: 0; border-radius: 0; }
+.yo-settings-groups { display: grid; gap: 16px; max-width: 850px; }
+.yo-settings-panel { width: 100%; max-width: 850px; }
+.yo-settings-panel__header { padding-bottom: 14px; border-bottom: 1px solid var(--yo-border); }
+.yo-settings-panel__header h2 { margin: 0 0 4px; }
+.yo-settings-panel__header p { margin: 0; color: var(--yo-muted); }
+.yo-settings-panel .form-table { margin: 6px 0 0; }
+.yo-settings-panel .form-table th { width: 220px; }
+.yo-settings-layout > .submit { margin: 18px 0 0; padding: 0; }
 .yo-danger-zone { border-color: #e5a4a6; }
+.yo-media-field { display: flex; align-items: center; gap: 16px; }
+.yo-media-preview { display: flex; align-items: center; justify-content: center; flex: 0 0 96px; width: 96px; height: 96px; padding: 8px; overflow: hidden; background: var(--yo-bg); border: 1px solid var(--yo-border); border-radius: var(--yo-radius); }
+.yo-media-preview img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.yo-media-preview span { max-width: 76px; color: var(--yo-muted); font-size: 11px; line-height: 1.35; text-align: center; }
+.yo-media-field [hidden] { display: none !important; }
+.yo-media-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.yo-media-description { margin: 8px 0 0; }
+.yo-media-remove { color: var(--yo-danger); }
 
 .yo-notification-workspace { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); gap: 18px; align-items: start; }
 .yo-notification-workspace .yo-editor { margin: 0; }
@@ -485,6 +497,29 @@
 .yo-test-email-form { display: grid; gap: 5px; margin-top: 14px; }
 .yo-inline-control { display: flex; gap: 7px; }
 .yo-inline-control input { flex: 1; min-width: 0; }
+.yo-notification-settings-workspace { display: grid; grid-template-columns: minmax(540px, 850px) minmax(340px, 430px); gap: 18px; align-items: start; }
+.yo-notification-settings-form { max-width: none; }
+.yo-notification-settings-form > .submit { margin: 2px 0 0; padding: 0; }
+.yo-email-color-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.yo-email-color-field { display: grid; gap: 9px; padding: 13px; background: var(--yo-bg); border: 1px solid var(--yo-border); border-radius: 6px; font-weight: 600; }
+.yo-email-color-field .yo-color-control { width: 100%; background: var(--yo-surface); font-weight: 400; }
+.yo-email-footer-field { display: grid; gap: 7px; margin-top: 18px; }
+.yo-email-footer-field > label { font-weight: 600; }
+.yo-email-footer-field textarea { resize: vertical; }
+.yo-email-footer-field .description { margin: 0; }
+.yo-email-style-preview-panel { position: sticky; top: 46px; padding: 20px; background: var(--yo-surface); border: 1px solid var(--yo-border); border-radius: var(--yo-radius); }
+.yo-email-style-preview { padding: 26px 18px 20px; overflow: hidden; color: var(--yo-email-text); background: var(--yo-email-background); border: 1px solid var(--yo-border); border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+.yo-email-style-preview__card { overflow: hidden; background: var(--yo-email-surface); border-radius: 8px; box-shadow: 0 5px 16px rgb(15 23 42 / 10%); }
+.yo-email-style-preview__brand { display: flex; align-items: center; justify-content: center; min-height: 34px; padding: 0 4px 14px; color: var(--yo-email-primary); font-size: 15px; text-align: center; }
+.yo-email-style-preview__brand img { display: block; width: auto; max-width: 140px; height: auto; max-height: 38px; }
+.yo-email-style-preview__header { padding: 18px 20px; color: #fff; background: var(--yo-email-primary); }
+.yo-email-style-preview__header h3 { margin: 0; color: #fff; font-size: 18px; line-height: 1.35; }
+.yo-email-style-preview__content { padding: 23px 20px 25px; background: var(--yo-email-surface); }
+.yo-email-style-preview__content p { margin: 0 0 12px; color: var(--yo-email-text); line-height: 1.55; }
+.yo-email-style-preview__content p:last-child { margin-bottom: 0; }
+.yo-email-style-preview__content a { color: var(--yo-email-primary); font-weight: 600; }
+.yo-email-style-preview__footer { padding: 15px 8px 0; color: var(--yo-email-muted); font-size: 11px; line-height: 1.5; text-align: center; white-space: pre-line; overflow-wrap: anywhere; }
+.yo-email-style-preview__footer a { color: var(--yo-email-primary); font-weight: 600; }
 
 .yo-checklist { margin: 0; }
 .yo-checklist li { display: flex; align-items: center; gap: 10px; margin: 0; padding: 11px 0; border-bottom: 1px solid #f0f0f1; }
@@ -610,9 +645,12 @@ body.yo-drawer-open { overflow: hidden; }
 .yo-appearance-form .yo-editor__footer { margin: 0; padding: 18px 24px; }
 .yo-color-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .yo-color-field { display: grid; gap: 6px; font-weight: 600; }
-.yo-color-control { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 5px 8px; background: var(--yo-surface); border: 1px solid var(--yo-border); border-radius: 4px; }
-.yo-color-control input[type="color"] { width: 32px; height: 28px; margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; }
-.yo-color-control code { color: var(--yo-muted); background: transparent; }
+.yo-color-control { display: flex; align-items: center; gap: 10px; width: min(100%, 320px); min-height: 40px; padding: 5px 8px; background: var(--yo-surface); border: 1px solid var(--yo-border); border-radius: 4px; transition: border-color .15s ease, box-shadow .15s ease; }
+.yo-color-control:focus-within { border-color: var(--yo-primary); box-shadow: 0 0 0 1px var(--yo-primary); }
+.yo-color-control:has(.yo-hex-color-input.is-invalid) { border-color: var(--yo-danger); box-shadow: 0 0 0 1px var(--yo-danger); }
+.yo-color-control input[type="color"] { flex: 0 0 42px; width: 42px; height: 30px; margin: 0; padding: 1px; border: 0; background: transparent; cursor: pointer; }
+.yo-color-control .yo-hex-color-input { flex: 1 1 auto; width: auto; min-width: 0; min-height: 30px; margin: 0; padding: 2px 4px; color: var(--yo-muted); background: transparent; border: 0; box-shadow: none; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 14px; font-weight: 400; text-transform: uppercase; }
+.yo-color-control .yo-hex-color-input:focus { border: 0; box-shadow: none; outline: 0; }
 .yo-appearance-toggles { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; }
 .yo-shortcode-list { border-top: 1px solid var(--yo-border); }
 .yo-shortcode-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--yo-border); }
@@ -650,7 +688,9 @@ body.yo-drawer-open { overflow: hidden; }
 	.yo-booking-admin .widefat { display: block; overflow-x: auto; }
 	.yo-table-scroll .widefat { display: table; overflow: visible; }
 	.yo-notification-workspace { grid-template-columns: 1fr; }
-	.yo-email-preview-panel { position: static; }
+	.yo-email-preview-panel,
+	.yo-email-style-preview-panel { position: static; }
+	.yo-notification-settings-workspace { grid-template-columns: 1fr; }
 	.yo-appearance-layout { grid-template-columns: 1fr; }
 	.yo-appearance-preview-wrap { position: static; }
 }
@@ -695,6 +735,8 @@ body.yo-drawer-open { overflow: hidden; }
 	.yo-editor select { width: 100%; max-width: none; }
 	.yo-form-row { align-items: stretch; }
 	.yo-form-field { flex: 1 1 140px; }
+	.yo-media-field { align-items: flex-start; }
+	.yo-email-color-grid { grid-template-columns: 1fr; }
 	.yo-calendar td { min-width: 150px; }
 	.yo-bulk-bar { align-items: stretch; flex-direction: column; }
 	.yo-bulk-bar .description { margin-left: 0; }

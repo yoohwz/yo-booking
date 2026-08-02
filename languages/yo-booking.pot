@@ -2,31 +2,31 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yo Booking 2.0.0\n"
-"Report-Msgid-Bugs-To: https://yoohw.com\n"
+"Project-Id-Version: Yo Booking 2.0.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yo-booking\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-13T10:48:09+00:00\n"
+"POT-Creation-Date: 2026-08-02T06:02:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: yo-booking\n"
 
 #. Plugin Name of the plugin
-#: src/Admin/AdminMenu.php:45
 #: src/Admin/AdminMenu.php:46
+#: src/Admin/AdminMenu.php:47
 #: src/Diagnostics/SiteHealth.php:82
 #: src/Diagnostics/SiteHealth.php:99
+#: src/Frontend/Shortcode.php:47
 #: src/Privacy/PrivacyManager.php:183
-#: block/block.js:16
+#: block/block.js:31
 msgid "Yo Booking"
 msgstr ""
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
-msgid "https://yoohw.com"
+msgid "https://yoohw.com/product/yo-booking/"
 msgstr ""
 
 #. Description of the plugin
@@ -37,216 +37,288 @@ msgstr ""
 msgid "YoOhw.com"
 msgstr ""
 
-#: src/Admin/AbstractAdminPage.php:89
-#: src/Admin/AdminMenu.php:104
+#. Author URI of the plugin
+msgid "https://yoohw.com"
+msgstr ""
+
+#. translators: %s: Color field label.
+#: src/Admin/AbstractAdminPage.php:76
+msgid "%s color picker"
+msgstr ""
+
+#. translators: %s: Color field label.
+#: src/Admin/AbstractAdminPage.php:78
+msgid "%s HEX code"
+msgstr ""
+
+#: src/Admin/AbstractAdminPage.php:117
+#: src/Admin/AdminMenu.php:105
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: src/Admin/AbstractAdminPage.php:105
+#: src/Admin/AbstractAdminPage.php:133
 msgid "Changes saved."
 msgstr ""
 
-#: src/Admin/AbstractAdminPage.php:108
+#: src/Admin/AbstractAdminPage.php:136
 msgid "Record deleted."
 msgstr ""
 
-#: src/Admin/AbstractAdminPage.php:113
-#: src/Admin/AdminAssets.php:157
+#: src/Admin/AbstractAdminPage.php:141
+#: src/Admin/AdminAssets.php:203
 msgid "The request could not be completed."
 msgstr ""
 
-#: src/Admin/AdminAssets.php:75
+#. translators: 1: current step number, 2: total step count, 3: step label.
+#: src/Admin/AdminAssets.php:103
+#: src/Frontend/Shortcode.php:110
+#: src/Frontend/Shortcode.php:227
+msgid "Enter a valid phone number."
+msgstr ""
+
+#: src/Admin/AdminAssets.php:120
 msgid "Delete this record? This action cannot be undone."
 msgstr ""
 
-#: src/Admin/AdminAssets.php:76
+#: src/Admin/AdminAssets.php:121
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:77
+#: src/Admin/AdminAssets.php:122
 msgid "Copy failed"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:143
-#: src/Admin/AppointmentsPage.php:358
+#: src/Admin/AdminAssets.php:123
+msgid "Enter a 6-digit HEX color, for example #2563EB."
+msgstr ""
+
+#: src/Admin/AdminAssets.php:189
+#: src/Admin/AppointmentsPage.php:374
 msgid "Record payment"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:144
-#: src/Admin/AppointmentsPage.php:359
+#: src/Admin/AdminAssets.php:190
+#: src/Admin/AppointmentsPage.php:375
 msgid "Record partial payment"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:145
-#: src/Admin/AppointmentsPage.php:360
+#: src/Admin/AdminAssets.php:191
+#: src/Admin/AppointmentsPage.php:376
 msgid "Record authorization"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:146
+#: src/Admin/AdminAssets.php:192
 msgid "Record failure"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:147
+#: src/Admin/AdminAssets.php:193
 msgid "Record cancellation"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:148
-#: src/Admin/AppointmentsPage.php:363
+#: src/Admin/AdminAssets.php:194
+#: src/Admin/AppointmentsPage.php:379
 msgid "Record refund"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:153
+#: src/Admin/AdminAssets.php:199
 #: src/Frontend/SelfServicePage.php:59
-#: src/Frontend/Shortcode.php:146
+#: src/Frontend/Shortcode.php:218
 msgid "Loading appointment..."
 msgstr ""
 
-#: src/Admin/AdminAssets.php:154
+#: src/Admin/AdminAssets.php:200
 msgid "Appointment updated."
 msgstr ""
 
-#: src/Admin/AdminAssets.php:155
+#: src/Admin/AdminAssets.php:201
 msgid "Move this appointment to the selected time?"
 msgstr ""
 
-#: src/Admin/AdminAssets.php:156
-#: src/Rest/AdminAppointmentController.php:274
+#: src/Admin/AdminAssets.php:202
+#: src/Rest/AdminAppointmentController.php:278
 msgid "Select at least one appointment."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:56
 #: src/Admin/AdminMenu.php:57
+#: src/Admin/AdminMenu.php:58
 msgid "Dashboard"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:71
 #: src/Admin/AdminMenu.php:72
-#: src/Admin/AdminMenu.php:89
-#: src/Admin/AdminMenu.php:112
+#: src/Admin/AdminMenu.php:73
+#: src/Admin/AdminMenu.php:90
+#: src/Admin/AdminMenu.php:113
 #: src/Admin/DashboardPage.php:269
+#: src/Admin/NotificationsPage.php:83
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:112
-msgid "Configure booking rules, payments, notifications, and data handling."
+#: src/Admin/AdminMenu.php:113
+msgid "Configure booking rules, payments, integrations, and data handling."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:113
+#: src/Admin/AdminMenu.php:114
 msgid "Settings sections"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:114
+#: src/Admin/AdminMenu.php:115
 msgid "General"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:114
+#: src/Admin/AdminMenu.php:115
 msgid "Payments"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:114
+#: src/Admin/AdminMenu.php:115
 #: src/Admin/IntegrationsPage.php:59
 #: src/Admin/IntegrationsPage.php:60
 msgid "Integrations"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:114
+#: src/Admin/AdminMenu.php:115
 #: src/Admin/AuditLogPage.php:45
 msgid "Audit log"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:114
+#: src/Admin/AdminMenu.php:115
 #: src/Admin/MaintenancePage.php:45
 msgid "Maintenance"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:120
+#: src/Admin/AdminMenu.php:121
 msgid "Settings saved."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:145
+#: src/Admin/AdminMenu.php:148
 msgid "System status"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:149
+#: src/Admin/AdminMenu.php:152
 #: src/Diagnostics/SiteHealth.php:84
 msgid "Plugin version"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:153
+#: src/Admin/AdminMenu.php:156
 #: src/Diagnostics/SiteHealth.php:85
 msgid "Schema version"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:157
+#: src/Admin/AdminMenu.php:160
 #: src/Diagnostics/SiteHealth.php:86
 msgid "Managed tables"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:161
+#: src/Admin/AdminMenu.php:164
 msgid "Shortcode"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:165
-msgid "Admin icons"
+#: src/Admin/AdminMenu.php:179
+msgid "Company information"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:166
-msgid "UIcons by Flaticon"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:177
-msgid "Payment settings"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:177
-msgid "Core settings"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:182
-msgid "Default currency"
+#: src/Admin/AdminMenu.php:179
+msgid "Business details shown across booking and customer communications."
 msgstr ""
 
 #: src/Admin/AdminMenu.php:183
-msgid "Used as the default for new services. Existing services keep their currency."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:187
 msgid "Company name"
 msgstr ""
 
+#: src/Admin/AdminMenu.php:190
+msgid "Company logo"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:192
+msgid "Choose a company logo"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:192
+msgid "Use this logo"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:192
 #: src/Admin/AdminMenu.php:195
-msgid "Company email"
+msgid "Company logo preview"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:196
+msgid "No logo selected"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:199
+msgid "Choose logo"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:200
+msgid "Remove logo"
 msgstr ""
 
 #: src/Admin/AdminMenu.php:203
+msgid "Choose an existing image or upload a new one from the WordPress Media Library."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:208
+msgid "Company email"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:216
 msgid "Company phone"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:211
+#: src/Admin/AdminMenu.php:224
 msgid "Company address"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:219
-#: src/Admin/AppointmentsPage.php:302
+#: src/Admin/AdminMenu.php:234
+msgid "Regional settings"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:234
+msgid "Phone, timezone, date, and time defaults inherited by bookings."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:238
+msgid "Default phone country"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:242
+msgid "Automatic — use WordPress locale"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:244
+msgid "Used for new phone numbers when no customer, staff, or session country is available."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:249
+#: src/Admin/AppearancePage.php:174
+#: src/Admin/AppointmentsPage.php:318
 msgid "Date and time"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:224
+#: src/Admin/AdminMenu.php:254
 msgid "Yo Booking follows the site timezone, date format, and time format."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:224
+#: src/Admin/AdminMenu.php:254
 msgid "Change in WordPress Settings"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:229
+#: src/Admin/AdminMenu.php:261
+msgid "Booking rules"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:261
+msgid "Default timing, availability window, and appointment status."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:265
 #: src/Admin/AvailabilityPage.php:326
 msgid "Slot interval"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:233
-#: src/Admin/AdminMenu.php:242
-#: src/Admin/AppointmentsPage.php:307
+#: src/Admin/AdminMenu.php:269
+#: src/Admin/AdminMenu.php:278
+#: src/Admin/AppointmentsPage.php:323
 #: src/Admin/AvailabilityPage.php:354
 #: src/Admin/ServicesPage.php:122
 #: src/Admin/ServicesPage.php:131
@@ -254,352 +326,373 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:238
+#: src/Admin/AdminMenu.php:274
 msgid "Lead time"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:247
+#: src/Admin/AdminMenu.php:283
 msgid "Booking window"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:251
-#: src/Admin/AdminMenu.php:451
-#: src/Admin/AdminMenu.php:452
-#: src/Admin/AdminMenu.php:453
+#: src/Admin/AdminMenu.php:287
+#: src/Admin/AdminMenu.php:486
+#: src/Admin/AdminMenu.php:487
+#: src/Admin/AdminMenu.php:488
 msgid "days"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:256
+#: src/Admin/AdminMenu.php:292
 msgid "Default appointment status"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:260
-#: src/Admin/AppointmentsPage.php:325
+#: src/Admin/AdminMenu.php:296
+#: src/Admin/AppointmentsPage.php:341
 #: src/Admin/DashboardPage.php:479
-#: src/Frontend/Shortcode.php:169
-#: src/Repositories/AppointmentRepository.php:47
+#: src/Frontend/Shortcode.php:242
+#: src/Repositories/AppointmentRepository.php:48
 #: src/Repositories/PaymentRepository.php:39
 #: src/Repositories/PaymentRepository.php:52
 msgid "Pending"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:261
+#: src/Admin/AdminMenu.php:297
 #: src/Admin/DashboardPage.php:475
-#: src/Frontend/Shortcode.php:169
-#: src/Repositories/AppointmentRepository.php:48
+#: src/Frontend/Shortcode.php:242
+#: src/Repositories/AppointmentRepository.php:49
 msgid "Confirmed"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:266
-msgid "Booking access"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:269
-msgid "Allow visitors to book without a WordPress account."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:270
-msgid "Allow customers to select a staff member."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:275
-msgid "Required customer details"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:278
-msgid "Require an email address."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:279
-msgid "Require a phone number."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:280
-msgid "Require explicit marketing consent before booking."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:285
-msgid "Self-service deadlines"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:288
-msgid "Cancellation"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:288
-#: src/Admin/AdminMenu.php:289
-msgid "hours before start"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:289
-#: src/Frontend/Shortcode.php:161
-msgid "Reschedule"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:296
-msgid "Currency display"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:300
-msgid "Currency position"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:302
-#: src/Admin/AdminMenu.php:331
-msgid "Currency default"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:303
-msgid "Left ($99.00)"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:304
-msgid "Left with space ($ 99.00)"
+#: src/Admin/AdminMenu.php:305
+msgid "Customer booking"
 msgstr ""
 
 #: src/Admin/AdminMenu.php:305
-msgid "Right (99.00$)"
+msgid "Control booking access, required details, and self-service deadlines."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:306
-msgid "Right with space (99.00 $)"
+#: src/Admin/AdminMenu.php:308
+msgid "Booking access"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:310
-msgid "Thousand separator"
+#: src/Admin/AdminMenu.php:311
+msgid "Allow visitors to book without a WordPress account."
 msgstr ""
 
 #: src/Admin/AdminMenu.php:312
-#: src/Admin/AdminMenu.php:323
-msgid "WordPress locale"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:313
-msgid "Comma (1,000)"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:314
-msgid "Period (1.000)"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:315
-msgid "Space (1 000)"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:316
-msgid "Apostrophe (1'000)"
+msgid "Allow customers to select a staff member."
 msgstr ""
 
 #: src/Admin/AdminMenu.php:317
-msgid "None (1000)"
+msgid "Required customer details"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:320
+msgid "Require an email address."
 msgstr ""
 
 #: src/Admin/AdminMenu.php:321
+msgid "Require a phone number."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:322
+msgid "Require explicit marketing consent before booking."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:327
+msgid "Self-service deadlines"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:330
+msgid "Cancellation"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:330
+#: src/Admin/AdminMenu.php:331
+msgid "hours before start"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:331
+#: src/Frontend/Shortcode.php:233
+msgid "Reschedule"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:340
+msgid "Currency & display"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:340
+msgid "Choose the default currency and how monetary values appear."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:343
+msgid "Default currency"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:344
+msgid "Used as the default for new services. Existing services keep their currency."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:347
+msgid "Currency display"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:351
+msgid "Currency position"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:353
+#: src/Admin/AdminMenu.php:382
+msgid "Currency default"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:354
+msgid "Left ($99.00)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:355
+msgid "Left with space ($ 99.00)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:356
+msgid "Right (99.00$)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:357
+msgid "Right with space (99.00 $)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:361
+msgid "Thousand separator"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:363
+#: src/Admin/AdminMenu.php:374
+msgid "WordPress locale"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:364
+msgid "Comma (1,000)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:365
+msgid "Period (1.000)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:366
+msgid "Space (1 000)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:367
+msgid "Apostrophe (1'000)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:368
+msgid "None (1000)"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:372
 msgid "Decimal separator"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:324
+#: src/Admin/AdminMenu.php:375
 msgid "Period (99.00)"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:325
+#: src/Admin/AdminMenu.php:376
 msgid "Comma (99,00)"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:329
+#: src/Admin/AdminMenu.php:380
 msgid "Number of decimals"
 msgstr ""
 
 #. translators: %s: sample amount formatted with the selected currency settings.
-#: src/Admin/AdminMenu.php:339
+#: src/Admin/AdminMenu.php:390
 msgid "Preview: %s. These options change display formatting only; calculations retain each currency's ISO precision."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:343
+#: src/Admin/AdminMenu.php:397
+msgid "Payment collection"
+msgstr ""
+
+#: src/Admin/AdminMenu.php:397
+msgid "Enable payments and configure when customers are charged."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:400
 msgid "Payment layer"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:347
+#: src/Admin/AdminMenu.php:404
 msgid "Enable payment method selection and payment records for bookings."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:349
+#: src/Admin/AdminMenu.php:406
 msgid "Online gateways can be installed separately as payment add-ons."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:354
+#: src/Admin/AdminMenu.php:411
 msgid "Collection mode"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:358
+#: src/Admin/AdminMenu.php:415
 msgid "No payment required"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:359
+#: src/Admin/AdminMenu.php:416
 msgid "Full payment"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:360
+#: src/Admin/AdminMenu.php:417
 msgid "Deposit"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:366
+#: src/Admin/AdminMenu.php:423
 msgid "Deposit type"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:370
+#: src/Admin/AdminMenu.php:427
 msgid "Calculation"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:370
+#: src/Admin/AdminMenu.php:427
 msgid "Percent"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:370
+#: src/Admin/AdminMenu.php:427
 msgid "Fixed amount"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:371
-#: src/Admin/AppointmentsPage.php:383
-#: src/Admin/AppointmentsPage.php:389
-#: src/Admin/ServicesPage.php:144
+#: src/Admin/AdminMenu.php:429
+#: src/Admin/AppointmentsPage.php:399
+#: src/Admin/AppointmentsPage.php:405
+#: src/Admin/ServicesPage.php:145
 msgid "Amount"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:373
+#: src/Admin/AdminMenu.php:431
 msgid "Fixed deposits use the default currency and require matching service currencies. Use a percentage deposit when services use multiple currencies."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:377
+#: src/Admin/AdminMenu.php:438
+#: src/Admin/AdminMenu.php:441
 msgid "Payment methods"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:387
+#: src/Admin/AdminMenu.php:438
+msgid "Select available methods and provide offline payment details."
+msgstr ""
+
+#: src/Admin/AdminMenu.php:451
 msgid "Default payment method"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:391
-#: src/Admin/AdminMenu.php:551
+#: src/Admin/AdminMenu.php:455
+#: src/Admin/AdminMenu.php:593
 #: src/Payments/LocalPaymentProvider.php:25
 #: src/Repositories/PaymentRepository.php:283
-#: src/Settings/Defaults.php:63
+#: src/Settings/Defaults.php:70
 msgid "Pay locally"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:392
+#: src/Admin/AdminMenu.php:456
 msgid "Pay locally instructions"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:395
-#: src/Admin/AdminMenu.php:553
-#: src/Notifications/NotificationService.php:456
+#: src/Admin/AdminMenu.php:459
+#: src/Admin/AdminMenu.php:595
+#: src/Notifications/NotificationService.php:452
 #: src/Payments/BankTransferPaymentProvider.php:25
-#: src/Settings/Defaults.php:65
+#: src/Settings/Defaults.php:72
 msgid "Bank transfer"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:399
+#: src/Admin/AdminMenu.php:463
 msgid "Bank transfer instructions"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:401
+#: src/Admin/AdminMenu.php:465
 msgid "Bank name"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:402
+#: src/Admin/AdminMenu.php:466
 #: src/Payments/BankTransferPaymentProvider.php:41
 msgid "Account name"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:403
+#: src/Admin/AdminMenu.php:467
 #: src/Payments/BankTransferPaymentProvider.php:42
 msgid "Account number"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:404
+#: src/Admin/AdminMenu.php:468
 #: src/Payments/BankTransferPaymentProvider.php:43
 msgid "Routing number"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:405
+#: src/Admin/AdminMenu.php:469
 #: src/Payments/BankTransferPaymentProvider.php:44
 msgid "IBAN"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:406
+#: src/Admin/AdminMenu.php:470
 #: src/Payments/BankTransferPaymentProvider.php:45
 msgid "SWIFT/BIC"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:414
-msgid "Email notifications"
+#: src/Admin/AdminMenu.php:480
+msgid "Data management"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:418
-msgid "Send booking emails from configured templates."
+#: src/Admin/AdminMenu.php:480
+msgid "Set log retention periods and what happens when the plugin is deleted."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:424
-msgid "From name"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:432
-msgid "From email"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:440
-msgid "Admin recipients"
-msgstr ""
-
-#: src/Admin/AdminMenu.php:444
-msgid "Separate multiple email addresses with commas."
-msgstr ""
-
-#: src/Admin/AdminMenu.php:448
+#: src/Admin/AdminMenu.php:483
 msgid "Data retention"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:451
+#: src/Admin/AdminMenu.php:486
 msgid "Email delivery logs"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:452
+#: src/Admin/AdminMenu.php:487
 msgid "Webhook deliveries"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:453
+#: src/Admin/AdminMenu.php:488
 msgid "Audit logs"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:455
+#: src/Admin/AdminMenu.php:490
 msgid "Use 0 to retain a log indefinitely. Appointments, customers, and payments are never removed by automatic cleanup."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:459
+#: src/Admin/AdminMenu.php:494
 msgid "Uninstall policy"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:463
+#: src/Admin/AdminMenu.php:498
 msgid "Remove all Yo Booking tables and settings when the plugin is deleted."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:465
+#: src/Admin/AdminMenu.php:500
 msgid "Disabled by default. When disabled, booking data remains in the database after uninstall."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:472
+#: src/Admin/AdminMenu.php:508
 msgid "Save Settings"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:513
+#: src/Admin/AdminMenu.php:549
 msgid "You do not have permission to update these settings."
 msgstr ""
 
-#: src/Admin/AdminMenu.php:602
+#: src/Admin/AdminMenu.php:637
 msgid "Payment settings updated"
 msgstr ""
 
-#: src/Admin/AdminMenu.php:602
+#: src/Admin/AdminMenu.php:637
 msgid "Booking settings updated"
 msgstr ""
 
@@ -663,6 +756,7 @@ msgid "Text"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:64
+#: src/Admin/NotificationsPage.php:274
 msgid "Muted text"
 msgstr ""
 
@@ -780,42 +874,50 @@ msgstr ""
 msgid "Reset defaults"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:131
+#: src/Admin/AppearancePage.php:132
 msgid "Live preview"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:131
-msgid "Preview device"
-msgstr ""
-
-#: src/Admin/AppearancePage.php:131
-msgid "Desktop"
-msgstr ""
-
-#: src/Admin/AppearancePage.php:131
-msgid "Mobile"
+#: src/Admin/AppearancePage.php:134
+msgid "Preview step"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:134
-#: src/Admin/AppointmentsPage.php:161
-#: src/Admin/AppointmentsPage.php:255
-#: src/Admin/AppointmentsPage.php:410
-#: src/Admin/CustomersPage.php:221
-#: src/Frontend/Shortcode.php:143
+msgid "Step"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:134
+msgid "of"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:134
+msgid "Book appointment"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:134
+#: src/Admin/AppearancePage.php:142
+#: src/Admin/AppearancePage.php:174
+#: src/Admin/AppointmentsPage.php:171
+#: src/Admin/AppointmentsPage.php:268
+#: src/Admin/AppointmentsPage.php:426
+#: src/Admin/CustomersPage.php:239
+#: src/Frontend/Shortcode.php:215
 #: src/Privacy/PrivacyManager.php:90
 msgid "Service"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:134
-#: src/Admin/AppointmentsPage.php:162
-#: src/Admin/AppointmentsPage.php:268
-#: src/Admin/AppointmentsPage.php:411
+#: src/Admin/AppearancePage.php:142
+#: src/Admin/AppearancePage.php:174
+#: src/Admin/AppointmentsPage.php:172
+#: src/Admin/AppointmentsPage.php:281
+#: src/Admin/AppointmentsPage.php:427
 #: src/Admin/AvailabilityPage.php:145
-#: src/Admin/CustomersPage.php:221
+#: src/Admin/CustomersPage.php:239
 #: src/Admin/StaffPage.php:41
 #: src/Admin/StaffPage.php:42
-#: src/Admin/StaffPage.php:70
-#: src/Frontend/Shortcode.php:143
+#: src/Admin/StaffPage.php:77
+#: src/Frontend/Shortcode.php:215
 #: src/Notifications/IcsGenerator.php:54
 #: src/Privacy/PrivacyManager.php:91
 #: src/Repositories/NotificationTemplateRepository.php:56
@@ -823,65 +925,229 @@ msgid "Staff"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:134
-#: src/Admin/AppointmentsPage.php:305
+#: src/Admin/AppearancePage.php:142
+#: src/Admin/AppointmentsPage.php:321
 #: src/Admin/AvailabilityPage.php:151
 #: src/Admin/AvailabilityPage.php:190
-#: src/Admin/CustomersPage.php:221
-#: src/Frontend/Shortcode.php:143
+#: src/Admin/CustomersPage.php:239
+#: src/Frontend/Shortcode.php:215
 msgid "Date"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:134
+#: src/Admin/AppearancePage.php:142
 #: src/Admin/AuditLogPage.php:47
 #: src/Admin/AvailabilityPage.php:193
-#: src/Frontend/Shortcode.php:143
+#: src/Frontend/Shortcode.php:215
 msgid "Time"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:134
-#: src/Frontend/Shortcode.php:144
+#: src/Admin/AppearancePage.php:142
+#: src/Frontend/Shortcode.php:216
 msgid "Details"
 msgstr ""
 
 #: src/Admin/AppearancePage.php:134
-#: src/Frontend/Shortcode.php:144
+#: src/Admin/AppearancePage.php:142
+#: src/Frontend/Shortcode.php:216
 msgid "Review"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:134
+#: src/Admin/AppearancePage.php:135
+msgid "Preview device"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:135
+msgid "Desktop"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:135
+msgid "Mobile"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:143
 msgid "Step 1 of 6: Service"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:135
+#: src/Admin/AppearancePage.php:147
+#: src/Frontend/Shortcode.php:220
+msgid "Choose a service"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:148
+msgid "Select the appointment you would like to book."
+msgstr ""
+
+#: src/Admin/AppearancePage.php:149
+#: src/Admin/AppearancePage.php:174
 msgid "Consultation"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:135
+#: src/Admin/AppearancePage.php:149
 msgid "A focused appointment tailored to the customer."
 msgstr ""
 
-#: src/Admin/AppearancePage.php:135
+#: src/Admin/AppearancePage.php:149
 msgid "Follow-up session"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:135
+#: src/Admin/AppearancePage.php:149
 msgid "Continue from a previous appointment."
 msgstr ""
 
-#: src/Admin/AppearancePage.php:135
-#: src/Frontend/Shortcode.php:161
+#: src/Admin/AppearancePage.php:152
+#: src/Frontend/Shortcode.php:221
+msgid "Choose a staff member"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:153
+msgid "Select who you would like to meet."
+msgstr ""
+
+#: src/Admin/AppearancePage.php:154
+#: src/Admin/AppearancePage.php:174
+msgid "Olivia Carter"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:154
+msgid "Senior consultant"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:154
+msgid "James Wilson"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:154
+msgid "Wellness specialist"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:157
+#: src/Frontend/Shortcode.php:222
+msgid "Choose a date"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:158
+msgid "Available dates are shown below."
+msgstr ""
+
+#: src/Admin/AppearancePage.php:159
+#: src/Frontend/Shortcode.php:222
+msgid "Today"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:159
+msgid "31 July"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:159
+#: src/Admin/AvailabilityPage.php:439
+msgid "Saturday"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:159
+msgid "1 August"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:159
+#: src/Admin/AvailabilityPage.php:434
+msgid "Monday"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:159
+msgid "3 August"
+msgstr ""
+
+#. translators: %s: site timezone name.
+#: src/Admin/AppearancePage.php:162
+#: src/Frontend/Shortcode.php:224
+msgid "Choose a time"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:163
+msgid "Times are displayed in your local timezone."
+msgstr ""
+
+#. translators: %s: site timezone name.
+#: src/Admin/AppearancePage.php:167
+#: src/Frontend/Shortcode.php:224
+msgid "Your details"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:168
+msgid "Tell us how we can contact you."
+msgstr ""
+
+#: src/Admin/AppearancePage.php:169
+#: src/Admin/CustomersPage.php:112
+#: src/Admin/CustomersPage.php:172
+#: src/Admin/IntegrationsPage.php:78
+#: src/Admin/IntegrationsPage.php:99
+#: src/Admin/ReportsPage.php:83
+#: src/Admin/ServicesPage.php:98
+#: src/Admin/ServicesPage.php:182
+#: src/Admin/ServicesPage.php:243
+#: src/Admin/ServicesPage.php:288
+#: src/Admin/StaffPage.php:90
+#: src/Admin/StaffPage.php:164
+#: src/Frontend/Shortcode.php:216
+#: src/Privacy/PrivacyManager.php:65
+msgid "Name"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:169
+#: src/Admin/CustomersPage.php:128
+#: src/Admin/CustomersPage.php:233
+#: src/Admin/StaffPage.php:110
+#: src/Frontend/Shortcode.php:216
+#: src/Privacy/PrivacyManager.php:66
+msgid "Email"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:169
+#: src/Admin/CustomersPage.php:132
+#: src/Admin/CustomersPage.php:233
+#: src/Admin/StaffPage.php:114
+#: src/Frontend/Shortcode.php:216
+#: src/Privacy/PrivacyManager.php:67
+msgid "Phone"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:172
+#: src/Frontend/Shortcode.php:225
+msgid "Review your booking"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:173
+msgid "Confirm the details before booking."
+msgstr ""
+
+#: src/Admin/AppearancePage.php:174
+msgid "31 July at 09:00"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:174
+#: src/Admin/AppointmentsPage.php:386
+#: src/Admin/CustomersPage.php:239
+#: src/Frontend/Shortcode.php:225
+#: src/Privacy/PrivacyManager.php:100
+msgid "Total"
+msgstr ""
+
+#: src/Admin/AppearancePage.php:176
+#: src/Frontend/Shortcode.php:233
 msgid "Back"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:135
+#: src/Admin/AppearancePage.php:176
 msgid "Continue"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:177
+#: src/Admin/AppearancePage.php:219
 msgid "Frontend appearance updated"
 msgstr ""
 
-#: src/Admin/AppearancePage.php:189
+#: src/Admin/AppearancePage.php:231
 msgid "Frontend appearance reset to defaults"
 msgstr ""
 
@@ -892,14 +1158,14 @@ msgid "Appointments"
 msgstr ""
 
 #: src/Admin/AppointmentsPage.php:78
-#: src/Admin/CustomersPage.php:85
+#: src/Admin/CustomersPage.php:92
 #: src/Admin/ReportsPage.php:54
 msgid "Export CSV"
 msgstr ""
 
 #: src/Admin/AppointmentsPage.php:80
-#: src/Admin/AppointmentsPage.php:146
-#: src/Admin/CustomersPage.php:80
+#: src/Admin/AppointmentsPage.php:156
+#: src/Admin/CustomersPage.php:87
 #: src/Admin/DashboardPage.php:120
 msgid "Add appointment"
 msgstr ""
@@ -920,430 +1186,443 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:146
+#: src/Admin/AppointmentsPage.php:124
+msgid "Appointment time: earliest first"
+msgstr ""
+
+#: src/Admin/AppointmentsPage.php:125
+msgid "Appointment time: latest first"
+msgstr ""
+
+#: src/Admin/AppointmentsPage.php:126
+msgid "Created: newest first"
+msgstr ""
+
+#: src/Admin/AppointmentsPage.php:127
+msgid "Created: oldest first"
+msgstr ""
+
+#: src/Admin/AppointmentsPage.php:156
 msgid "Edit appointment"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:146
-#: src/Admin/AppointmentsPage.php:429
-#: src/Admin/CustomersPage.php:101
+#: src/Admin/AppointmentsPage.php:156
+#: src/Admin/AppointmentsPage.php:445
+#: src/Admin/CustomersPage.php:108
 #: src/Admin/IntegrationsPage.php:77
 #: src/Admin/ServicesPage.php:94
 #: src/Admin/ServicesPage.php:239
-#: src/Admin/StaffPage.php:79
+#: src/Admin/StaffPage.php:86
 msgid "Close"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:148
+#: src/Admin/AppointmentsPage.php:158
 msgid "Update appointment"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:148
+#: src/Admin/AppointmentsPage.php:158
 msgid "Create appointment"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:148
-#: src/Frontend/Shortcode.php:161
+#: src/Admin/AppointmentsPage.php:158
+#: src/Frontend/Shortcode.php:233
 msgid "Cancel"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:156
+#: src/Admin/AppointmentsPage.php:166
 #: src/Admin/AuditLogPage.php:46
-#: src/Admin/CustomersPage.php:148
+#: src/Admin/CustomersPage.php:166
 msgid "Search"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:156
+#: src/Admin/AppointmentsPage.php:166
 msgid "Customer, service, staff..."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:157
+#: src/Admin/AppointmentsPage.php:167
 #: src/Admin/ReportsPage.php:55
 msgid "From"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:158
+#: src/Admin/AppointmentsPage.php:168
 #: src/Admin/ReportsPage.php:55
 msgid "To"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:159
-#: src/Admin/AppointmentsPage.php:181
-#: src/Admin/AppointmentsPage.php:316
-#: src/Admin/AppointmentsPage.php:374
-#: src/Admin/AppointmentsPage.php:389
-#: src/Admin/AppointmentsPage.php:408
-#: src/Admin/CustomersPage.php:221
+#: src/Admin/AppointmentsPage.php:169
+#: src/Admin/AppointmentsPage.php:192
+#: src/Admin/AppointmentsPage.php:332
+#: src/Admin/AppointmentsPage.php:390
+#: src/Admin/AppointmentsPage.php:405
+#: src/Admin/AppointmentsPage.php:424
+#: src/Admin/CustomersPage.php:239
 #: src/Admin/IntegrationsPage.php:82
 #: src/Admin/IntegrationsPage.php:86
 #: src/Admin/IntegrationsPage.php:93
 #: src/Admin/IntegrationsPage.php:99
-#: src/Admin/NotificationsPage.php:214
+#: src/Admin/NotificationsPage.php:222
 #: src/Admin/ServicesPage.php:163
 #: src/Admin/ServicesPage.php:186
 #: src/Admin/ServicesPage.php:271
 #: src/Admin/ServicesPage.php:290
-#: src/Admin/StaffPage.php:111
-#: src/Admin/StaffPage.php:149
-#: src/Frontend/Shortcode.php:161
+#: src/Admin/StaffPage.php:129
+#: src/Admin/StaffPage.php:167
+#: src/Frontend/Shortcode.php:233
 #: src/Privacy/PrivacyManager.php:94
 msgid "Status"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:159
-#: src/Admin/AppointmentsPage.php:408
+#: src/Admin/AppointmentsPage.php:169
+#: src/Admin/AppointmentsPage.php:424
 msgid "All statuses"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:160
-#: src/Admin/AppointmentsPage.php:182
-#: src/Admin/AppointmentsPage.php:409
-#: src/Admin/CustomersPage.php:221
-#: src/Frontend/Shortcode.php:161
+#: src/Admin/AppointmentsPage.php:170
+#: src/Admin/AppointmentsPage.php:193
+#: src/Admin/AppointmentsPage.php:425
+#: src/Admin/CustomersPage.php:239
+#: src/Frontend/Shortcode.php:233
 msgid "Payment"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:160
-#: src/Admin/AppointmentsPage.php:409
+#: src/Admin/AppointmentsPage.php:170
+#: src/Admin/AppointmentsPage.php:425
 msgid "All payments"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:161
-#: src/Admin/AppointmentsPage.php:410
+#: src/Admin/AppointmentsPage.php:171
+#: src/Admin/AppointmentsPage.php:426
 msgid "All services"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:162
-#: src/Admin/AppointmentsPage.php:411
+#: src/Admin/AppointmentsPage.php:172
+#: src/Admin/AppointmentsPage.php:427
 msgid "All staff"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:163
+#: src/Admin/AppointmentsPage.php:173
+msgid "Sort by"
+msgstr ""
+
+#: src/Admin/AppointmentsPage.php:174
 msgid "Apply filters"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:164
+#: src/Admin/AppointmentsPage.php:175
 msgid "Reset"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:167
+#: src/Admin/AppointmentsPage.php:178
 msgid "Bulk status"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:169
+#: src/Admin/AppointmentsPage.php:180
 msgid "Apply to selected"
 msgstr ""
 
 #. translators: %d: number of appointments matching the current filters.
-#: src/Admin/AppointmentsPage.php:171
+#: src/Admin/AppointmentsPage.php:182
 msgid "%d matching appointment"
 msgid_plural "%d matching appointments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/AppointmentsPage.php:177
+#: src/Admin/AppointmentsPage.php:188
 msgid "Select all appointments"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:178
+#: src/Admin/AppointmentsPage.php:189
 msgid "When"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:179
+#: src/Admin/AppointmentsPage.php:190
 #: src/Notifications/IcsGenerator.php:53
 #: src/Repositories/NotificationTemplateRepository.php:55
 msgid "Customer"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:180
+#: src/Admin/AppointmentsPage.php:191
 msgid "Booking"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:183
-#: src/Admin/AppointmentsPage.php:389
-#: src/Frontend/Shortcode.php:144
+#: src/Admin/AppointmentsPage.php:194
+#: src/Admin/AppointmentsPage.php:405
+#: src/Frontend/Shortcode.php:216
 msgid "Note"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:184
+#: src/Admin/AppointmentsPage.php:195
 #: src/Admin/AvailabilityPage.php:195
-#: src/Admin/CustomersPage.php:160
-#: src/Admin/CustomersPage.php:221
+#: src/Admin/CustomersPage.php:178
+#: src/Admin/CustomersPage.php:239
 #: src/Admin/IntegrationsPage.php:86
 #: src/Admin/IntegrationsPage.php:93
 #: src/Admin/IntegrationsPage.php:99
-#: src/Admin/NotificationsPage.php:186
-#: src/Admin/NotificationsPage.php:216
+#: src/Admin/NotificationsPage.php:194
+#: src/Admin/NotificationsPage.php:224
 #: src/Admin/ServicesPage.php:187
 #: src/Admin/ServicesPage.php:291
-#: src/Admin/StaffPage.php:150
+#: src/Admin/StaffPage.php:168
 msgid "Actions"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:189
+#: src/Admin/AppointmentsPage.php:200
 msgid "No appointments found"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:189
+#: src/Admin/AppointmentsPage.php:200
 msgid "Adjust the filters or create a new appointment."
 msgstr ""
 
 #. translators: %d: appointment database ID.
-#: src/Admin/AppointmentsPage.php:196
+#: src/Admin/AppointmentsPage.php:207
 msgid "Select appointment %d"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:203
+#: src/Admin/AppointmentsPage.php:214
 msgid "Unknown customer"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:210
-#: src/Admin/CustomersPage.php:225
+#: src/Admin/AppointmentsPage.php:221
+#: src/Admin/CustomersPage.php:243
 #: src/Admin/DashboardPage.php:429
 #: src/Repositories/ReportRepository.php:93
 msgid "Unassigned"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:215
-#: src/Admin/CustomersPage.php:182
+#: src/Admin/AppointmentsPage.php:226
+#: src/Admin/CustomersPage.php:200
 msgid "View"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:215
-#: src/Admin/CustomersPage.php:183
+#: src/Admin/AppointmentsPage.php:226
+#: src/Admin/CustomersPage.php:201
 #: src/Admin/IntegrationsPage.php:86
-#: src/Admin/NotificationsPage.php:198
+#: src/Admin/NotificationsPage.php:206
 #: src/Admin/ServicesPage.php:203
 #: src/Admin/ServicesPage.php:304
-#: src/Admin/StaffPage.php:169
+#: src/Admin/StaffPage.php:187
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:258
+#: src/Admin/AppointmentsPage.php:271
 msgid "Select service"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:271
-#: src/Frontend/Shortcode.php:156
+#: src/Admin/AppointmentsPage.php:284
+#: src/Frontend/Shortcode.php:228
 msgid "Any available staff"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:281
+#: src/Admin/AppointmentsPage.php:294
 msgid "Existing customer"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:284
+#: src/Admin/AppointmentsPage.php:297
 msgid "Search name, email, or phone..."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:286
+#: src/Admin/AppointmentsPage.php:299
 msgid "Select a match or enter new contact details below."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:290
+#: src/Admin/AppointmentsPage.php:303
 msgid "Customer name"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:294
+#: src/Admin/AppointmentsPage.php:307
 msgid "Customer email"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:298
+#: src/Admin/AppointmentsPage.php:311
 msgid "Customer phone"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:306
+#: src/Admin/AppointmentsPage.php:322
 #: src/Admin/AvailabilityPage.php:167
 #: src/Admin/AvailabilityPage.php:343
 msgid "Start time"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:307
+#: src/Admin/AppointmentsPage.php:323
 #: src/Admin/ServicesPage.php:119
 #: src/Admin/ServicesPage.php:184
 msgid "Duration"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:312
+#: src/Admin/AppointmentsPage.php:328
 #: src/Admin/AvailabilityPage.php:174
 #: src/Admin/AvailabilityPage.php:304
-#: src/Admin/CustomersPage.php:121
-#: src/Admin/CustomersPage.php:156
-#: src/Admin/CustomersPage.php:215
+#: src/Admin/CustomersPage.php:139
+#: src/Admin/CustomersPage.php:174
+#: src/Admin/CustomersPage.php:233
 #: src/Privacy/PrivacyManager.php:68
 msgid "Timezone"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:313
+#: src/Admin/AppointmentsPage.php:329
 #: src/Admin/AvailabilityPage.php:175
 #: src/Admin/AvailabilityPage.php:306
-#: src/Admin/CustomersPage.php:122
+#: src/Admin/CustomersPage.php:140
 msgid "Inherited from WordPress Settings."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:320
-#: src/Frontend/Shortcode.php:161
+#: src/Admin/AppointmentsPage.php:336
+#: src/Frontend/Shortcode.php:233
 #: src/Privacy/PrivacyManager.php:98
 msgid "Payment method"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:324
+#: src/Admin/AppointmentsPage.php:340
 #: src/Privacy/PrivacyManager.php:97
 msgid "Payment status"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:325
+#: src/Admin/AppointmentsPage.php:341
 msgid "Calculated automatically from payment transactions."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:328
+#: src/Admin/AppointmentsPage.php:344
 msgid "Total amount"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:332
+#: src/Admin/AppointmentsPage.php:348
 #: src/Privacy/PrivacyManager.php:95
 msgid "Customer note"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:336
+#: src/Admin/AppointmentsPage.php:352
 #: src/Privacy/PrivacyManager.php:96
 msgid "Internal note"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:361
+#: src/Admin/AppointmentsPage.php:377
 msgid "Record failed payment"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:362
+#: src/Admin/AppointmentsPage.php:378
 msgid "Record cancelled payment"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:367
+#: src/Admin/AppointmentsPage.php:383
 msgid "Payment ledger"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:367
+#: src/Admin/AppointmentsPage.php:383
 msgid "Balances and status are calculated from immutable transaction records."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:369
+#: src/Admin/AppointmentsPage.php:385
 msgid "Reference"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:370
-#: src/Admin/CustomersPage.php:221
-#: src/Frontend/Shortcode.php:153
-#: src/Privacy/PrivacyManager.php:100
-msgid "Total"
-msgstr ""
-
-#: src/Admin/AppointmentsPage.php:371
-#: src/Frontend/Shortcode.php:170
+#: src/Admin/AppointmentsPage.php:387
+#: src/Frontend/Shortcode.php:243
 #: src/Privacy/PrivacyManager.php:101
 #: src/Repositories/PaymentRepository.php:41
 #: src/Repositories/PaymentRepository.php:55
 msgid "Paid"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:372
-#: src/Frontend/Shortcode.php:170
+#: src/Admin/AppointmentsPage.php:388
+#: src/Frontend/Shortcode.php:243
 #: src/Privacy/PrivacyManager.php:102
 #: src/Repositories/PaymentRepository.php:43
 #: src/Repositories/PaymentRepository.php:59
 msgid "Refunded"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:373
+#: src/Admin/AppointmentsPage.php:389
 msgid "Remaining"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:382
+#: src/Admin/AppointmentsPage.php:398
 msgid "Action"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:384
+#: src/Admin/AppointmentsPage.php:400
 msgid "Transaction/reference ID"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:386
+#: src/Admin/AppointmentsPage.php:402
 msgid "Reconciliation note"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:387
+#: src/Admin/AppointmentsPage.php:403
 msgid "Add transaction"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:389
+#: src/Admin/AppointmentsPage.php:405
 #: src/Admin/AvailabilityPage.php:155
 #: src/Admin/AvailabilityPage.php:192
 msgid "Type"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:389
+#: src/Admin/AppointmentsPage.php:405
 msgid "Transaction ID"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:389
+#: src/Admin/AppointmentsPage.php:405
 #: src/Admin/IntegrationsPage.php:93
-#: src/Admin/NotificationsPage.php:210
+#: src/Admin/NotificationsPage.php:218
 #: src/Privacy/PrivacyManager.php:71
 msgid "Created"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:390
+#: src/Admin/AppointmentsPage.php:406
 msgid "No payment transactions yet."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:412
+#: src/Admin/AppointmentsPage.php:428
 msgid "Drag or resize an appointment to reschedule it."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:414
+#: src/Admin/AppointmentsPage.php:430
 msgid "Appointment calendar"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:415
+#: src/Admin/AppointmentsPage.php:431
 msgid "JavaScript is required for the interactive calendar."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:427
+#: src/Admin/AppointmentsPage.php:443
 msgid "Close appointment details"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:428
+#: src/Admin/AppointmentsPage.php:444
 msgid "Appointment details"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:486
-#: src/Notifications/NotificationService.php:276
-#: src/Payments/PaymentManager.php:175
-#: src/Repositories/AppointmentRepository.php:575
-#: src/Repositories/AppointmentRepository.php:651
+#: src/Admin/AppointmentsPage.php:507
+#: src/Notifications/NotificationService.php:272
+#: src/Payments/PaymentManager.php:185
+#: src/Repositories/AppointmentRepository.php:588
+#: src/Repositories/AppointmentRepository.php:664
 #: src/Repositories/PaymentRepository.php:175
 #: src/Repositories/PaymentRepository.php:310
 #: src/Repositories/PaymentRepository.php:370
-#: src/Rest/AdminAppointmentController.php:131
-#: src/Rest/AdminAppointmentController.php:169
-#: src/Rest/AdminAppointmentController.php:216
-#: src/Rest/BookingController.php:570
+#: src/Rest/AdminAppointmentController.php:132
+#: src/Rest/AdminAppointmentController.php:170
+#: src/Rest/AdminAppointmentController.php:219
+#: src/Rest/BookingController.php:579
 #: src/Rest/IntegrationController.php:68
 msgid "Appointment not found."
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:538
+#: src/Admin/AppointmentsPage.php:559
 msgid "Save Note"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:555
+#: src/Admin/AppointmentsPage.php:576
 msgid "Change status"
 msgstr ""
 
-#: src/Admin/AppointmentsPage.php:558
+#: src/Admin/AppointmentsPage.php:579
 msgid "Update"
 msgstr ""
 
 #. translators: %s: formatted amount due at booking.
-#: src/Admin/AppointmentsPage.php:578
+#: src/Admin/AppointmentsPage.php:599
 msgid "Due now: %s"
 msgstr ""
 
@@ -1354,8 +1633,8 @@ msgstr ""
 #: src/Admin/AuditLogPage.php:46
 #: src/Admin/AuditLogPage.php:47
 #: src/Admin/IntegrationsPage.php:93
-#: src/Admin/NotificationsPage.php:93
-#: src/Admin/NotificationsPage.php:181
+#: src/Admin/NotificationsPage.php:101
+#: src/Admin/NotificationsPage.php:189
 msgid "Event"
 msgstr ""
 
@@ -1457,7 +1736,7 @@ msgid "Global"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:146
-msgid "No staff selected"
+msgid "Select staff member"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:158
@@ -1483,7 +1762,7 @@ msgstr ""
 
 #: src/Admin/AvailabilityPage.php:178
 #: src/Admin/AvailabilityPage.php:194
-#: src/Frontend/Shortcode.php:163
+#: src/Frontend/Shortcode.php:236
 msgid "Reason"
 msgstr ""
 
@@ -1512,7 +1791,7 @@ msgid "Day"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:324
-#: src/Admin/CustomersPage.php:225
+#: src/Admin/CustomersPage.php:243
 #: src/Admin/DashboardPage.php:431
 msgid "Open"
 msgstr ""
@@ -1543,15 +1822,11 @@ msgid "Add hours"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:356
-msgid "Copy these hours to every day"
+msgid "Copy these hours to every open day"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:433
 msgid "Sunday"
-msgstr ""
-
-#: src/Admin/AvailabilityPage.php:434
-msgid "Monday"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:435
@@ -1570,234 +1845,214 @@ msgstr ""
 msgid "Friday"
 msgstr ""
 
-#: src/Admin/AvailabilityPage.php:439
-msgid "Saturday"
-msgstr ""
-
 #: src/Admin/AvailabilityPage.php:452
 msgid "Unknown staff"
 msgstr ""
 
 #: src/Admin/AvailabilityPage.php:470
-#: src/Admin/CustomersPage.php:299
+#: src/Admin/CustomersPage.php:317
 #: src/Admin/IntegrationsPage.php:86
-#: src/Admin/ServicesPage.php:420
-#: src/Admin/StaffPage.php:252
+#: src/Admin/ServicesPage.php:424
+#: src/Admin/StaffPage.php:270
 msgid "Delete"
 msgstr ""
 
 #: src/Admin/CustomersPage.php:46
 #: src/Admin/CustomersPage.php:47
-#: src/Admin/CustomersPage.php:86
+#: src/Admin/CustomersPage.php:93
 msgid "Customers"
 msgstr ""
 
 #. translators: %d: total number of customers.
-#: src/Admin/CustomersPage.php:78
-#: src/Admin/CustomersPage.php:144
+#: src/Admin/CustomersPage.php:85
+#: src/Admin/CustomersPage.php:162
 msgid "Customer directory"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:79
+#: src/Admin/CustomersPage.php:86
 msgid "Edit profile"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:85
-#: src/Admin/CustomersPage.php:101
+#: src/Admin/CustomersPage.php:92
+#: src/Admin/CustomersPage.php:108
 msgid "Add customer"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:86
+#: src/Admin/CustomersPage.php:93
 msgid "Maintain customer contact details and booking preferences."
 msgstr ""
 
-#: src/Admin/CustomersPage.php:101
+#: src/Admin/CustomersPage.php:108
 msgid "Edit customer"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:105
-#: src/Admin/CustomersPage.php:154
-#: src/Admin/IntegrationsPage.php:78
-#: src/Admin/IntegrationsPage.php:99
-#: src/Admin/ReportsPage.php:83
-#: src/Admin/ServicesPage.php:98
-#: src/Admin/ServicesPage.php:182
-#: src/Admin/ServicesPage.php:243
-#: src/Admin/ServicesPage.php:288
-#: src/Admin/StaffPage.php:83
-#: src/Admin/StaffPage.php:146
-#: src/Frontend/Shortcode.php:144
-#: src/Privacy/PrivacyManager.php:65
-msgid "Name"
+#: src/Admin/CustomersPage.php:116
+#: src/Admin/CustomersPage.php:233
+#: src/Admin/StaffPage.php:98
+msgid "WordPress user"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:109
-#: src/Admin/StaffPage.php:91
-msgid "WordPress user ID"
+#: src/Admin/CustomersPage.php:118
+#: src/Admin/StaffPage.php:100
+msgid "Search users by name or email..."
 msgstr ""
 
-#: src/Admin/CustomersPage.php:113
-#: src/Admin/CustomersPage.php:215
-#: src/Admin/StaffPage.php:95
-#: src/Frontend/Shortcode.php:144
-#: src/Privacy/PrivacyManager.php:66
-msgid "Email"
+#: src/Admin/CustomersPage.php:118
+#: src/Admin/StaffPage.php:100
+msgid "No users found"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:117
-#: src/Admin/CustomersPage.php:215
-#: src/Admin/StaffPage.php:99
-#: src/Frontend/Shortcode.php:144
-#: src/Privacy/PrivacyManager.php:67
-msgid "Phone"
+#: src/Admin/CustomersPage.php:119
+#: src/Admin/StaffPage.php:101
+msgid "No linked user"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:125
+#: src/Admin/CustomersPage.php:124
+msgid "Search and select the WordPress account linked to this customer."
+msgstr ""
+
+#: src/Admin/CustomersPage.php:143
 #: src/Privacy/PrivacyManager.php:70
 msgid "Marketing consent"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:129
+#: src/Admin/CustomersPage.php:147
 msgid "Customer agreed to marketing messages."
 msgstr ""
 
-#: src/Admin/CustomersPage.php:134
+#: src/Admin/CustomersPage.php:152
 #: src/Privacy/PrivacyManager.php:69
 msgid "Notes"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:139
+#: src/Admin/CustomersPage.php:157
 msgid "Update Customer"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:139
+#: src/Admin/CustomersPage.php:157
 msgid "Add Customer"
 msgstr ""
 
 #. translators: %d: total number of customers.
-#: src/Admin/CustomersPage.php:144
+#: src/Admin/CustomersPage.php:162
 msgid "%d customer"
 msgid_plural "%d customers"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/CustomersPage.php:147
+#: src/Admin/CustomersPage.php:165
 msgid "Search customers"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:147
-#: src/Admin/StaffPage.php:142
+#: src/Admin/CustomersPage.php:165
+#: src/Admin/StaffPage.php:160
 msgid "Name, email, phone..."
 msgstr ""
 
-#: src/Admin/CustomersPage.php:149
+#: src/Admin/CustomersPage.php:167
 msgid "Clear"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:155
-#: src/Admin/StaffPage.php:147
+#: src/Admin/CustomersPage.php:173
+#: src/Admin/StaffPage.php:165
 msgid "Contact"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:157
+#: src/Admin/CustomersPage.php:175
 #: src/Admin/ReportsPage.php:57
 #: src/Admin/ReportsPage.php:78
 #: src/Admin/ReportsPage.php:83
 msgid "Bookings"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:158
-#: src/Admin/CustomersPage.php:211
+#: src/Admin/CustomersPage.php:176
+#: src/Admin/CustomersPage.php:229
 msgid "Paid total"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:159
+#: src/Admin/CustomersPage.php:177
 msgid "Marketing"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:165
+#: src/Admin/CustomersPage.php:183
 msgid "No customers yet"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:165
+#: src/Admin/CustomersPage.php:183
 msgid "Customers are created automatically from bookings or can be added here."
 msgstr ""
 
 #. translators: %d: WordPress user ID linked to the customer.
-#: src/Admin/CustomersPage.php:170
+#: src/Admin/CustomersPage.php:188
 msgid "User ID: %d"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:180
-#: src/Admin/NotificationsPage.php:196
+#: src/Admin/CustomersPage.php:198
+#: src/Admin/NotificationsPage.php:204
 #: src/Privacy/PrivacyManager.php:70
 msgid "Yes"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:180
-#: src/Admin/NotificationsPage.php:196
+#: src/Admin/CustomersPage.php:198
+#: src/Admin/NotificationsPage.php:204
 #: src/Privacy/PrivacyManager.php:70
 msgid "No"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:209
+#: src/Admin/CustomersPage.php:227
 msgid "Total bookings"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:210
-#: src/Frontend/Shortcode.php:160
+#: src/Admin/CustomersPage.php:228
+#: src/Frontend/Shortcode.php:232
 msgid "Upcoming"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:212
+#: src/Admin/CustomersPage.php:230
 #: src/Admin/DashboardPage.php:483
-#: src/Frontend/Shortcode.php:169
-#: src/Repositories/AppointmentRepository.php:49
+#: src/Frontend/Shortcode.php:242
+#: src/Repositories/AppointmentRepository.php:50
 #: src/Repositories/PaymentRepository.php:45
 #: src/Repositories/PaymentRepository.php:57
 msgid "Cancelled"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:215
+#: src/Admin/CustomersPage.php:233
 msgid "Contact details"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:215
-msgid "WordPress user"
-msgstr ""
-
-#: src/Admin/CustomersPage.php:216
+#: src/Admin/CustomersPage.php:234
 msgid "Customer notes"
 msgstr ""
 
-#: src/Admin/CustomersPage.php:216
+#: src/Admin/CustomersPage.php:234
 msgid "No customer notes."
 msgstr ""
 
 #. translators: %d: number of appointments.
-#: src/Admin/CustomersPage.php:219
+#: src/Admin/CustomersPage.php:237
 msgid "Booking history"
 msgstr ""
 
 #. translators: %d: number of appointments.
-#: src/Admin/CustomersPage.php:219
+#: src/Admin/CustomersPage.php:237
 #: src/Admin/DashboardPage.php:114
 msgid "%d appointment"
 msgid_plural "%d appointments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/CustomersPage.php:223
+#: src/Admin/CustomersPage.php:241
 msgid "No booking history"
 msgstr ""
 
 #. translators: 1: customer database ID, 2: action name such as created or updated.
-#: src/Admin/CustomersPage.php:263
+#: src/Admin/CustomersPage.php:281
 msgid "Customer #%1$d %2$s"
 msgstr ""
 
 #. translators: %d: customer database ID.
-#: src/Admin/CustomersPage.php:282
+#: src/Admin/CustomersPage.php:300
 msgid "Customer #%d deleted"
 msgstr ""
 
@@ -1806,8 +2061,8 @@ msgstr ""
 #: src/Admin/ServicesPage.php:45
 #: src/Admin/ServicesPage.php:85
 #: src/Admin/ServicesPage.php:230
-#: src/Admin/StaffPage.php:119
-#: src/Admin/StaffPage.php:148
+#: src/Admin/StaffPage.php:137
+#: src/Admin/StaffPage.php:166
 msgid "Services"
 msgstr ""
 
@@ -1920,8 +2175,8 @@ msgstr ""
 #: src/Admin/DashboardPage.php:221
 #: src/Admin/DashboardPage.php:471
 #: src/Admin/ReportsPage.php:58
-#: src/Frontend/Shortcode.php:169
-#: src/Repositories/AppointmentRepository.php:50
+#: src/Frontend/Shortcode.php:242
+#: src/Repositories/AppointmentRepository.php:51
 msgid "Completed"
 msgstr ""
 
@@ -2004,7 +2259,7 @@ msgid "Appointment volume for the next seven days"
 msgstr ""
 
 #: src/Admin/DashboardPage.php:487
-#: src/Repositories/AppointmentRepository.php:51
+#: src/Repositories/AppointmentRepository.php:52
 msgid "No-show"
 msgstr ""
 
@@ -2043,7 +2298,7 @@ msgid "Webhook endpoints"
 msgstr ""
 
 #: src/Admin/IntegrationsPage.php:65
-#: src/Admin/NotificationsPage.php:75
+#: src/Admin/NotificationsPage.php:83
 msgid "Delivery logs"
 msgstr ""
 
@@ -2077,14 +2332,14 @@ msgid "seconds"
 msgstr ""
 
 #: src/Admin/IntegrationsPage.php:82
-#: src/Admin/ServicesPage.php:400
-#: src/Admin/StaffPage.php:234
+#: src/Admin/ServicesPage.php:404
+#: src/Admin/StaffPage.php:252
 msgid "Active"
 msgstr ""
 
 #: src/Admin/IntegrationsPage.php:82
-#: src/Admin/ServicesPage.php:401
-#: src/Admin/StaffPage.php:235
+#: src/Admin/ServicesPage.php:405
+#: src/Admin/StaffPage.php:253
 msgid "Inactive"
 msgstr ""
 
@@ -2114,7 +2369,7 @@ msgid "Add an endpoint to receive booking events."
 msgstr ""
 
 #: src/Admin/IntegrationsPage.php:86
-#: src/Admin/NotificationsPage.php:170
+#: src/Admin/NotificationsPage.php:178
 msgid "Send test"
 msgstr ""
 
@@ -2301,160 +2556,248 @@ msgstr ""
 msgid "Encrypted backup restored"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:44
-#: src/Admin/NotificationsPage.php:45
-#: src/Admin/NotificationsPage.php:73
+#: src/Admin/NotificationsPage.php:47
+#: src/Admin/NotificationsPage.php:48
+#: src/Admin/NotificationsPage.php:81
 msgid "Notifications"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:73
+#: src/Admin/NotificationsPage.php:81
 msgid "Customize lifecycle emails and review delivery history."
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:75
+#: src/Admin/NotificationsPage.php:83
 msgid "Email templates"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:85
+#: src/Admin/NotificationsPage.php:93
 msgid "Edit Template"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:89
+#: src/Admin/NotificationsPage.php:97
 msgid "Template key"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:97
-#: src/Admin/NotificationsPage.php:182
-#: src/Admin/NotificationsPage.php:213
+#: src/Admin/NotificationsPage.php:105
+#: src/Admin/NotificationsPage.php:190
+#: src/Admin/NotificationsPage.php:221
 msgid "Recipient"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:101
-#: src/Admin/NotificationsPage.php:183
-#: src/Admin/NotificationsPage.php:195
+#: src/Admin/NotificationsPage.php:109
+#: src/Admin/NotificationsPage.php:191
+#: src/Admin/NotificationsPage.php:203
 msgid "Enabled"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:105
+#: src/Admin/NotificationsPage.php:113
 msgid "Send this email when the event runs."
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:110
-#: src/Admin/NotificationsPage.php:185
-#: src/Admin/NotificationsPage.php:215
+#: src/Admin/NotificationsPage.php:118
+#: src/Admin/NotificationsPage.php:193
+#: src/Admin/NotificationsPage.php:223
 msgid "Subject"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:114
+#: src/Admin/NotificationsPage.php:122
 msgid "Heading"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:118
+#: src/Admin/NotificationsPage.php:126
 msgid "Body"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:122
+#: src/Admin/NotificationsPage.php:130
 msgid "Email type"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:125
+#: src/Admin/NotificationsPage.php:133
 msgid "HTML"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:126
+#: src/Admin/NotificationsPage.php:134
 msgid "Plain text"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:131
+#: src/Admin/NotificationsPage.php:139
 msgid "Calendar attachment"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:135
+#: src/Admin/NotificationsPage.php:143
 msgid "Attach an ICS calendar file."
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:140
+#: src/Admin/NotificationsPage.php:148
 msgid "Reminder offset"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:143
+#: src/Admin/NotificationsPage.php:151
 msgid "minutes before appointment. Used by reminder templates."
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:150
+#: src/Admin/NotificationsPage.php:158
 msgid "Placeholders:"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:156
+#: src/Admin/NotificationsPage.php:164
 msgid "Save Template"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:159
+#: src/Admin/NotificationsPage.php:167
 msgid "Email preview"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:162
+#: src/Admin/NotificationsPage.php:170
 msgid "Preview data"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:163
+#: src/Admin/NotificationsPage.php:171
 msgid "Sample appointment"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:166
+#: src/Admin/NotificationsPage.php:174
 msgid "Subject:"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:170
+#: src/Admin/NotificationsPage.php:178
 msgid "Send test to"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:176
+#: src/Admin/NotificationsPage.php:184
 msgid "Templates"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:180
+#: src/Admin/NotificationsPage.php:188
 msgid "Key"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:184
+#: src/Admin/NotificationsPage.php:192
 msgid "ICS"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:195
+#: src/Admin/NotificationsPage.php:203
 msgid "Disabled"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:206
+#: src/Admin/NotificationsPage.php:214
 msgid "Email Logs"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:211
+#: src/Admin/NotificationsPage.php:219
 msgid "Template"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:212
+#: src/Admin/NotificationsPage.php:220
 #: src/Notifications/IcsGenerator.php:49
 msgid "Appointment"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:221
+#: src/Admin/NotificationsPage.php:229
 msgid "No email logs yet"
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:221
+#: src/Admin/NotificationsPage.php:229
 msgid "Delivery attempts will appear after a booking notification is sent."
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:236
+#: src/Admin/NotificationsPage.php:244
 msgid "Retry"
 msgstr ""
 
+#: src/Admin/NotificationsPage.php:259
+msgid "Email delivery"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:259
+msgid "Configure the sender identity and recipients for booking emails."
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:261
+msgid "From name"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:262
+msgid "From email"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:263
+msgid "Admin recipients"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:263
+msgid "Separate multiple email addresses with commas."
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:268
+msgid "Email design"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:268
+msgid "Set the core colors used by every HTML email template."
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:270
+msgid "Email background"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:271
+msgid "Content background"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:272
+msgid "Brand color"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:273
+msgid "Text color"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:277
+msgid "Footer text"
+msgstr ""
+
 #: src/Admin/NotificationsPage.php:279
+msgid "The words “Yo Booking” are automatically linked to yoohw.com."
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:283
+msgid "Save email settings"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:287
+msgid "Design preview"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:291
+msgid "Your appointment is confirmed"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:291
+msgid "Hello Sample Customer, your booking details are ready."
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:291
+#: src/Frontend/Shortcode.php:217
+#: src/Settings/Defaults.php:101
+msgid "Manage appointment"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:345
+#: src/Notifications/TemplateRenderer.php:107
+#: src/Settings/Defaults.php:56
+msgid "Power by Yo Booking"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:353
+msgid "Email notification settings updated"
+msgstr ""
+
+#: src/Admin/NotificationsPage.php:370
 msgid "The test email could not be sent."
 msgstr ""
 
-#: src/Admin/NotificationsPage.php:295
+#: src/Admin/NotificationsPage.php:386
 msgid "The notification retry failed."
 msgstr ""
 
@@ -2547,7 +2890,7 @@ msgstr ""
 
 #: src/Admin/ServicesPage.php:102
 #: src/Admin/ServicesPage.php:247
-#: src/Admin/StaffPage.php:87
+#: src/Admin/StaffPage.php:94
 msgid "Slug"
 msgstr ""
 
@@ -2583,13 +2926,15 @@ msgid "Capacity"
 msgstr ""
 
 #: src/Admin/ServicesPage.php:155
-#: src/Admin/StaffPage.php:103
+#: src/Admin/ServicesPage.php:156
+#: src/Admin/StaffPage.php:121
+#: src/Admin/StaffPage.php:122
 msgid "Color"
 msgstr ""
 
 #: src/Admin/ServicesPage.php:159
 #: src/Admin/ServicesPage.php:267
-#: src/Admin/StaffPage.php:107
+#: src/Admin/StaffPage.php:125
 msgid "Sort order"
 msgstr ""
 
@@ -2681,90 +3026,94 @@ msgid "No categories yet"
 msgstr ""
 
 #. translators: 1: service database ID, 2: action name such as created or updated.
-#: src/Admin/ServicesPage.php:328
+#: src/Admin/ServicesPage.php:332
 msgid "Service #%1$d %2$s"
 msgstr ""
 
 #. translators: %d: service database ID.
-#: src/Admin/ServicesPage.php:347
+#: src/Admin/ServicesPage.php:351
 msgid "Service #%d deleted"
 msgstr ""
 
 #. translators: 1: service category database ID, 2: action name such as created or updated.
-#: src/Admin/ServicesPage.php:365
+#: src/Admin/ServicesPage.php:369
 msgid "Service category #%1$d %2$s"
 msgstr ""
 
 #. translators: %d: service category database ID.
-#: src/Admin/ServicesPage.php:384
+#: src/Admin/ServicesPage.php:388
 msgid "Service category #%d deleted"
 msgstr ""
 
-#: src/Admin/StaffPage.php:70
+#: src/Admin/StaffPage.php:77
 msgid "Manage team profiles, assigned services, and availability."
 msgstr ""
 
-#: src/Admin/StaffPage.php:70
-#: src/Admin/StaffPage.php:79
+#: src/Admin/StaffPage.php:77
+#: src/Admin/StaffPage.php:86
 msgid "Add staff member"
 msgstr ""
 
-#: src/Admin/StaffPage.php:79
+#: src/Admin/StaffPage.php:86
 msgid "Edit staff member"
 msgstr ""
 
-#: src/Admin/StaffPage.php:115
+#: src/Admin/StaffPage.php:106
+msgid "Search and select the WordPress account linked to this staff member."
+msgstr ""
+
+#: src/Admin/StaffPage.php:133
 msgid "Bio"
 msgstr ""
 
-#: src/Admin/StaffPage.php:122
+#: src/Admin/StaffPage.php:140
 msgid "Create services before assigning them to staff."
 msgstr ""
 
 #. translators: %d: service duration in minutes.
-#: src/Admin/StaffPage.php:129
+#: src/Admin/StaffPage.php:147
 msgid "(%d minutes)"
 msgstr ""
 
-#: src/Admin/StaffPage.php:136
+#: src/Admin/StaffPage.php:154
 msgid "Update Staff Member"
 msgstr ""
 
-#: src/Admin/StaffPage.php:136
+#: src/Admin/StaffPage.php:154
 msgid "Add Staff Member"
 msgstr ""
 
 #. translators: %d: number of configured staff members.
-#: src/Admin/StaffPage.php:141
+#: src/Admin/StaffPage.php:159
 msgid "Configured staff"
 msgstr ""
 
 #. translators: %d: number of configured staff members.
-#: src/Admin/StaffPage.php:141
+#: src/Admin/StaffPage.php:159
 msgid "%d staff member"
 msgid_plural "%d staff members"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/StaffPage.php:142
+#: src/Admin/StaffPage.php:160
 msgid "Search staff"
 msgstr ""
 
-#: src/Admin/StaffPage.php:155
+#: src/Admin/StaffPage.php:173
 msgid "No staff members yet"
 msgstr ""
 
-#: src/Admin/StaffPage.php:155
+#: src/Admin/StaffPage.php:173
 msgid "Add a staff member and assign services to accept bookings."
 msgstr ""
 
 #. translators: 1: staff database ID, 2: action name such as created or updated.
-#: src/Admin/StaffPage.php:200
+#: src/Admin/StaffPage.php:218
 msgid "Staff #%1$d %2$s"
 msgstr ""
 
 #. translators: %d: staff database ID.
-#: src/Admin/StaffPage.php:218
+#: src/Admin/StaffPage.php:236
 msgid "Staff #%d deleted"
 msgstr ""
 
@@ -2900,337 +3249,311 @@ msgstr ""
 msgid "Next retention cleanup"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:113
+#: src/Frontend/Shortcode.php:185
 msgid "Loading booking options..."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:135
-#: src/Frontend/Shortcode.php:146
+#: src/Frontend/Shortcode.php:207
+#: src/Frontend/Shortcode.php:218
 msgid "Loading your appointments..."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:142
+#: src/Frontend/Shortcode.php:214
 msgid "Request failed."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:145
-#: src/Settings/Defaults.php:94
-msgid "Manage appointment"
-msgstr ""
-
-#: src/Frontend/Shortcode.php:145
-#: src/Settings/Defaults.php:93
+#: src/Frontend/Shortcode.php:217
+#: src/Settings/Defaults.php:100
 msgid "My appointments"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:145
-#: src/Settings/Defaults.php:92
+#: src/Frontend/Shortcode.php:217
+#: src/Settings/Defaults.php:99
 msgid "Book an appointment"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:145
+#: src/Frontend/Shortcode.php:217
 msgid "Booking progress"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:146
+#: src/Frontend/Shortcode.php:218
 msgid "Loading..."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:147
+#: src/Frontend/Shortcode.php:219
 msgid "No services are available."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:147
+#: src/Frontend/Shortcode.php:219
 msgid "No dates are available."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:147
+#: src/Frontend/Shortcode.php:219
 msgid "No times are available."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:148
-msgid "Choose a service"
-msgstr ""
-
-#: src/Frontend/Shortcode.php:148
+#: src/Frontend/Shortcode.php:220
 msgid "Select the appointment type that best fits your needs."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:149
-msgid "Choose a staff member"
-msgstr ""
-
-#: src/Frontend/Shortcode.php:149
+#: src/Frontend/Shortcode.php:221
 msgid "Select a preferred staff member or choose the first available option."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:150
-msgid "Choose a date"
-msgstr ""
-
-#: src/Frontend/Shortcode.php:150
+#: src/Frontend/Shortcode.php:222
 msgid "Available dates are shown in the site timezone."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:150
-msgid "Today"
-msgstr ""
-
 #. translators: %s: site timezone name.
-#: src/Frontend/Shortcode.php:152
-msgid "Choose a time"
-msgstr ""
-
-#. translators: %s: site timezone name.
-#: src/Frontend/Shortcode.php:152
+#: src/Frontend/Shortcode.php:224
 msgid "Times shown in %s"
 msgstr ""
 
 #. translators: %s: site timezone name.
-#: src/Frontend/Shortcode.php:152
-msgid "Your details"
-msgstr ""
-
-#. translators: %s: site timezone name.
-#: src/Frontend/Shortcode.php:152
+#: src/Frontend/Shortcode.php:224
 msgid "We will use these details to confirm and manage your appointment."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:153
-msgid "Review your booking"
-msgstr ""
-
-#: src/Frontend/Shortcode.php:153
+#: src/Frontend/Shortcode.php:225
 msgid "Confirm the details below before submitting your appointment."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:153
+#: src/Frontend/Shortcode.php:225
 msgid "Booking details"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:153
+#: src/Frontend/Shortcode.php:225
 msgid "Customer details"
 msgstr ""
 
 #. translators: 1: current step number, 2: total step count, 3: step label.
-#: src/Frontend/Shortcode.php:155
+#: src/Frontend/Shortcode.php:227
 msgid "This field is required."
 msgstr ""
 
 #. translators: 1: current step number, 2: total step count, 3: step label.
-#: src/Frontend/Shortcode.php:155
+#: src/Frontend/Shortcode.php:227
 msgid "Enter a valid email address."
 msgstr ""
 
 #. translators: 1: current step number, 2: total step count, 3: step label.
-#: src/Frontend/Shortcode.php:155
+#: src/Frontend/Shortcode.php:227
 msgid "Step %1$d of %2$d: %3$s"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:156
+#: src/Frontend/Shortcode.php:228
 msgid "First matching appointment slot"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:157
+#: src/Frontend/Shortcode.php:229
 msgid "Name, email, and phone are required."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:157
+#: src/Frontend/Shortcode.php:229
 msgid "Confirming..."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:157
+#: src/Frontend/Shortcode.php:229
 msgid "Confirm booking"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:158
+#: src/Frontend/Shortcode.php:230
 msgid "Appointment received"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:158
+#: src/Frontend/Shortcode.php:230
 msgid "Book another appointment"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:158
+#: src/Frontend/Shortcode.php:230
 #: src/Integrations/Events.php:20
 msgid "Appointment updated"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:159
-#: src/Rest/BookingController.php:314
+#: src/Frontend/Shortcode.php:231
+#: src/Rest/BookingController.php:323
 msgid "Your appointment has been received."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:160
+#: src/Frontend/Shortcode.php:232
 msgid "Past"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:160
+#: src/Frontend/Shortcode.php:232
 msgid "No upcoming appointments."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:160
+#: src/Frontend/Shortcode.php:232
 msgid "No past appointments."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:161
+#: src/Frontend/Shortcode.php:233
 msgid "Select a payment method."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:162
+#. translators: %s: formatted remaining payment balance.
+#: src/Frontend/Shortcode.php:235
 msgid "Deposit due"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:162
-msgid "Payment due"
+#. translators: %s: formatted remaining payment balance.
+#: src/Frontend/Shortcode.php:235
+#: src/Privacy/PrivacyManager.php:103
+msgid "Remaining balance"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:162
+#. translators: %s: formatted remaining payment balance.
+#: src/Frontend/Shortcode.php:235
+msgid "Remaining balance: %s"
+msgstr ""
+
+#. translators: %s: formatted remaining payment balance.
+#: src/Frontend/Shortcode.php:235
 msgid "No payment is due at booking."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:163
+#: src/Frontend/Shortcode.php:236
 msgid "Cancelling..."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:163
+#: src/Frontend/Shortcode.php:236
 msgid "Cancel appointment"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:163
+#: src/Frontend/Shortcode.php:236
 msgid "This appointment can no longer be cancelled online."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:164
+#: src/Frontend/Shortcode.php:237
 msgid "Review the appointment and optionally tell us why you are cancelling."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:165
+#: src/Frontend/Shortcode.php:238
 msgid "This appointment can no longer be rescheduled online."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:165
+#: src/Frontend/Shortcode.php:238
 msgid "Choose a new date"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:165
+#: src/Frontend/Shortcode.php:238
 msgid "Choose a new time"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:166
+#: src/Frontend/Shortcode.php:239
 msgid "Rescheduling..."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:166
+#: src/Frontend/Shortcode.php:239
 msgid "Confirm new time"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:166
+#: src/Frontend/Shortcode.php:239
 msgid "Current"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:166
+#: src/Frontend/Shortcode.php:239
 msgid "New date"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:166
+#: src/Frontend/Shortcode.php:239
 msgid "New time"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:167
+#: src/Frontend/Shortcode.php:240
 msgid "Review your new time"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:167
+#: src/Frontend/Shortcode.php:240
 msgid "Confirm the updated appointment details below."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:168
-#: src/Rest/BookingController.php:414
+#: src/Frontend/Shortcode.php:241
+#: src/Rest/BookingController.php:423
 msgid "Cancelled by customer."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:168
-#: src/Rest/BookingController.php:425
+#: src/Frontend/Shortcode.php:241
+#: src/Rest/BookingController.php:434
 msgid "Your appointment has been cancelled."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:168
-#: src/Rest/BookingController.php:486
+#: src/Frontend/Shortcode.php:241
+#: src/Rest/BookingController.php:495
 msgid "Your appointment has been rescheduled."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:169
+#: src/Frontend/Shortcode.php:242
 msgid "No show"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:169
-#: src/Repositories/AppointmentRepository.php:52
+#: src/Frontend/Shortcode.php:242
+#: src/Repositories/AppointmentRepository.php:53
 msgid "Rescheduled"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:170
+#: src/Frontend/Shortcode.php:243
 msgid "Unpaid"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:170
+#: src/Frontend/Shortcode.php:243
 #: src/Repositories/PaymentRepository.php:40
 #: src/Repositories/PaymentRepository.php:53
 msgid "Authorized"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:170
+#: src/Frontend/Shortcode.php:243
 #: src/Repositories/PaymentRepository.php:44
 #: src/Repositories/PaymentRepository.php:56
 msgid "Failed"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:170
+#: src/Frontend/Shortcode.php:243
 #: src/Repositories/PaymentRepository.php:42
 #: src/Repositories/PaymentRepository.php:54
 msgid "Partially paid"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:170
+#: src/Frontend/Shortcode.php:243
 #: src/Repositories/PaymentRepository.php:58
 msgid "Partially refunded"
 msgstr ""
 
 #. translators: %s: booking reference or payment status; %d: slot count or duration in minutes.
-#: src/Frontend/Shortcode.php:172
+#: src/Frontend/Shortcode.php:245
 msgid "Reference #%s"
 msgstr ""
 
 #. translators: %s: booking reference or payment status; %d: slot count or duration in minutes.
-#: src/Frontend/Shortcode.php:172
+#: src/Frontend/Shortcode.php:245
 msgid "Payment reference: %s"
 msgstr ""
 
 #. translators: %s: booking reference or payment status; %d: slot count or duration in minutes.
-#: src/Frontend/Shortcode.php:172
+#: src/Frontend/Shortcode.php:245
 msgid "%d slots"
 msgstr ""
 
 #. translators: %s: booking reference or payment status; %d: slot count or duration in minutes.
-#: src/Frontend/Shortcode.php:172
+#: src/Frontend/Shortcode.php:245
 msgid "%d min"
 msgstr ""
 
 #. translators: %s: booking reference or payment status; %d: slot count or duration in minutes.
-#: src/Frontend/Shortcode.php:172
+#: src/Frontend/Shortcode.php:245
 msgid "Payment: %s"
 msgstr ""
 
-#: src/Frontend/Shortcode.php:173
+#: src/Frontend/Shortcode.php:246
 msgid "Sign in to book an appointment."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:173
+#: src/Frontend/Shortcode.php:246
 msgid "I agree to receive marketing communications."
 msgstr ""
 
-#: src/Frontend/Shortcode.php:173
-#: src/Rest/BookingController.php:280
+#: src/Frontend/Shortcode.php:246
+#: src/Rest/BookingController.php:288
 msgid "Marketing consent is required."
 msgstr ""
 
@@ -3399,44 +3722,44 @@ msgstr ""
 msgid "Every 15 minutes"
 msgstr ""
 
-#: src/Notifications/NotificationService.php:271
+#: src/Notifications/NotificationService.php:267
 #: src/Repositories/NotificationTemplateRepository.php:141
 msgid "Notification template not found."
 msgstr ""
 
-#: src/Notifications/NotificationService.php:306
+#: src/Notifications/NotificationService.php:302
 msgid "Enter a valid test email recipient."
 msgstr ""
 
-#: src/Notifications/NotificationService.php:323
+#: src/Notifications/NotificationService.php:319
 msgid "Only failed notification logs can be retried."
 msgstr ""
 
-#: src/Notifications/NotificationService.php:331
+#: src/Notifications/NotificationService.php:327
 msgid "The template, appointment, or recipient is no longer available."
 msgstr ""
 
-#: src/Notifications/NotificationService.php:364
+#: src/Notifications/NotificationService.php:360
 msgid "Missing recipient email."
 msgstr ""
 
-#: src/Notifications/NotificationService.php:424
+#: src/Notifications/NotificationService.php:420
 msgid "wp_mail returned false."
 msgstr ""
 
-#: src/Notifications/NotificationService.php:441
+#: src/Notifications/NotificationService.php:437
 msgid "Sample Customer"
 msgstr ""
 
-#: src/Notifications/NotificationService.php:444
+#: src/Notifications/NotificationService.php:440
 msgid "Sample Service"
 msgstr ""
 
-#: src/Notifications/NotificationService.php:445
+#: src/Notifications/NotificationService.php:441
 msgid "Sample Staff"
 msgstr ""
 
-#: src/Notifications/NotificationService.php:458
+#: src/Notifications/NotificationService.php:454
 msgid "Use the booking reference with your transfer."
 msgstr ""
 
@@ -3445,14 +3768,14 @@ msgid "Bank"
 msgstr ""
 
 #: src/Payments/LocalPaymentProvider.php:30
-#: src/Settings/Defaults.php:64
+#: src/Settings/Defaults.php:71
 msgid "Pay at the business location when you attend your appointment."
 msgstr ""
 
 #: src/Payments/ManualPaymentProvider.php:33
 #: src/Payments/ManualPaymentProvider.php:35
 #: src/Repositories/PaymentRepository.php:346
-#: src/Settings/Defaults.php:73
+#: src/Settings/Defaults.php:80
 msgid "Manual payment"
 msgstr ""
 
@@ -3469,16 +3792,16 @@ msgstr ""
 msgid "Continue with %s after confirming the booking."
 msgstr ""
 
-#: src/Payments/PaymentManager.php:77
+#: src/Payments/PaymentManager.php:87
 #: src/Payments/PaymentProviderRegistry.php:94
 msgid "Select a valid payment method."
 msgstr ""
 
-#: src/Payments/PaymentManager.php:101
+#: src/Payments/PaymentManager.php:111
 msgid "The payment gateway returned an invalid checkout URL."
 msgstr ""
 
-#: src/Payments/PaymentManager.php:180
+#: src/Payments/PaymentManager.php:190
 msgid "Online payment transactions require an idempotency key."
 msgstr ""
 
@@ -3523,10 +3846,6 @@ msgstr ""
 msgid "Payment reference"
 msgstr ""
 
-#: src/Privacy/PrivacyManager.php:103
-msgid "Remaining balance"
-msgstr ""
-
 #: src/Privacy/PrivacyManager.php:106
 msgid "Payment record"
 msgstr ""
@@ -3537,7 +3856,7 @@ msgstr ""
 
 #. translators: %d: customer database ID.
 #: src/Privacy/PrivacyManager.php:139
-#: src/Repositories/CustomerRepository.php:292
+#: src/Repositories/CustomerRepository.php:298
 msgid "Anonymous customer #%d"
 msgstr ""
 
@@ -3586,63 +3905,69 @@ msgstr ""
 msgid "Invalid or expired API key."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:392
-#: src/Repositories/AppointmentRepository.php:578
-#: src/Repositories/AppointmentRepository.php:654
+#: src/Repositories/AppointmentRepository.php:400
+#: src/Repositories/AppointmentRepository.php:591
+#: src/Repositories/AppointmentRepository.php:667
 msgid "You cannot manage this appointment."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:396
-#: src/Repositories/AppointmentRepository.php:583
+#: src/Repositories/AppointmentRepository.php:404
+#: src/Repositories/AppointmentRepository.php:596
 msgid "This appointment status transition is not allowed."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:401
-#: src/Repositories/AppointmentRepository.php:591
+#: src/Repositories/AppointmentRepository.php:409
+#: src/Repositories/AppointmentRepository.php:604
 msgid "A valid active service is required."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:409
-#: src/Repositories/AppointmentRepository.php:415
-#: src/Rest/AdminAppointmentController.php:231
+#: src/Repositories/AppointmentRepository.php:417
+#: src/Repositories/AppointmentRepository.php:423
+#: src/Rest/AdminAppointmentController.php:234
 msgid "A valid appointment date and time are required."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:418
+#: src/Repositories/AppointmentRepository.php:426
 msgid "This local time does not exist in the selected timezone."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:428
+#: src/Repositories/AppointmentRepository.php:436
 msgid "Your user account is not linked to an active staff profile."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:460
+#: src/Repositories/AppointmentRepository.php:463
+#: src/Repositories/CustomerRepository.php:251
+#: src/Rest/BookingController.php:283
+msgid "Customer phone must be a valid international number."
+msgstr ""
+
+#: src/Repositories/AppointmentRepository.php:472
 msgid "Fixed deposits can only be used with services in the default currency. Use a percentage deposit for multi-currency services."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:712
+#: src/Repositories/AppointmentRepository.php:725
 msgid "The requested appointment slot is not available."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:775
-#: src/Repositories/CustomerRepository.php:242
+#: src/Repositories/AppointmentRepository.php:789
+#: src/Repositories/CustomerRepository.php:243
 msgid "Customer name is required."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:846
+#: src/Repositories/AppointmentRepository.php:862
 msgid "The schedule is busy. Please try again."
 msgstr ""
 
-#: src/Repositories/AppointmentRepository.php:950
+#: src/Repositories/AppointmentRepository.php:966
 #: src/Repositories/AvailabilityExceptionRepository.php:230
 #: src/Repositories/AvailabilityRuleRepository.php:305
-#: src/Repositories/CustomerRepository.php:311
+#: src/Repositories/CustomerRepository.php:317
 #: src/Repositories/NotificationLogRepository.php:228
-#: src/Repositories/NotificationTemplateRepository.php:213
+#: src/Repositories/NotificationTemplateRepository.php:216
 #: src/Repositories/PaymentRepository.php:484
 #: src/Repositories/ServiceCategoryRepository.php:125
 #: src/Repositories/ServiceRepository.php:169
-#: src/Repositories/StaffRepository.php:176
+#: src/Repositories/StaffRepository.php:182
 #: src/Repositories/WebhookEndpointRepository.php:101
 msgid "Database write failed."
 msgstr ""
@@ -3664,8 +3989,8 @@ msgstr ""
 msgid "Availability ranges on the same day cannot overlap."
 msgstr ""
 
-#: src/Repositories/CustomerRepository.php:246
-#: src/Rest/BookingController.php:271
+#: src/Repositories/CustomerRepository.php:247
+#: src/Rest/BookingController.php:275
 msgid "Customer email is invalid."
 msgstr ""
 
@@ -3776,12 +4101,16 @@ msgstr ""
 msgid "Select a supported currency."
 msgstr ""
 
-#: src/Repositories/StaffRepository.php:83
+#: src/Repositories/StaffRepository.php:84
 msgid "Staff name is required."
 msgstr ""
 
-#: src/Repositories/StaffRepository.php:87
+#: src/Repositories/StaffRepository.php:88
 msgid "Staff email is invalid."
+msgstr ""
+
+#: src/Repositories/StaffRepository.php:92
+msgid "Staff phone must be a valid international number."
 msgstr ""
 
 #: src/Repositories/WebhookEndpointRepository.php:55
@@ -3804,51 +4133,51 @@ msgstr ""
 msgid "A signing secret is required."
 msgstr ""
 
-#: src/Rest/AdminAppointmentController.php:175
+#: src/Rest/AdminAppointmentController.php:178
 msgid "Updated from appointment details."
 msgstr ""
 
-#: src/Rest/BookingController.php:247
+#: src/Rest/BookingController.php:251
 msgid "Guest booking is disabled."
 msgstr ""
 
-#: src/Rest/BookingController.php:267
+#: src/Rest/BookingController.php:271
 msgid "Customer email is required."
 msgstr ""
 
-#: src/Rest/BookingController.php:275
+#: src/Rest/BookingController.php:279
 msgid "Customer phone is required."
 msgstr ""
 
-#: src/Rest/BookingController.php:346
+#: src/Rest/BookingController.php:355
 msgid "You must be logged in to view appointments."
 msgstr ""
 
-#: src/Rest/BookingController.php:509
+#: src/Rest/BookingController.php:518
 msgid "The booking session has expired. Refresh the page and try again."
 msgstr ""
 
-#: src/Rest/BookingController.php:528
+#: src/Rest/BookingController.php:537
 msgid "Please sign in to view your appointments."
 msgstr ""
 
-#: src/Rest/BookingController.php:574
+#: src/Rest/BookingController.php:583
 msgid "The appointment link is invalid."
 msgstr ""
 
-#: src/Rest/BookingController.php:668
+#: src/Rest/BookingController.php:677
 msgid "This appointment can no longer be changed."
 msgstr ""
 
-#: src/Rest/BookingController.php:676
+#: src/Rest/BookingController.php:685
 msgid "The change window for this appointment has closed."
 msgstr ""
 
-#: src/Settings/Defaults.php:66
+#: src/Settings/Defaults.php:73
 msgid "Use your booking reference as the payment reference."
 msgstr ""
 
-#: src/Settings/Defaults.php:74
+#: src/Settings/Defaults.php:81
 msgid "Please pay offline using the instructions provided by the business."
 msgstr ""
 
@@ -3857,8 +4186,16 @@ msgstr ""
 msgid "Too many requests. Please wait and try again."
 msgstr ""
 
-#: block/block.js:18
+#: block/block.js:33
 msgid "The booking flow will render here on the frontend."
+msgstr ""
+
+#: block/block.js:52
+msgid "Customer Portal"
+msgstr ""
+
+#: block/block.js:54
+msgid "The customer portal will render here on the frontend."
 msgstr ""
 
 #: block/block.json
@@ -3869,4 +4206,14 @@ msgstr ""
 #: block/block.json
 msgctxt "block description"
 msgid "Display the Yo Booking appointment flow."
+msgstr ""
+
+#: block/portal/block.json
+msgctxt "block title"
+msgid "Customer Portal"
+msgstr ""
+
+#: block/portal/block.json
+msgctxt "block description"
+msgid "Display the Yo Booking customer portal."
 msgstr ""

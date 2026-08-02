@@ -147,6 +147,7 @@
 
 .yo-booking-card-title,
 .yo-booking-card-meta,
+.yo-booking-card-payment,
 .yo-booking-card-desc,
 .yo-booking-date span {
 	display: block;
@@ -162,6 +163,13 @@
 .yo-booking-date span {
 	color: var(--yo-booking-muted);
 	font-size: 13px;
+	margin-top: 6px;
+}
+
+.yo-booking-card-payment {
+	color: var(--yo-booking-primary);
+	font-size: 13px;
+	font-weight: 600;
 	margin-top: 6px;
 }
 

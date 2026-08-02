@@ -35,6 +35,7 @@ final class Repository {
 		}
 
 		$settings = $this->merge_defaults( Defaults::settings(), $settings );
+		unset( $settings['notifications']['enabled'] );
 		$settings['company']['timezone'] = DateTimeFormatter::timezone_name();
 
 		return $settings;

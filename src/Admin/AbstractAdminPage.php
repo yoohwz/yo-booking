@@ -57,6 +57,34 @@ abstract class AbstractAdminPage {
 	}
 
 	/**
+	 * Render a synchronized native color picker and editable HEX field.
+	 *
+	 * @param string $id Input ID.
+	 * @param string $name Input name.
+	 * @param string $value Current color.
+	 * @param string $label Accessible field label.
+	 * @param string $data_attribute Optional supported data attribute.
+	 * @param string $data_value Optional data attribute value.
+	 * @return void
+	 */
+	protected function render_color_control( $id, $name, $value, $label, $data_attribute = '', $data_value = '' ) {
+		$color           = sanitize_hex_color( $value );
+		$color           = $color ? $color : '#000000';
+		$data_attributes = array( 'data-appearance-variable', 'data-yo-email-color' );
+		$data_attribute  = in_array( $data_attribute, $data_attributes, true ) ? $data_attribute : '';
+		/* translators: %s: Color field label. */
+		$picker_label = sprintf( __( '%s color picker', 'yo-booking' ), $label );
+		/* translators: %s: Color field label. */
+		$hex_label = sprintf( __( '%s HEX code', 'yo-booking' ), $label );
+		?>
+		<span class="yo-color-control" data-yo-color-control>
+			<input id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>" type="color" value="<?php echo esc_attr( $color ); ?>" data-yo-color-picker <?php if ( $data_attribute ) : ?><?php echo esc_attr( $data_attribute ); ?>="<?php echo esc_attr( $data_value ); ?>"<?php endif; ?> aria-label="<?php echo esc_attr( $picker_label ); ?>" />
+			<input id="<?php echo esc_attr( $id . '_hex' ); ?>" type="text" class="yo-hex-color-input" value="<?php echo esc_attr( strtoupper( $color ) ); ?>" maxlength="7" pattern="#?[0-9A-Fa-f]{6}" spellcheck="false" autocomplete="off" data-yo-color-hex aria-label="<?php echo esc_attr( $hex_label ); ?>" />
+		</span>
+		<?php
+	}
+
+	/**
 	 * Render a table empty state.
 	 *
 	 * @param int    $columns Table column count.

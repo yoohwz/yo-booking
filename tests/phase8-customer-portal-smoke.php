@@ -79,9 +79,9 @@ $rest_request = static function ( $method, $route, $params = array(), $nonce = '
 	return rest_do_request( $request );
 };
 
+add_filter( 'pre_wp_mail', '__return_true' );
+
 try {
-	$settings['notifications']['enabled'] = false;
-	$settings_repository->save( $settings );
 
 	$date  = $next_weekday();
 	$email = 'portal-customer-' . $suffix . '@example.test';
@@ -219,6 +219,7 @@ try {
 } finally {
 	global $wpdb;
 
+	remove_filter( 'pre_wp_mail', '__return_true' );
 	wp_set_current_user( 0 );
 	$settings_repository->save( $original_settings );
 

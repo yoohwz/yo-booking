@@ -136,16 +136,18 @@
 
 		var paymentStatus = statusSelect(config.paymentActions, 'paid', 'Payment action');
 		var paymentAmount = element('input');
-		paymentAmount.type = 'number';
-		paymentAmount.min = '0';
-		paymentAmount.step = 'any';
-		paymentAmount.value = appointment.balance_amount || appointment.total_amount;
+		paymentAmount.type = 'text';
+		paymentAmount.inputMode = 'decimal';
+		paymentAmount.value = appointment.balance_input || appointment.total_input;
+		var initialPaymentAmount = paymentAmount.value;
 		paymentAmount.setAttribute('aria-label', 'Transaction amount');
 		var savePayment = element('button', 'button', 'Record transaction');
 		savePayment.type = 'button';
 		savePayment.addEventListener('click', function () {
 			savePayment.disabled = true;
-			api('appointments/' + appointment.id + '/payment', { method: 'POST', body: JSON.stringify({ status: paymentStatus.value, amount: paymentAmount.value, idempotency_key: 'admin-calendar:' + appointment.id + ':' + Date.now() }) })
+			var amountChanged = paymentAmount.value !== initialPaymentAmount;
+			var submittedAmount = amountChanged ? paymentAmount.value : (appointment.balance_amount || appointment.total_amount);
+			api('appointments/' + appointment.id + '/payment', { method: 'POST', body: JSON.stringify({ status: paymentStatus.value, amount: submittedAmount, amount_format: amountChanged ? 'localized' : 'raw', idempotency_key: 'admin-calendar:' + appointment.id + ':' + Date.now() }) })
 				.then(function () { toast(config.messages.updated); return openDrawer(appointment.id); })
 				.catch(function (error) { toast(error.message, 'error'); })
 				.finally(function () { savePayment.disabled = false; });
@@ -176,7 +178,7 @@
 
 		drawerBody.appendChild(renderTimeline('Payment history', data.payments, function (payment) {
 			var item = element('li');
-			item.appendChild(element('strong', '', (payment.kind || 'payment') + ' · ' + payment.status + ' · ' + payment.currency + ' ' + payment.amount));
+			item.appendChild(element('strong', '', (payment.kind || 'payment') + ' · ' + payment.status + ' · ' + (payment.amount_display || payment.currency + ' ' + payment.amount)));
 			item.appendChild(element('span', '', payment.method || 'Manual'));
 			if (payment.transaction_id) item.appendChild(element('span', '', payment.transaction_id));
 			item.appendChild(element('time', '', payment.created_at));

@@ -140,9 +140,9 @@ final class ServicesPage extends AbstractAdminPage {
 						<tr>
 							<th scope="row"><?php echo esc_html__( 'Price', 'yo-booking' ); ?></th>
 							<td>
+								<?php $selected_currency = $editing ? $editing->currency : $default_currency; ?>
 								<div class="yo-form-row">
-									<div class="yo-form-field"><label for="yo_booking_service_price"><?php echo esc_html__( 'Amount', 'yo-booking' ); ?></label><input id="yo_booking_service_price" name="price" type="number" min="0" step="any" value="<?php echo esc_attr( $editing ? (string) $editing->price : '0.00' ); ?>" /></div>
-									<?php $selected_currency = $editing ? $editing->currency : $default_currency; ?>
+									<div class="yo-form-field"><label for="yo_booking_service_price"><?php echo esc_html__( 'Amount', 'yo-booking' ); ?></label><input id="yo_booking_service_price" name="price" type="text" inputmode="decimal" value="<?php echo esc_attr( Currency::format_number( $editing ? $editing->price : '0', $selected_currency ) ); ?>" data-yo-money-input data-yo-money-raw="<?php echo esc_attr( $editing ? (string) $editing->price : '0' ); ?>" /></div>
 									<div class="yo-form-field"><label for="yo_booking_service_currency"><?php echo esc_html__( 'Currency', 'yo-booking' ); ?></label><select id="yo_booking_service_currency" name="currency"><?php foreach ( Currency::choices( $selected_currency ) as $currency_code => $currency_data ) : ?><option value="<?php echo esc_attr( $currency_code ); ?>" <?php selected( $selected_currency, $currency_code ); ?>><?php echo esc_html( $currency_code . ' - ' . $currency_data['name'] ); ?></option><?php endforeach; ?></select></div>
 								</div>
 							</td>
@@ -153,7 +153,7 @@ final class ServicesPage extends AbstractAdminPage {
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_service_color"><?php echo esc_html__( 'Color', 'yo-booking' ); ?></label></th>
-							<td><input id="yo_booking_service_color" name="color" type="color" value="<?php echo esc_attr( $editing && $editing->color ? $editing->color : '#2563eb' ); ?>" /></td>
+							<td><?php $this->render_color_control( 'yo_booking_service_color', 'color', $editing && $editing->color ? $editing->color : '#2563eb', __( 'Color', 'yo-booking' ) ); ?></td>
 						</tr>
 						<tr>
 							<th scope="row"><label for="yo_booking_service_sort_order"><?php echo esc_html__( 'Sort order', 'yo-booking' ); ?></label></th>
@@ -321,7 +321,11 @@ final class ServicesPage extends AbstractAdminPage {
 		$this->ensure_capability();
 		check_admin_referer( 'yo_booking_save_service' );
 
-		$result = ( new ServiceRepository() )->save( wp_unslash( $_POST ) );
+		$data             = wp_unslash( $_POST );
+		$currency         = isset( $data['currency'] ) ? Currency::normalize( $data['currency'] ) : '';
+		$currency         = $currency ? $currency : ( new SettingsRepository() )->get( 'company.currency', 'USD' );
+		$data['price']     = Currency::parse_number( isset( $data['price'] ) ? $data['price'] : 0, $currency );
+		$result            = ( new ServiceRepository() )->save( $data );
 		if ( ! is_wp_error( $result ) ) {
 			$mode = empty( $_POST['id'] ) ? 'created' : 'updated';
 			// translators: 1: service database ID, 2: action name such as created or updated.

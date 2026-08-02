@@ -54,6 +54,10 @@ final class AdminAssets {
 			return;
 		}
 
+		if ( false !== strpos( (string) $hook_suffix, 'yo-booking-settings' ) ) {
+			wp_enqueue_media();
+		}
+
 		wp_enqueue_style(
 			'yo-booking-admin',
 			YO_BOOKING_URL . 'assets/css/admin.css',
@@ -116,6 +120,7 @@ final class AdminAssets {
 					'confirmDelete' => __( 'Delete this record? This action cannot be undone.', 'yo-booking' ),
 					'copied'        => __( 'Copied', 'yo-booking' ),
 					'copyFailed'    => __( 'Copy failed', 'yo-booking' ),
+					'invalidHex'    => __( 'Enter a 6-digit HEX color, for example #2563EB.', 'yo-booking' ),
 				)
 		);
 

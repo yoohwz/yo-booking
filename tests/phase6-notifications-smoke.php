@@ -93,11 +93,20 @@ $snapshot_template = static function ( $key ) use ( &$template_snapshots, $templ
 };
 
 try {
-	$settings['notifications']['enabled']    = true;
-	$settings['notifications']['from_name']  = 'Yo Booking Smoke';
-	$settings['notifications']['from_email'] = 'booking-smoke@example.test';
-	$settings['notifications']['admin_to']   = 'booking-admin@example.test';
+	$settings['notifications']['from_name']              = 'Yo Booking Smoke';
+	$settings['notifications']['from_email']             = 'booking-smoke@example.test';
+	$settings['notifications']['admin_to']               = 'booking-admin@example.test';
+	$settings['notifications']['email_background_color'] = '#eef2ff';
+	$settings['notifications']['email_surface_color']    = '#ffffff';
+	$settings['notifications']['email_primary_color']    = '#123456';
+	$settings['notifications']['email_text_color']       = '#222222';
+	$settings['notifications']['email_muted_color']      = '#666666';
+	$settings['notifications']['email_footer_text']      = 'Power by Yo Booking';
 	$settings_repository->save( $settings );
+	$saved_settings = $settings_repository->all();
+	if ( '#123456' !== $saved_settings['notifications']['email_primary_color'] || '#eef2ff' !== $saved_settings['notifications']['email_background_color'] ) {
+		$fail( 'email template colors were not persisted' );
+	}
 
 	foreach (
 		array(
@@ -276,6 +285,21 @@ try {
 
 	if ( count( $mails ) < 7 ) {
 		$fail( 'wp_mail interception did not capture expected emails' );
+	}
+
+	$email_template_seen = false;
+	foreach ( $mails as $mail ) {
+		$message = isset( $mail['message'] ) ? (string) $mail['message'] : '';
+		$brand_position   = strpos( $message, 'class="yo-booking-email-brand"' );
+		$heading_position = strpos( $message, 'class="yo-booking-email-heading"' );
+		if ( false !== strpos( $message, 'id="outer_wrapper"' ) && false !== strpos( $message, 'max-width:600px' ) && false !== strpos( $message, 'background:#123456' ) && false !== strpos( $message, 'background:#eef2ff' ) && false !== strpos( $message, 'Power by <a href="https://yoohw.com"' ) && false !== strpos( $message, 'class="yo-booking-email-brand" align="center"' ) && false !== strpos( $message, 'color:#123456;font-size:20px' ) && false !== $brand_position && false !== $heading_position && $brand_position < $heading_position ) {
+			$email_template_seen = true;
+			break;
+		}
+	}
+
+	if ( ! $email_template_seen ) {
+		$fail( 'HTML email template did not use configured colors' );
 	}
 
 	if ( ! $ics_seen ) {
